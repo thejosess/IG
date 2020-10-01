@@ -10,7 +10,6 @@
 
 //Modelo Cara monigote
 float modeloCara[4][3] = {{-0.2,0.0,0.0},{0.2,0.0,0.0},{0.2,0.55,0.0},{-0.2,0.55,0.0}};
-
 std::vector<std::vector<float>> cara{{-0.2,0.0,0.0},{0.2,0.0,0.0},{0.2,0.55,0.0},{-0.2,0.55,0.0}};
 
 
@@ -100,6 +99,9 @@ void Monigote ()
       glVertex3f(-0.3,0.3,0.0);
       glVertex3f(-0.2,0.3,0.0);
       glVertex3f(-0.2,0.15,0.0);
+      glColor3f(1.0f, 0.5f, 0.0f);     // Orange
+      //shade model smooth y poner otros colores entre los distintos verdes hace degradado
+
       glVertex3f(-0.3,0.15,0.0);
       //IMPORTANTE PUNTOS ES EN EL SENTIDO DE LAS AGUJAS DEL RELOJ
    glEnd(); 
@@ -188,8 +190,9 @@ void Monigote ()
 
 static void Init( )
 {
-   glShadeModel(GL_FLAT);
+   glShadeModel(GL_SMOOTH);
    //FLAT O SMOTH
+   //SMOTH los colores se degradan creo
 }
 
 //REVISAR PDF otra forma de hacer separando modelo de su contrucción
