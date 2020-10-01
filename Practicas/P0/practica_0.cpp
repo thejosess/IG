@@ -5,6 +5,14 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/freeglut.h>
+#include <iostream>
+#include <vector>
+
+//Modelo Cara monigote
+float modeloCara[4][3] = {{-0.2,0.0,0.0},{0.2,0.0,0.0},{0.2,0.55,0.0},{-0.2,0.55,0.0}};
+
+std::vector<std::vector<float>> cara{{-0.2,0.0,0.0},{0.2,0.0,0.0},{0.2,0.55,0.0},{-0.2,0.55,0.0}};
+
 
 
 void Circle (GLfloat radio, GLfloat cx, GLfloat cy, GLint n, GLenum modo) { 
@@ -23,6 +31,24 @@ void Circle (GLfloat radio, GLfloat cx, GLfloat cy, GLint n, GLenum modo) {
    glEnd(); 
 
 } 
+
+//Uilizar vectores de la stl?
+void Poligono(std::vector<std::vector<float>> v, int size, GLenum modo){
+   int i = 0;
+
+   if (modo==GL_LINE) 
+      glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); 
+   else if (modo==GL_FILL) 
+      glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); 
+   else 
+      glPolygonMode(GL_FRONT_AND_BACK, GL_POINT); 
+
+   glBegin(GL_POLYGON);
+      for(i = 0; i < size; i++){
+         glVertex3f(v[i][0],v[i][1], v[i][2]);
+      }
+   glEnd();
+}
 
 
 void Ejes (int width)
@@ -50,17 +76,21 @@ void Ejes (int width)
 void Monigote ()
 {
   
-
 // cara
    glLineWidth(1);
+   //el tema de los colores tambien sería parte del modelo y diferente a la representación
+
    glColor3f(1.0,0.8,0.6);
-   glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+   /*glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
    glBegin(GL_POLYGON);
       glVertex3f(-0.2,0.0,0.0);
       glVertex3f(0.2,0.0,0.0);
       glVertex3f(0.2,0.55,0.0);
       glVertex3f(-0.2,0.55,0.0);
-   glEnd(); 
+   glEnd(); */
+   Poligono(cara,cara.size(), GL_FILL);
+
+   //IMPORTANTE HACER CON TODOS LOS POLIGONOS IGUAL
 
    //orejas
    glLineWidth(1);
