@@ -50,7 +50,7 @@ void Ejes (int width)
 void Monigote ()
 {
   
- 
+
 // cara
    glLineWidth(1);
    glColor3f(1.0,0.8,0.6);
@@ -61,6 +61,31 @@ void Monigote ()
       glVertex3f(0.2,0.55,0.0);
       glVertex3f(-0.2,0.55,0.0);
    glEnd(); 
+
+   //orejas
+   glLineWidth(1);
+   glColor3f(1.0,0.8,0.6);
+   glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+   glBegin(GL_POLYGON);
+      glVertex3f(-0.3,0.3,0.0);
+      glVertex3f(-0.2,0.3,0.0);
+      glVertex3f(-0.2,0.15,0.0);
+      glVertex3f(-0.3,0.15,0.0);
+      //IMPORTANTE PUNTOS ES EN EL SENTIDO DE LAS AGUJAS DEL RELOJ
+   glEnd(); 
+
+   //orejas
+   glLineWidth(1);
+   glColor3f(1.0,0.8,0.6);
+   glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+   glBegin(GL_POLYGON);
+      glVertex3f(0.3,0.3,0.0);
+      glVertex3f(0.2,0.3,0.0);
+      glVertex3f(0.2,0.15,0.0);
+      glVertex3f(0.3,0.15,0.0);
+      //IMPORTANTE PUNTOS ES EN EL SENTIDO DE LAS AGUJAS DEL RELOJ
+   glEnd(); 
+
 
    //la linea negra que delimita la carra
    glColor3f(0.0,0.0,0.0);
@@ -92,13 +117,14 @@ void Monigote ()
       glVertex3f(-0.2,0.65,0.0);
    glEnd(); 
 
-
+   //circle
    glColor3f(0.3, 0.45, 1.0);
    Circle(0.06,-0.1,0.3,12, GL_FILL);
 
    glColor3f(0.3, 0.45, 1.0);
    Circle(0.06,0.1,0.3,12, GL_FILL);
 
+   //nariz
    glColor3f(1.0, 0.0, 0.0);
    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
    glBegin(GL_TRIANGLES);
@@ -106,6 +132,25 @@ void Monigote ()
       glVertex3f(0.1, 0.1, 0);
       glVertex3f(-0.1, 0.1, 0);
    glEnd(); 
+
+
+   // boca
+   glLineWidth(1);
+   glColor3f(1.0, 0.5, 0.0);
+   glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+   glBegin(GL_POLYGON);
+      glVertex3f(-0.15,0.02,0.0);
+      glVertex3f(0.15,0.02,0.0);
+      glVertex3f(0.15,0.08,0.0);
+      glVertex3f(-0.15,0.08,0.0);
+   glEnd();
+
+   glColor3f(1.0, 0.5, 0.0);
+   Circle(0.03,-0.15,0.05,12, GL_FILL);
+
+   glColor3f(1.0, 0.5, 0.0);
+   Circle(0.03,0.15,0.05,12, GL_FILL); 
+
 
    
 }
