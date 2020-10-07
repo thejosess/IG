@@ -35,11 +35,13 @@ class _triangulos3D: public _puntos3D
 public:
 
 	_triangulos3D();
-void 	draw_aristas(float r, float g, float b, int grosor);
-void    draw_solido(float r, float g, float b);
-void 	draw_solido_ajedrez(float r1, float g1, float b1, float r2, float g2, float b2);
+void 	draw_aristas(int grosor);
+void    draw_solido();
+void 	draw_solido_ajedrez(float r2, float g2, float b2);
+void 	change_color (float r1, float g2, float b2);
 
 vector<_vertex3i> caras;
+float r, g, b;
 };
 
 
@@ -50,7 +52,6 @@ vector<_vertex3i> caras;
 class _cubo: public _triangulos3D
 {
 public:
-
 	_cubo(float tam=0.5);
 };
 

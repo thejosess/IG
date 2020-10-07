@@ -28,9 +28,9 @@ int UI_window_pos_x=50,UI_window_pos_y=50,UI_window_width=450,UI_window_height=4
 
 
 _piramide piramide(0.85,1.3);
-_cubo cubo(0.2);
+_cubo cubo(0.8);
 
-int objeto=0, modo=0;
+int objeto=0, modo=0, color=0;
 //1 piramide, 2 cubo
 //punto, linea, ajedrex
 
@@ -114,40 +114,73 @@ void draw_objects()
   //cubo.draw_solido_ajedrez(0.0,0.5,0.7,1.0,0.0,0.0);
 
   if(objeto == 0){
-      switch (modo)
+
+    if(color != 0){
+        if(color == 1)
+            piramide.change_color(1,1,0) ;
+        if(color == 2)
+            piramide.change_color(1,0,1) ;    
+        if(color == 3)
+            piramide.change_color(1,0.5,0.5) ;  
+    }
+
+
+    switch (modo)
       {
         case 0:
             piramide.draw_puntos(1.0,0.5,0.0,6);
             break;
         case 1:
-            piramide.draw_aristas(1.0,0.5,0.0,6);
+            piramide.draw_aristas(6);
             break;
 
         case 2:
-            piramide.draw_solido(0.0,0.5,0.7);
+            piramide.draw_solido();
             break;
 
         case 3:
-            piramide.draw_solido_ajedrez(0.0,0.5,0.7,1.0,0.0,0.0);
+            piramide.draw_solido_ajedrez(1.0,0.0,0.0);
+            break;
+
+        case 4:
+            piramide.draw_puntos(0.0,0.0,0.0,10);
+            piramide.draw_aristas(6);
+            piramide.draw_solido_ajedrez(1.0,0.0,0.0);
             break;
       }
   }
   else if(objeto==1){
-      switch (modo)
+
+    if(color != 0){
+        if(color == 1)
+            piramide.change_color(1,1,0) ;
+        if(color == 2)
+            piramide.change_color(1,0,1) ;    
+        if(color == 3)
+            piramide.change_color(1,0.5,0.5) ;  
+    }
+
+    switch (modo)
       {
         case 0:
             cubo.draw_puntos(1.0,0.5,0.0,6);
             break;
         case 1:
-            cubo.draw_aristas(1.0,0.5,0.0,6);
+            cubo.draw_aristas(6);
             break;
 
         case 2:
-            cubo.draw_solido(0.0,0.5,0.7);
+            cubo.draw_solido();
             break;
 
         case 3:
-            cubo.draw_solido_ajedrez(0.0,0.5,0.7,1.0,0.0,0.0);
+            cubo.draw_solido_ajedrez(1.0,0.0,0.0);
+            break;
+
+        case 4:
+            cubo.draw_puntos(0.0,0.0,0.0,10);
+            cubo.draw_aristas(6);
+            cubo.draw_solido_ajedrez(1.0,0.0,0.0);
             break;
       }
   }
@@ -208,6 +241,16 @@ void normal_keys(unsigned char Tecla1,int x,int y)
     if (toupper(Tecla1)=='L'){ modo=1; glutPostRedisplay();}
     if (toupper(Tecla1)=='S'){ modo=2; glutPostRedisplay();}
     if (toupper(Tecla1)=='A'){ modo=3; glutPostRedisplay();}
+    //añadido
+    if (toupper(Tecla1)=='T'){ modo=4; glutPostRedisplay();}
+
+    //cambiar color
+    if (Tecla1=='5'){ color=1; glutPostRedisplay();}
+    if (Tecla1=='6'){ color=2; glutPostRedisplay();}
+    if (Tecla1=='7'){ color=3; glutPostRedisplay();}
+
+
+
 
     if (Tecla1=='1'){ objeto=0; glutPostRedisplay();}
     if (Tecla1=='2'){ objeto=1; glutPostRedisplay();}

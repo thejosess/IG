@@ -38,6 +38,18 @@ glEnd();
 
 _triangulos3D::_triangulos3D()
 {
+	r = 0.0;
+	g = 0.5;
+	b = 0.7;
+}
+
+
+//cambiar color
+
+void _triangulos3D::change_color (float r1, float g2, float b2){
+	r = r1;
+	g = g2;
+	b = b2;
 }
 
 
@@ -45,7 +57,7 @@ _triangulos3D::_triangulos3D()
 // dibujar en modo arista
 //*************************************************************************
 
-void _triangulos3D::draw_aristas(float r, float g, float b, int grosor)
+void _triangulos3D::draw_aristas(int grosor)
 {
 int i;
 glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
@@ -67,7 +79,7 @@ glEnd();
 // dibujar en modo sólido
 //*************************************************************************
 
-void _triangulos3D::draw_solido(float r, float g, float b)
+void _triangulos3D::draw_solido()
 {
 int i;
 glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
@@ -86,7 +98,7 @@ glEnd();
 // dibujar en modo sólido con apariencia de ajedrez
 //*************************************************************************
 
-void _triangulos3D::draw_solido_ajedrez(float r1, float g1, float b1, float r2, float g2, float b2)
+void _triangulos3D::draw_solido_ajedrez(float r2, float g2, float b2)
 {
 int i;
 glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
@@ -95,10 +107,9 @@ glBegin(GL_TRIANGLES);
 for (i=0;i<caras.size();i++){
 	
 	if(i%2==0)
-		glColor3f(r1,g1,b1);
+		glColor3f(r,g,b);
 	else
 	glColor3f(r2,g2,b2);
-
 	glVertex3fv((GLfloat *) &vertices[caras[i]._0]);
 	glVertex3fv((GLfloat *) &vertices[caras[i]._1]);
 	glVertex3fv((GLfloat *) &vertices[caras[i]._2]);
