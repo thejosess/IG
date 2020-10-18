@@ -153,11 +153,11 @@ void draw_objects()
 
     if(color != 0){
         if(color == 1)
-            piramide.change_color(1,1,0) ;
+            cubo.change_color(1,1,0) ;
         if(color == 2)
-            piramide.change_color(1,0,1) ;    
+            cubo.change_color(1,0,1) ;    
         if(color == 3)
-            piramide.change_color(1,0.5,0.5) ;  
+            cubo.change_color(1,0.5,0.5) ;  
     }
 
     switch (modo)
