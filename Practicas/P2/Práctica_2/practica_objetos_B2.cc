@@ -15,6 +15,9 @@ using namespace std;
 typedef enum{CUBO, PIRAMIDE, OBJETO_PLY, ROTACION} _tipo_objeto;
 _tipo_objeto t_objeto=CUBO;
 _modo   modo=POINTS;
+bool change_color = false;
+std::vector<float> color;
+
 
 // variables que definen la posicion de la camara en coordenadas polares
 GLfloat Observer_distance;
@@ -112,12 +115,32 @@ void draw_objects()
 {
 
 switch (t_objeto){
-	case CUBO: cubo.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,2);break;
-	case PIRAMIDE: piramide.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,2);break;
-        case OBJETO_PLY: ply.draw(modo,1.0,0.6,0.0,0.0,1.0,0.3,2);break;
-        case ROTACION: rotacion.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,2);break;
-	}
+	if(change_color){
 
+	}
+	case CUBO: 
+		if(change_color){
+			cubo.change_color(color, color.size());
+			color.clear();
+			change_color = false;
+		}
+
+		cubo.draw(modo,0.0,1.0,0.0,4);
+	break;
+
+	case PIRAMIDE: 
+		if(change_color){
+			piramide.change_color(color,color.size());
+			color.clear();
+			change_color = false;
+			}
+
+		piramide.draw(modo,0.0,1.0,0.0,4);
+	break;
+
+	case OBJETO_PLY: ply.draw(modo,0.0,1.0,0.3,2);break;
+	case ROTACION: rotacion.draw(modo,0.0,1.0,0.0,2);break;
+	}
 }
 
 
@@ -174,10 +197,18 @@ switch (toupper(Tecla1)){
 	case '2':modo=EDGES;break;
 	case '3':modo=SOLID;break;
 	case '4':modo=SOLID_CHESS;break;
-        case 'P':t_objeto=PIRAMIDE;break;
-        case 'C':t_objeto=CUBO;break;
-        case 'O':t_objeto=OBJETO_PLY;break;	
-        case 'R':t_objeto=ROTACION;break;
+	case '5':modo=ALL;break;
+
+	case 'P':t_objeto=PIRAMIDE;break;
+	case 'C':t_objeto=CUBO;break;
+	case 'O':t_objeto=OBJETO_PLY;break;	
+	case 'R':t_objeto=ROTACION;break;
+
+	//cambiar colores
+	case '7': color.push_back(1); color.push_back(1); color.push_back(0); change_color = true; break;
+	case '8': color.push_back(1); color.push_back(0); color.push_back(1); change_color = true; break;
+	case '9': color.push_back(0); color.push_back(0.5); color.push_back(0.5); change_color = true; break;
+
 	}
 glutPostRedisplay();
 }
