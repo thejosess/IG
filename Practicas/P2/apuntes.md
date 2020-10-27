@@ -27,3 +27,19 @@ Hay gente que pone puntos edl perfil en el objeto ply NO ES ASÍ. Es un objeto t
 
 # Código modificado
 MIRAR LO QUE COPIE EN SUCIO EN LA CARPETA ESA
+
+# APuntes push matrix
+Basicamente metes y sacas de la pila la matriz con la que vas as trabjar para no afecatar al resto de objetos y que queden intactos 
+
+glPushMatrix(); // La función glPushMatrix() realiza una copia de la matriz superior y la pone encima de la pila, de tal forma que las dos matrices superiores son iguales, al llamar a la función glPushMatrix() se duplica la matriz superior. Las siguientes transformaciones que se realizan se aplican sólo a la matriz superior de la pila, quedando la anterior con los valores que tenía en el momento de llamar a la función glPushMatrix().
+glPopMatrix(); La función glPopMatrix() elimina la matriz superior, quedando en la parte superior de la pila la matriz que estaba en el momento de llamar a la función glPushMatrix().
+
+Código BUENO -> http://aide-comp-graf.blogspot.com/2007/03/previo-practica-2_06.html
+
+
+# Teoria
+
+si con 2 puntos perfil tienes 1 caras, 3 puntos perfil, 2 caras, 4 puntos 3 caras. //mirar videos
+n puntos en el perfil, será n-1 caras., (n-1)*2 caras (cada cara de arriba son dos). 
+
+https://github.com/Jumacasni/IG-UGR

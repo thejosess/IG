@@ -265,10 +265,16 @@ _vertex3f vertice_aux;
 _vertex3i cara_aux;
 int num_aux;
 
-// tratamiento de los vértice
+/* tratamiento de los vértice*/
+
+//num numero de lados
+//num_aux es el numero de puntos del perfil
 
 num_aux=perfil.size();
-vertices.resize(num_aux*num);
+vertices.resize(num_aux*num+2);
+///vas a tener el doble de vertices, al ser revolución
+
+//aqui obtienes el resto de puntos al revolucionar con senos y cosenos
 for (j=0;j<num;j++)
   {for (i=0;i<num_aux;i++)
      {
@@ -283,15 +289,73 @@ for (j=0;j<num;j++)
 
 // tratamiento de las caras 
 
+caras.resize((num_aux-1)*2*num+2*num);
+
+// tienes tres puntos, entonces puedes tener 2 caras. Esas caras son dobles, entonce será 2(n-1)
+//Pero como además ese poligo puede tener mas de un lado, seŕa 2(n-1)*m
+
+// y ese 2*num final es 2m que es suponiendo las tapas. Cada tapa tendrá las mismas caras que número de lados, 
+//al ser dos tapas pues 2*num  
+
+
+//nosotros extenderlo para solidio cualquier, el lo hace para cilindro
+//perfil con solo dos puntos, si tiene mas no SRIVE, CAMBIAR.
+//enganche de las caras
+//dibujarlo con otros puntos y comprobar
+//por eso solo tienes un for, ya que con dos puntos solo tienes que crear dos caras, revisar dibujos
+
+int c=0;
+   for (j=0;j<num-1;j++)
+    {
+		caras[c]._0=j*2;
+		caras[c]._1=j*2+1;
+		caras[c]._2=(j+1)*2+1;
+		c=c+1; //ahora construyes el otro triangulo
+		caras[c]._0=(j+1)*2+1;
+		caras[c]._1=(j+1)*2;
+		caras[c]._2=j*2;
+		c=c+1;
+		//para todas las caras, usas un for para cualquier numero
+		//con tres sería un for para cuatro caras, en bloques de eso en el for
+		//si haces hasta num, coredumped
+		//comentarios dicen que si no se puede generalizar con modulo
+    } 
      
+
+
  // tapa inferior
+
 if (fabs(perfil[0].x)>0.0)
   {
-  }
- 
- // tapa superior
- if (fabs(perfil[num_aux-1].x)>0.0)
-  {
-  }
-}
+	vertices[num_aux*num].x=0.0; 
+	vertices[num_aux*num].y=perfil[0].y; 
+	   	  //arriba sería igual a -radio para la esfera
 
+	vertices[num_aux*num].z=0.0;
+   	vertices[num_aux*num].z=0.0;
+
+ for (j=0;j<num-1;j++)
+     {caras[c]._0=num_aux*num;
+      caras[c]._1=j*2;
+      caras[c]._2=(j+1)*2;
+      c=c+1;
+     }
+  }
+
+ // tapa superior
+if (fabs(perfil[num_aux-1].x)>0.0)
+  {
+
+   vertices[num_aux*num+1].x=0.0; 
+   vertices[num_aux*num+1].y=perfil[num_aux-1].y; 
+   vertices[num_aux*num+1].z=0.0;
+
+    for (j=0;j<num-1;j++)
+     {caras[c]._0=num_aux*num+1;
+      caras[c]._1=j*2+1;
+      caras[c]._2=(j+1)*2+1;
+      c=c+1;
+     }
+ }
+
+}
