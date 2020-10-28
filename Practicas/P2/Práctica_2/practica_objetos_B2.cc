@@ -290,6 +290,12 @@ int main(int argc, char *argv[] )
 vector<_vertex3f> perfil2;
 _vertex3f aux;
 
+//si ves las cosas de un nunico color es que he putno un punto sobre el eeje de giro
+
+
+//aqui es donde cambias los puntos del perfil, de lugar.
+//bug raro si coinciden con los eje min 1:08
+//si comentas el de abajo debería de salir un cono bien, o si pones en la x 0.1
 aux.x=1.0; aux.y=-1.0; aux.z=0.0;
 perfil2.push_back(aux);
 aux.x=1.0; aux.y=1.0; aux.z=0.0;

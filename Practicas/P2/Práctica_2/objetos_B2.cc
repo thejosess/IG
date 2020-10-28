@@ -272,7 +272,8 @@ int num_aux;
 
 num_aux=perfil.size();
 vertices.resize(num_aux*num+2);
-///vas a tener el doble de vertices, al ser revolución
+//vas a tener vertices segun: num_aux*num, numero de lados * numero de puntos perfil
+//+2 para las tapas, un punto para la tapa de arriba y otro para la tapa de abajo. Esos puntos centrales de las tapas.
 
 //aqui obtienes el resto de puntos al revolucionar con senos y cosenos
 for (j=0;j<num;j++)
@@ -297,48 +298,152 @@ caras.resize((num_aux-1)*2*num+2*num);
 // y ese 2*num final es 2m que es suponiendo las tapas. Cada tapa tendrá las mismas caras que número de lados, 
 //al ser dos tapas pues 2*num  
 
+//TODO
+//falta cara, vertice, cuña esa
+//tratamiento especial?
 
+//TODO Cono
+//hacerlo objeto revolucion cualquiera, tratamiento especial lado, cara, 
+//casos particuales de cono y esfera que son especiales.
+//este es el caso especial del cilindro.
+//cilindro lo extiendes y tienes para cualquier punto
+
+//para caso del cono es como está este en los vertices solo giras solo un punto y quitas de ahí el segundo for
+//linea 280
+//la tapa solo tiene una, entonces las caras sería caras.resize((num_aux-1)*2*num)
+//no tiene parte lateral.
+//	vertices[num_aux*num].y=0;  tapa inferior
+//tapa superior 
+//   vertices[num_aux*num+1].y=altura_cono; 
+
+
+//TODO esfera
+//caso del perfil, girar punto y obtienes semi circuferencia.
+//
+
+//si tipo es x, cono, esfera, objeto n, cilindro, etc
+//cuatro tipos de solidos que hay que hacer.
+//tratamiento especial segun el caso, cono no tiene x cosas min 57
+
+//TODO cuatros clases distintas y todas hijas de triaungulo o hgijas de rotacion todas
+//revisar eso
+
+//TODO 
+//perfil lo estamos haciendo de abajo hacía arriba, permitir que se pueda hacre de las dos formas.
+//a la hora de crear las caras es difernete si empiezas por arriba o abajo, a la hora de unir las caaras
+//eje de la generatriz ese punto del PDFd
+//tambien puedo hacerlo dado un perfil empeszando por arriba que es diferente al que estña hecho ahora
+//lo mas facil
+//si la altura del ultimo punto sea > altura que tenga primer punto. Seria que estoy empezando por abajo
+//si la altura del ultimo punto sea < altura que tenga primer punto. Seria que estoy empezando por arriba
+//HACER COMPROBARACION Y EN CASO DE HABER EMPEZADO POR ARRIBA EL PERFIL LE DAS LA VUELTA A LOS PUNTOS DEL PERFIL.
+//dado el perfil son dos puntos por ejemplo, le das la vuelta a esos dos puntos.
+//creas otro perfil donde permutas la posicón, los de arriba los pasas abajo y así.
+//y depsues ya tienes el codigo normal, donde HACER ESO??.  
+//PARA CUALQUIER CASO
+
+//TODO
+//
+
+//TODO
+//CARA QUE FALTA PARA QUE NO SEA DEGENERADO
 //nosotros extenderlo para solidio cualquier, el lo hace para cilindro
 //perfil con solo dos puntos, si tiene mas no SRIVE, CAMBIAR.
-//enganche de las caras
 //dibujarlo con otros puntos y comprobar
 //por eso solo tienes un for, ya que con dos puntos solo tienes que crear dos caras, revisar dibujos
 
+//enganche de las caras
 int c=0;
    for (j=0;j<num-1;j++)
     {
 		caras[c]._0=j*2;
 		caras[c]._1=j*2+1;
 		caras[c]._2=(j+1)*2+1;
+
 		c=c+1; //ahora construyes el otro triangulo
-		caras[c]._0=(j+1)*2+1;
-		caras[c]._1=(j+1)*2;
-		caras[c]._2=j*2;
+		caras[c]._0=(j+1)*2+1;	//esto sería el +1  de abajo
+		caras[c]._1=(j+1)*2;	//primer punto del ultimo perfil para abajo es el -2 deabajo.
+		caras[c]._2=j*2;		//sería el 0 de abajo
+		//caras[c]._2=(j+1)%num*2;
 		c=c+1;
+		//EL 0, 1 Y 2 QUE ORDEN?
+		//antes era 0, 2, 1
 		//para todas las caras, usas un for para cualquier numero
 		//con tres sería un for para cuatro caras, en bloques de eso en el for
 		//si haces hasta num, coredumped
 		//comentarios dicen que si no se puede generalizar con modulo
-    } 
-     
+    }
+	//ese num-1 para no enganchar la ultima cara porque nos saldría generado ya que repites puntos
+
+
+	//cierre para cilindro
+
+		//enganchas los ultimos perfiles con los primeros.
+		//penultimo serían num_aux*num -2 
+		//ultimo serían num_aux*num -1 
+
+		//PRIMERO SIMEPRE TRIANGULO SUPERIOR
+
+		//Lo del 0,1,2 creo que solo afecta a colores
+		//que son esos 0 2 y 1 en caras?, los tres puntos de una cara triangulo.
+		//los puntos 0 y 1 son los dos primeros puntos del perfil
+		caras[c]._0=num_aux*num -2; 
+		caras[c]._1=num_aux*num -1; 
+		caras[c]._2=1;
+		//con esto haces el primer triangulo de la cara final.
+		//al hacer como arriba, primero cara superior y luego cara inferior, rspectas eso y colores salen bien.
+		//tiene que casar con la primer parte de arriba
+
+		c=c+1; //ahora construyes el otro triangulo
+		caras[c]._0=1; //el otro ultimo punto sin contar los dos de las tapas. Por eso es -1 y -2. Es el ultimo porque. El de abajo es el ultimo punto porque lo hacemos de abajo arriba?	
+		caras[c]._1=0 ;
+		caras[c]._2=num_aux*num-2;
+		//este tiene que cassar con la segunda parte de arriba
+		c=c+1;
+
+		//min 40 lo de modulo
+
+		//como enganchar esto para un forma generica?, sería en vez de dos -numero_lados_perfil, el ultimo punto del perfil serían num_aux-1;
+		//seria
+		//caras[c]._0=num_aux*num -num_aux; 
+		//caras[c]._1=num_aux*num -1; 
+		//caras[c]._2=num_aux-1;
+
+		//num-1 sería poner %num
+		//todos los j+1 sería %num
+
+		//caras[c]._1=num_aux*num -1; 
+		//caras[c]._1=0; 
+		//caras[c]._2=num_aux*num -num_aux;
+		//este no seguro
+		
+		//poner sentido contrario agujas del reloj
 
 
  // tapa inferior
+
+//TODO enganche tapas falta
 
 if (fabs(perfil[0].x)>0.0)
   {
 	vertices[num_aux*num].x=0.0; 
 	vertices[num_aux*num].y=perfil[0].y; 
-	   	  //arriba sería igual a -radio para la esfera
+	//altura que coincida con la altura del primer punto del perfil
 
-	vertices[num_aux*num].z=0.0;
+	//arriba sería igual a -radio para la esfera
+	//esto no termino de entenderlo
+	//añadiendo el vertice nuevo creo?? 
+	//esos dos vertices adicionales?
    	vertices[num_aux*num].z=0.0;
 
  for (j=0;j<num-1;j++)
      {caras[c]._0=num_aux*num;
       caras[c]._1=j*2;
       caras[c]._2=(j+1)*2;
+	  	  //sentido contrario agujas reloj?
       c=c+1;
+	  //Revisar esto, unes punto central que es num_aux*num con los puntos inferiores
+	  //revisar esos puntos inferiores.
      }
   }
 
@@ -348,14 +453,17 @@ if (fabs(perfil[num_aux-1].x)>0.0)
 
    vertices[num_aux*num+1].x=0.0; 
    vertices[num_aux*num+1].y=perfil[num_aux-1].y; 
+   //altura que concida con el ultimo punto del perfil, es decir el de abajo
    vertices[num_aux*num+1].z=0.0;
 
     for (j=0;j<num-1;j++)
-     {caras[c]._0=num_aux*num+1;
-      caras[c]._1=j*2+1;
+     {caras[c]._0=num_aux*num+1; //el punto siguiente<
       caras[c]._2=(j+1)*2+1;
+	  caras[c]._1=j*2+1;
+	  //sentido contrario agujas reloj?
       c=c+1;
      }
+	 //unes con puntos superiores en eso de las caras, con el punto centrar para la tapa como pivote
  }
 
 }

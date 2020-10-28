@@ -36,6 +36,11 @@ glPopMatrix(); La función glPopMatrix() elimina la matriz superior, quedando en
 
 Código BUENO -> http://aide-comp-graf.blogspot.com/2007/03/previo-practica-2_06.html
 
+min 36 sale definición de poligono degenerado
+NO PUNTOS REPETIDOS EN RESUMEN.
+
+si ves las cosas de un nunico color es que he putno un punto sobre el eeje de giro
+
 
 # Teoria
 
