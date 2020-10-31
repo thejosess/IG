@@ -39,14 +39,13 @@ glEnd();
 
 _triangulos3D::_triangulos3D()
 {
-  r = 0.0;
+  	r = 0.0;
 	g = 0.5;
 	b = 0.7;
   //color por defecto
 }
 
 //cambiar color
-
 void _triangulos3D::change_color (vector<float> color, int size){
 	r = color[size-3];
 	g = color[size-2];
@@ -252,6 +251,122 @@ return(0);
 // objeto por revolucion
 //************************************************************************
 
+
+// cilindro
+//************************************************************************
+
+_cilindro::_cilindro()
+{
+
+}
+
+void _cilindro::parametros(vector<_vertex3f> perfil, int num)
+{
+int i,j;
+_vertex3f vertice_aux;
+_vertex3i cara_aux;
+int num_aux;
+
+num_aux=perfil.size();
+vertices.resize(num_aux*num+2);
+
+
+for (j=0;j<num;j++)
+  {for (i=0;i<num_aux;i++)
+     {
+      vertice_aux.x=perfil[i].x*cos(2.0*M_PI*j/(1.0*num))+
+                    perfil[i].z*sin(2.0*M_PI*j/(1.0*num));
+      vertice_aux.z=-perfil[i].x*sin(2.0*M_PI*j/(1.0*num))+
+                    perfil[i].z*cos(2.0*M_PI*j/(1.0*num));
+      vertice_aux.y=perfil[i].y;
+      vertices[i+j*num_aux]=vertice_aux;
+     }
+  }
+
+
+
+
+caras.resize((num_aux-1)*2*num+2*num);
+
+int c=0;
+   for (j=0;j<num-1;j++)
+    {
+		caras[c]._0=j*2;
+		caras[c]._1=j*2+1;
+		caras[c]._2=(j+1)*2+1;
+
+		c=c+1; 
+		caras[c]._0=(j+1)*2+1;	
+		caras[c]._1=(j+1)*2;	
+		caras[c]._2=j*2;		
+		c=c+1;
+	}
+
+	//cierre de la ultima cara del ultimo lado del cilindro
+
+		caras[c]._0=num_aux*num -2; 
+		caras[c]._1=num_aux*num -1; 
+		caras[c]._2=1;
+
+		c=c+1; 
+		caras[c]._0=1; 
+		caras[c]._1=0 ;
+		caras[c]._2=num_aux*num-2;
+	
+		c=c+1;
+
+// tapa inferior
+if (fabs(perfil[0].x)>0.0)
+  {
+	vertices[num_aux*num].x=0.0; 
+	vertices[num_aux*num].y=perfil[0].y; 
+   	vertices[num_aux*num].z=0.0;
+
+ for (j=0;j<num-1;j++)
+     {
+		caras[c]._0=num_aux*num;
+		caras[c]._1=j*2;
+		caras[c]._2=(j+1)*2;
+
+		c=c+1;
+     }
+
+	//enganchar la ultima cara del ultimo lado de la tapa inferior
+	caras[c]._0=num_aux*num;
+	caras[c]._1= 0;
+	caras[c]._2=num_aux*num-2;
+	c=c+1;
+
+
+  }
+
+ // tapa superior
+if (fabs(perfil[num_aux-1].x)>0.0)
+  {
+
+   vertices[num_aux*num+1].x=0.0; 
+   vertices[num_aux*num+1].y=perfil[num_aux-1].y; 
+   vertices[num_aux*num+1].z=0.0;
+
+    for (j=0;j<num-1;j++)
+     {	caras[c]._0=num_aux*num+1; 
+		caras[c]._1=j*2+1;
+      	caras[c]._2=(j+1)*2+1;
+
+      c=c+1;
+     }
+
+	caras[c]._0=num_aux*num+1;
+	caras[c]._1=1; 
+	caras[c]._2=num_aux*num-1; 
+ }
+	
+
+
+}
+
+// objeto revolución n puntos perfil
+//************************************************************************
 _rotacion::_rotacion()
 {
 
@@ -293,14 +408,9 @@ for (j=0;j<num;j++)
 caras.resize((num_aux-1)*2*num+2*num);
 
 // tienes tres puntos, entonces puedes tener 2 caras. Esas caras son dobles, entonce será 2(n-1)
-//Pero como además ese poligo puede tener mas de un lado, seŕa 2(n-1)*m
-
 // y ese 2*num final es 2m que es suponiendo las tapas. Cada tapa tendrá las mismas caras que número de lados, 
 //al ser dos tapas pues 2*num  
 
-//TODO
-//falta cara, vertice, cuña esa
-//tratamiento especial?
 
 //TODO Cono
 //hacerlo objeto revolucion cualquiera, tratamiento especial lado, cara, 
@@ -325,8 +435,6 @@ caras.resize((num_aux-1)*2*num+2*num);
 //cuatro tipos de solidos que hay que hacer.
 //tratamiento especial segun el caso, cono no tiene x cosas min 57
 
-//TODO cuatros clases distintas y todas hijas de triaungulo o hgijas de rotacion todas
-//revisar eso
 
 //TODO 
 //perfil lo estamos haciendo de abajo hacía arriba, permitir que se pueda hacre de las dos formas.
@@ -354,8 +462,22 @@ caras.resize((num_aux-1)*2*num+2*num);
 
 //enganche de las caras
 int c=0;
-   for (j=0;j<num-1;j++)
+   for (j=0;j<num;j++)
     {
+		for(i=0; i<num_aux-1;i++){
+			cara_aux._0 = i+((j+1)%num)*num_aux;
+			cara_aux._1 = i+1+((j+1)%num)*num_aux;
+			cara_aux._2 = i+1+j*num_aux;
+			caras.push_back(cara_aux);
+
+			cara_aux._0 = i+1+j*num_aux;
+			cara_aux._1 = i+j*num_aux;
+			cara_aux._2 = i+((j+1)%num)*num_aux;
+			caras.push_back(cara_aux);
+			//sentido contario agujas reloj?			
+		}
+
+		/*
 		caras[c]._0=j*2;
 		caras[c]._1=j*2+1;
 		caras[c]._2=(j+1)*2+1;
@@ -365,7 +487,7 @@ int c=0;
 		caras[c]._1=(j+1)*2;	//primer punto del ultimo perfil para abajo es el -2 deabajo.
 		caras[c]._2=j*2;		//sería el 0 de abajo
 		//caras[c]._2=(j+1)%num*2;
-		c=c+1;
+		c=c+1;*/
 		//EL 0, 1 Y 2 QUE ORDEN?
 		//antes era 0, 2, 1
 		//para todas las caras, usas un for para cualquier numero
@@ -387,7 +509,7 @@ int c=0;
 		//Lo del 0,1,2 creo que solo afecta a colores
 		//que son esos 0 2 y 1 en caras?, los tres puntos de una cara triangulo.
 		//los puntos 0 y 1 son los dos primeros puntos del perfil
-		caras[c]._0=num_aux*num -2; 
+		/*caras[c]._0=num_aux*num -2; 
 		caras[c]._1=num_aux*num -1; 
 		caras[c]._2=1;
 		//con esto haces el primer triangulo de la cara final.
@@ -399,7 +521,7 @@ int c=0;
 		caras[c]._1=0 ;
 		caras[c]._2=num_aux*num-2;
 		//este tiene que cassar con la segunda parte de arriba
-		c=c+1;
+		c=c+1;*/
 
 		//min 40 lo de modulo
 
@@ -420,10 +542,11 @@ int c=0;
 		//poner sentido contrario agujas del reloj
 
 
+
+//TODO revisar eso de fabs si es para lo del eje generatriz
+//TODO tapas no están hechas para n creo
+
  // tapa inferior
-
-//TODO enganche tapas falta
-
 if (fabs(perfil[0].x)>0.0)
   {
 	vertices[num_aux*num].x=0.0; 
@@ -437,14 +560,38 @@ if (fabs(perfil[0].x)>0.0)
    	vertices[num_aux*num].z=0.0;
 
  for (j=0;j<num-1;j++)
-     {caras[c]._0=num_aux*num;
-      caras[c]._1=j*2;
-      caras[c]._2=(j+1)*2;
-	  	  //sentido contrario agujas reloj?
-      c=c+1;
-	  //Revisar esto, unes punto central que es num_aux*num con los puntos inferiores
-	  //revisar esos puntos inferiores.
+     {
+	
+
+		caras[c]._0=num_aux*num;
+		caras[c]._1=j*2;
+		caras[c]._2=(j+1)*2;
+			//sentido contrario agujas reloj?
+		c=c+1;
+		//Revisar esto, unes punto central que es num_aux*num con los puntos inferiores
+		//revisar esos puntos inferiores.
+
+		/*		caras[c]._0=num_aux*num;
+		caras[c]._1=j*2;
+		caras[c]._2=(j+1)*2;
+			//sentido contrario agujas reloj?
+		c=c+1;
+		//Revisar esto, unes punto central que es num_aux*num con los puntos inferiores
+		//revisar esos puntos inferiores.*/
+
+
+		/*cara_aux._0 = i+1+j*num_aux;
+		cara_aux._1 = i+j*num_aux;   meter el otro bucle*/
+
+
      }
+
+	caras[c]._0=num_aux*num;
+	caras[c]._1= 0;
+	caras[c]._2=num_aux*num-2;
+	c=c+1;
+
+
   }
 
  // tapa superior
@@ -457,13 +604,19 @@ if (fabs(perfil[num_aux-1].x)>0.0)
    vertices[num_aux*num+1].z=0.0;
 
     for (j=0;j<num-1;j++)
-     {caras[c]._0=num_aux*num+1; //el punto siguiente<
-      caras[c]._2=(j+1)*2+1;
-	  caras[c]._1=j*2+1;
+     {	caras[c]._0=num_aux*num+1; //el punto siguiente
+		caras[c]._1=j*2+1;
+      	caras[c]._2=(j+1)*2+1;
 	  //sentido contrario agujas reloj?
       c=c+1;
      }
 	 //unes con puntos superiores en eso de las caras, con el punto centrar para la tapa como pivote
+
+	caras[c]._0=num_aux*num+1;
+	caras[c]._1=1; 
+	caras[c]._2=num_aux*num-1; 
+	//COmo sería para n inspirarme en la de arriba?
+
  }
 
 }

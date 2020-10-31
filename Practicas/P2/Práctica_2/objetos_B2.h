@@ -96,3 +96,13 @@ vector<_vertex3f> perfil;
 int num;
 };
 
+class _cilindro: public _triangulos3D
+{
+public:
+       _cilindro();
+void  parametros(vector<_vertex3f> perfil1, int num1);
+
+vector<_vertex3f> perfil; 
+int num;
+};
+

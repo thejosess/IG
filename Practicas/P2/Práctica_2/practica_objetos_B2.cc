@@ -12,7 +12,7 @@
 using namespace std;
 
 // tipos
-typedef enum{CUBO, PIRAMIDE, OBJETO_PLY, ROTACION} _tipo_objeto;
+typedef enum{CUBO, PIRAMIDE, OBJETO_PLY, ROTACION,CILINDRO} _tipo_objeto;
 _tipo_objeto t_objeto=CUBO;
 _modo   modo=POINTS;
 bool change_color = false;
@@ -36,6 +36,7 @@ _cubo cubo;
 _piramide piramide(0.85,1.3);
 _objeto_ply  ply; 
 _rotacion rotacion; 
+_cilindro cilindro;
 
 // _objeto_ply *ply1;
 
@@ -140,6 +141,8 @@ switch (t_objeto){
 
 	case OBJETO_PLY: ply.draw(modo,0.0,1.0,0.3,2);break;
 	case ROTACION: rotacion.draw(modo,0.0,1.0,0.0,2);break;
+	case CILINDRO: cilindro.draw(modo,0.0,1.0,0.0,2);break;
+
 	}
 }
 
@@ -203,6 +206,7 @@ switch (toupper(Tecla1)){
 	case 'C':t_objeto=CUBO;break;
 	case 'O':t_objeto=OBJETO_PLY;break;	
 	case 'R':t_objeto=ROTACION;break;
+	case 'D':t_objeto=CILINDRO;break;
 
 	//cambiar colores
 	case '7': color.push_back(1); color.push_back(1); color.push_back(0); change_color = true; break;
@@ -302,8 +306,10 @@ aux.x=1.0; aux.y=1.0; aux.z=0.0;
 perfil2.push_back(aux);
 
 
-rotacion.parametros(perfil2,10);
+rotacion.parametros(perfil2,20);
 //2 puntos de perfil y 10 lados.
+
+cilindro.parametros(perfil2,20);
 
 
 
