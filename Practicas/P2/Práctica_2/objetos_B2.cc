@@ -600,15 +600,21 @@ if (fabs(perfil[num_aux-1].x)>0.0)
   {
 
    vertices[num_aux*num+1].x=0.0; 
-   vertices[num_aux*num+1].y=perfil[num_aux-1].y; 
-   //altura que concida con el ultimo punto del perfil, es decir el de abajo
+   vertices[num_aux*num+1].y=perfil[num_aux-1].y;
+   cout << perfil[num_aux-1].y;
+   //altura que concida con el ultimo punto del perfil
    vertices[num_aux*num+1].z=0.0;
 
-    for (j=0;j<num-1;j++)
-     {	caras[c]._0=num_aux*num+1; //el punto siguiente
+    for (j=0;j<num;j++)
+     {	/*caras[c]._0=num_aux*num+1; //el punto siguiente
 		caras[c]._1=j*num_aux+1;
-		caras[c]._2=((j+1)%num)*num_aux+1;
+		caras[c]._2=((j+1)%num)*num_aux+1;*/
 	  //sentido contrario agujas reloj?
+		caras[c]._0=num_aux*num+1;
+		caras[c]._1=j*num_aux+num_aux-1;
+		caras[c]._2=((j+1)%num)*num_aux+num_aux-1;
+		//fallo aqui con el +1 no lo hacía bien
+
       c=c+1;
      }
 	 //unes con puntos superiores en eso de las caras, con el punto centrar para la tapa como pivote

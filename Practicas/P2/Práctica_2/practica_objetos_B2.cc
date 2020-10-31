@@ -291,7 +291,7 @@ int main(int argc, char *argv[] )
 
 // perfil 
 
-vector<_vertex3f> perfil2;
+vector<_vertex3f> perfil2,  perfil3;
 _vertex3f aux;
 
 //si ves las cosas de un nunico color es que he putno un punto sobre el eeje de giro
@@ -305,8 +305,15 @@ perfil2.push_back(aux);
 aux.x=1.0; aux.y=1.0; aux.z=0.0;
 perfil2.push_back(aux);
 
+aux.x=1.0; aux.y=-1.0; aux.z=0.0;
+perfil3.push_back(aux);
+aux.x=1; aux.y=0.5; aux.z=0.0;
+perfil3.push_back(aux);
+aux.x=1.0; aux.y=1.0; aux.z=0.0;
+perfil3.push_back(aux);
 
-rotacion.parametros(perfil2,20);
+
+rotacion.parametros(perfil3,20);
 //2 puntos de perfil y 10 lados.
 
 cilindro.parametros(perfil2,20);
