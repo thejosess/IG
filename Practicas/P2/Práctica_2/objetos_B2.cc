@@ -559,15 +559,13 @@ if (fabs(perfil[0].x)>0.0)
 	//esos dos vertices adicionales?
    	vertices[num_aux*num].z=0.0;
 
- for (j=0;j<num-1;j++)
-     {
-	
-
+ for (j=0;j<num;j++)
+    {
 		caras[c]._0=num_aux*num;
-		caras[c]._1=j*2;
-		caras[c]._2=(j+1)*2;
-			//sentido contrario agujas reloj?
+		caras[c]._1=j*num_aux;
+		caras[c]._2=((j+1)%num)*num_aux;
 		c=c+1;
+			//sentido contrario agujas reloj?
 		//Revisar esto, unes punto central que es num_aux*num con los puntos inferiores
 		//revisar esos puntos inferiores.
 
@@ -582,14 +580,17 @@ if (fabs(perfil[0].x)>0.0)
 
 		/*cara_aux._0 = i+1+j*num_aux;
 		cara_aux._1 = i+j*num_aux;   meter el otro bucle*/
-
-
+		
      }
 
-	caras[c]._0=num_aux*num;
+	/*caras[c]._0=num_aux*num;
 	caras[c]._1= 0;
 	caras[c]._2=num_aux*num-2;
-	c=c+1;
+	c=c+1;*/
+
+	/*		caras[c]._0=num_aux*num;
+		caras[c]._1=j*num_aux;
+		caras[c]._2=((j+1)%num)*num_aux;*/
 
 
   }
@@ -605,17 +606,17 @@ if (fabs(perfil[num_aux-1].x)>0.0)
 
     for (j=0;j<num-1;j++)
      {	caras[c]._0=num_aux*num+1; //el punto siguiente
-		caras[c]._1=j*2+1;
-      	caras[c]._2=(j+1)*2+1;
+		caras[c]._1=j*num_aux+1;
+		caras[c]._2=((j+1)%num)*num_aux+1;
 	  //sentido contrario agujas reloj?
       c=c+1;
      }
 	 //unes con puntos superiores en eso de las caras, con el punto centrar para la tapa como pivote
 
-	caras[c]._0=num_aux*num+1;
+	/*caras[c]._0=num_aux*num+1;
 	caras[c]._1=1; 
 	caras[c]._2=num_aux*num-1; 
-	//COmo sería para n inspirarme en la de arriba?
+	//COmo sería para n inspirarme en la de arriba?*/
 
  }
 
