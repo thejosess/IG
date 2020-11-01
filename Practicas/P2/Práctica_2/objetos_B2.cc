@@ -28,6 +28,7 @@ for (i=0;i<vertices.size();i++){
 	glVertex3fv((GLfloat *) &vertices[i]);
 	}
 glEnd();
+
 }
 
 
@@ -250,6 +251,95 @@ return(0);
 //************************************************************************
 // objeto por revolucion
 //************************************************************************
+
+// cono
+//************************************************************************
+
+_cono::_cono()
+{
+
+}
+
+void _cono::parametros(vector<_vertex3f> perfil, int num, double altura)
+{
+
+
+h = altura;
+
+int i,j;
+_vertex3f vertice_aux;
+_vertex3i cara_aux;
+int num_aux;
+
+num_aux=perfil.size();
+vertices.resize(num_aux*num+2);
+
+
+for (j=0;j<num;j++)
+  {for (i=0;i<num_aux;i++)
+     {
+      vertice_aux.x=perfil[i].x*cos(2.0*M_PI*j/(1.0*num))+
+                    perfil[i].z*sin(2.0*M_PI*j/(1.0*num));
+      vertice_aux.z=-perfil[i].x*sin(2.0*M_PI*j/(1.0*num))+
+                    perfil[i].z*cos(2.0*M_PI*j/(1.0*num));
+      vertice_aux.y=perfil[i].y;
+      vertices[i+j*num_aux]=vertice_aux;
+     }
+  }
+
+
+
+caras.resize(2*num);
+
+int c = 0;
+
+// tapa inferior
+if (fabs(perfil[0].x)>0.0)
+  {
+	vertices[num_aux*num].x=0.0; 
+	vertices[num_aux*num].y=perfil[0].y; 
+   	vertices[num_aux*num].z=0.0;
+
+ for (j=0;j<num-1;j++)
+     {
+		caras[c]._0=num_aux*num;
+		caras[c]._1=j*2;
+		caras[c]._2=(j+1)*2;
+
+		c=c+1;
+     }
+
+
+ 	caras[c]._0=num_aux*num;
+	caras[c]._1= 0;
+	caras[c]._2=num_aux*num-2;
+	c=c+1; 
+
+
+  }
+
+ // tapa superior
+ if (fabs(perfil[num_aux-1].x)>0.0)
+  {
+
+   vertices[num_aux*num+1].x=0.0; 
+   vertices[num_aux*num+1].y=h; 
+   vertices[num_aux*num+1].z=0.0;
+
+    for (j=0;j<num-1;j++)
+     {	caras[c]._0=num_aux*num+1; 
+		caras[c]._1=j*2+1;
+      	caras[c]._2=(j+1)*2+1;
+
+      c=c+1;
+     } 
+ 	 caras[c]._0=num_aux*num+1;
+	caras[c]._1=1; 
+	caras[c]._2=num_aux*num-1; 
+  }
+ 
+}
+
 
 
 // cilindro
@@ -601,7 +691,6 @@ if (fabs(perfil[num_aux-1].x)>0.0)
 
    vertices[num_aux*num+1].x=0.0; 
    vertices[num_aux*num+1].y=perfil[num_aux-1].y;
-   cout << perfil[num_aux-1].y;
    //altura que concida con el ultimo punto del perfil
    vertices[num_aux*num+1].z=0.0;
 

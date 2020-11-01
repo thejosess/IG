@@ -96,6 +96,18 @@ vector<_vertex3f> perfil;
 int num;
 };
 
+class _cono: public _triangulos3D
+{
+public:
+       _cono();
+void  parametros(vector<_vertex3f> perfil1,int num1, double altura);
+
+vector<_vertex3f> perfil; 
+int num;
+int num_aux; //siempre será 1 el número de puntos que tiene el perfil para un cono.
+double h;
+};
+
 class _cilindro: public _triangulos3D
 {
 public:
