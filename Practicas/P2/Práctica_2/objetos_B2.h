@@ -118,3 +118,14 @@ vector<_vertex3f> perfil;
 int num;
 };
 
+class _esfera: public _triangulos3D
+{
+public:
+       _esfera();
+void  parametros(int n,int m, double radio);
+
+vector<_vertex3f> perfil; 
+int num;
+int num_aux; //siempre será 1 el número de puntos que tiene el perfil para un cono.
+double r;
+};

@@ -12,7 +12,7 @@
 using namespace std;
 
 // tipos
-typedef enum{CUBO, PIRAMIDE, OBJETO_PLY, ROTACION,CILINDRO, CONO} _tipo_objeto;
+typedef enum{CUBO, PIRAMIDE, OBJETO_PLY, ROTACION,CILINDRO, CONO,ESFERA} _tipo_objeto;
 _tipo_objeto t_objeto=CUBO;
 _modo   modo=POINTS;
 bool change_color = false;
@@ -38,6 +38,7 @@ _objeto_ply  ply;
 _rotacion rotacion; 
 _cilindro cilindro;
 _cono cono ;
+_esfera esfera;
 // _objeto_ply *ply1;
 
 
@@ -116,9 +117,7 @@ void draw_objects()
 {
 
 switch (t_objeto){
-	if(change_color){
-
-	}
+	
 	case CUBO: 
 		if(change_color){
 			cubo.change_color(color, color.size());
@@ -134,16 +133,58 @@ switch (t_objeto){
 			piramide.change_color(color,color.size());
 			color.clear();
 			change_color = false;
-			}
+		}
 
 		piramide.draw(modo,0.0,1.0,0.0,4);
 	break;
 
-	case OBJETO_PLY: ply.draw(modo,0.0,1.0,0.3,2);break;
-	case ROTACION: rotacion.draw(modo,0.0,1.0,0.0,2);break;
-	case CILINDRO: cilindro.draw(modo,0.0,1.0,0.0,2);break;
-	case CONO: cono.draw(modo,0.0,1.0,0.0,2);break;
+	case OBJETO_PLY: 
+		if(change_color){
+			ply.change_color(color,color.size());
+			color.clear();
+			change_color = false;
+		}
 
+		ply.draw(modo,0.0,1.0,0.3,4);
+	break;
+
+	case ROTACION:
+		if(change_color){
+			rotacion.change_color(color,color.size());
+			color.clear();
+			change_color = false;
+		}
+
+		rotacion.draw(modo,0.0,1.0,0.0,4);
+	break;
+
+	case CILINDRO: 
+		if(change_color){
+			cilindro.change_color(color,color.size());
+			color.clear();
+			change_color = false;
+		}
+
+		cilindro.draw(modo,0.0,1.0,0.0,4);
+	break;
+
+	case CONO: 
+		if(change_color){
+			cono.change_color(color,color.size());
+			color.clear();
+			change_color = false;
+		}	
+	cono.draw(modo,0.0,1.0,0.0,4);
+	break;
+
+	case ESFERA: 
+		if(change_color){
+			esfera.change_color(color,color.size());
+			color.clear();
+			change_color = false;
+		}	
+	esfera.draw(modo,0.0,1.0,0.0,5);
+	break;
 
 	}
 }
@@ -210,6 +251,8 @@ switch (toupper(Tecla1)){
 	case 'R':t_objeto=ROTACION;break;
 	case 'D':t_objeto=CILINDRO;break;
 	case 'L':t_objeto=CONO;break;
+	case 'E':t_objeto=ESFERA;break;
+
 
 	//cambiar colores
 	case '7': color.push_back(1); color.push_back(1); color.push_back(0); change_color = true; break;
@@ -294,7 +337,7 @@ int main(int argc, char *argv[] )
 
 // perfil 
 
-vector<_vertex3f> perfil2,  perfil3, perfil1;
+vector<_vertex3f> perfil2,  perfil3, perfil1, perfilEsfera;
 _vertex3f aux;
 
 //si ves las cosas de un nunico color es que he putno un punto sobre el eeje de giro
@@ -321,6 +364,25 @@ perfil3.push_back(aux);
 aux.x=1.0; aux.y=1.0; aux.z=0.0;
 perfil1.push_back(aux);
 
+
+aux.x=1.0; aux.y=0.5; aux.z=0.0;
+perfilEsfera.push_back(aux);
+aux.x=0.5; aux.y=1; aux.z=0.0;
+perfilEsfera.push_back(aux);
+
+aux.x=-1.0; aux.y=-0.5; aux.z=0.0;
+perfilEsfera.push_back(aux);
+aux.x=-0.5; aux.y=-1; aux.z=0.0;
+perfilEsfera.push_back(aux);
+
+/* aux.x=-1.0; aux.y=-1.0; aux.z=0.0;
+perfilEsfera.push_back(aux);
+aux.x=-0.5; aux.y=-2.0; aux.z=0.0;
+perfilEsfera.push_back(aux);
+aux.x=-0.5; aux.y=-0.5; aux.z=0.0;
+perfilEsfera.push_back(aux); */
+
+
 rotacion.parametros(perfil3,20);
 //2 puntos de perfil y 10 lados.
 
@@ -328,6 +390,9 @@ cilindro.parametros(perfil2,20);
 
 
 cono.parametros(perfil1,6,3);
+
+esfera.parametros(5,6,2);
+//esfera.parametros(5,2,2);
 
 
 

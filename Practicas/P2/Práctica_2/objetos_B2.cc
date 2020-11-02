@@ -252,6 +252,118 @@ return(0);
 // objeto por revolucion
 //************************************************************************
 
+// esfera
+//************************************************************************
+
+_esfera::_esfera()
+{
+
+}
+
+void _esfera::parametros(int n,int m, double radio)
+{
+
+//n numero de puntos del perfil
+//m numeros caras de la esfera
+r = radio;
+//radio = sqrt(perfil[0].x*perfil[0].x+perfil[0].y*perfil[0].y);
+
+int i,j;
+_vertex3f vertice_aux;
+_vertex3i cara_aux;
+int num_aux; 
+num = m;
+
+
+for(i=1; i<n; i++){
+	vertice_aux.x = radio*cos(M_PI*i/n-M_PI/2.0);
+	vertice_aux.y= radio*sin(M_PI*i/n-M_PI/2.0);
+	vertice_aux.z=0;
+	perfil.push_back(vertice_aux);
+}
+//solo PI porque queremos generar la mitad
+
+//perfil lo generas tu con el radio
+num_aux=perfil.size();
+vertices.resize(num_aux*num+2);
+
+
+//realmente quieres generar num puntos
+for (j=0;j<num;j++)
+  {for (i=0;i<num_aux;i++)
+     {
+      vertice_aux.x=perfil[i].x*cos(2.0*M_PI*j/(1.0*num))+
+                    perfil[i].z*sin(2.0*M_PI*j/(1.0*num));
+      vertice_aux.z=-perfil[i].x*sin(2.0*M_PI*j/(1.0*num))+
+                    perfil[i].z*cos(2.0*M_PI*j/(1.0*num));
+      vertice_aux.y=perfil[i].y;
+      vertices[i+j*num_aux]=vertice_aux;
+     }
+  }
+
+
+caras.resize((num_aux-1)*2*num+2*num);
+
+int c=0;
+   for (j=0;j<num;j++)
+    {
+		for(i=0; i<num_aux-1;i++){
+			cara_aux._0 = i+((j+1)%num)*num_aux;
+			cara_aux._1 = i+1+((j+1)%num)*num_aux;
+			cara_aux._2 = i+1+j*num_aux;
+			caras.push_back(cara_aux);
+
+			cara_aux._0 = i+1+j*num_aux;
+			cara_aux._1 = i+j*num_aux;
+			cara_aux._2 = i+((j+1)%num)*num_aux;
+			caras.push_back(cara_aux);
+			//sentido contario agujas reloj?			
+		}
+	}
+
+
+
+// tapa inferior
+if (fabs(perfil[0].x)>0.0)
+  {
+	vertices[num_aux*num].x=0.0; 
+	vertices[num_aux*num].y=-radio; 
+   	vertices[num_aux*num].z=0.0;
+
+ for (j=0;j<num;j++)
+    {
+		caras[c]._0=num_aux*num;
+		caras[c]._1=j*num_aux;
+		caras[c]._2=((j+1)%num)*num_aux;
+		c=c+1;
+		
+     }
+
+  }
+
+ // tapa superior
+if (fabs(perfil[num_aux-1].x)>0.0)
+  {
+
+   vertices[num_aux*num+1].x=0.0; 
+   vertices[num_aux*num+1].y=radio;
+   vertices[num_aux*num+1].z=0.0;
+
+    for (j=0;j<num;j++)
+     {	
+		caras[c]._0=num_aux*num+1;
+		caras[c]._1=j*num_aux+num_aux-1;
+		caras[c]._2=((j+1)%num)*num_aux+num_aux-1;
+
+      c=c+1;
+     }
+
+ }
+
+ 
+}
+
+
 // cono
 //************************************************************************
 
@@ -455,7 +567,7 @@ if (fabs(perfil[num_aux-1].x)>0.0)
 
 }
 
-// objeto revolución n puntos perfil
+// objeto revolución n puntos perfil y n lados
 //************************************************************************
 _rotacion::_rotacion()
 {
