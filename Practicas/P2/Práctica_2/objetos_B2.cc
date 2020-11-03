@@ -590,8 +590,7 @@ void _revolucionPly::parametros(char *file){
 	_vertex3f vertice_aux;
 	_vertex3i cara_aux;
 	vector<_vertex3f> perfil;
-	int num_aux;
-	int num = 8;
+	int num_aux, num;
 
 	vector<float> ver_ply ;
 	vector<int>   car_ply ;
@@ -599,12 +598,13 @@ void _revolucionPly::parametros(char *file){
 	_file_ply::read(file, ver_ply, car_ply );
 
 	n_ver=ver_ply.size()/3;
-	n_car=car_ply.size()/3;
+	num = car_ply[0];
+	//cojo el numero de lados del archivo ply en la ultiam linea de la cara que no se usa, el segundo valor de esta ultima linea que es 8.
+
 
 	printf("Number of vertices=%d\nNumber of faces=%d\n", n_ver, n_car);
 
 	perfil.resize(n_ver);
-	caras.resize(n_car);
 	num_aux = perfil.size();
 
 	vertices.resize(num_aux*num+2);
@@ -629,6 +629,8 @@ for (j=0;j<num;j++)
       vertices[i+j*num_aux]=vertice_aux;
      }
   }
+
+caras.resize((num_aux-1)*2*num+2*num);
 
 
 int c=0;
