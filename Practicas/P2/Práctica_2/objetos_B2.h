@@ -86,11 +86,30 @@ int   parametros(char *archivo);
 // objeto por revolución
 //************************************************************************
 
+
+
+class _revolucionPly: public _triangulos3D
+{
+public:
+       _revolucionPly();
+void  parametros(char *file);
+
+void  revolucionPly(char *file);
+
+
+vector<_vertex3f> perfil; 
+int num;
+};
+
+
 class _rotacion: public _triangulos3D
 {
 public:
        _rotacion();
 void  parametros(vector<_vertex3f> perfil1, int num1);
+
+void  revolucionPly(char *file);
+
 
 vector<_vertex3f> perfil; 
 int num;

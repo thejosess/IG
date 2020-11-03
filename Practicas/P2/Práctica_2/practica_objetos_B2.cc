@@ -12,7 +12,7 @@
 using namespace std;
 
 // tipos
-typedef enum{CUBO, PIRAMIDE, OBJETO_PLY, ROTACION,CILINDRO, CONO,ESFERA} _tipo_objeto;
+typedef enum{CUBO, PIRAMIDE, OBJETO_PLY, ROTACION,CILINDRO, CONO,ESFERA, REVOLUCION_PLY} _tipo_objeto;
 _tipo_objeto t_objeto=CUBO;
 _modo   modo=POINTS;
 bool change_color = false;
@@ -36,6 +36,7 @@ _cubo cubo;
 _piramide piramide(0.85,1.3);
 _objeto_ply  ply; 
 _rotacion rotacion; 
+_revolucionPly revolucionPly;
 _cilindro cilindro;
 _cono cono ;
 _esfera esfera;
@@ -186,6 +187,16 @@ switch (t_objeto){
 	esfera.draw(modo,0.0,1.0,0.0,5);
 	break;
 
+	case REVOLUCION_PLY: 
+		if(change_color){
+			esfera.change_color(color,color.size());
+			color.clear();
+			change_color = false;
+		}	
+	revolucionPly.draw(modo,0.0,1.0,0.0,4);
+	break;
+
+
 	}
 }
 
@@ -252,6 +263,8 @@ switch (toupper(Tecla1)){
 	case 'D':t_objeto=CILINDRO;break;
 	case 'L':t_objeto=CONO;break;
 	case 'E':t_objeto=ESFERA;break;
+	case 'F':t_objeto=REVOLUCION_PLY;break;
+
 
 
 	//cambiar colores
@@ -337,7 +350,7 @@ int main(int argc, char *argv[] )
 
 // perfil 
 
-vector<_vertex3f> perfil2,  perfil3, perfil1, perfilEsfera;
+vector<_vertex3f> perfil2,  perfil3, perfil1, perfil3_contrario,perfil2_contrario;
 _vertex3f aux;
 
 //si ves las cosas de un nunico color es que he putno un punto sobre el eeje de giro
@@ -365,25 +378,20 @@ aux.x=1.0; aux.y=1.0; aux.z=0.0;
 perfil1.push_back(aux);
 
 
-aux.x=1.0; aux.y=0.5; aux.z=0.0;
-perfilEsfera.push_back(aux);
-aux.x=0.5; aux.y=1; aux.z=0.0;
-perfilEsfera.push_back(aux);
+aux.x=1.0; aux.y=1.0; aux.z=0.0;
+perfil3_contrario.push_back(aux);
+aux.x=1; aux.y=0.5; aux.z=0.0;
+perfil3_contrario.push_back(aux);
+aux.x=1.0; aux.y=-1.0; aux.z=0.0;
+perfil3_contrario.push_back(aux);
 
-aux.x=-1.0; aux.y=-0.5; aux.z=0.0;
-perfilEsfera.push_back(aux);
-aux.x=-0.5; aux.y=-1; aux.z=0.0;
-perfilEsfera.push_back(aux);
-
-/* aux.x=-1.0; aux.y=-1.0; aux.z=0.0;
-perfilEsfera.push_back(aux);
-aux.x=-0.5; aux.y=-2.0; aux.z=0.0;
-perfilEsfera.push_back(aux);
-aux.x=-0.5; aux.y=-0.5; aux.z=0.0;
-perfilEsfera.push_back(aux); */
+aux.x=1; aux.y=0.5; aux.z=0.0;
+perfil2_contrario.push_back(aux);
+aux.x=1.0; aux.y=-1.0; aux.z=0.0;
+perfil2_contrario.push_back(aux);
 
 
-rotacion.parametros(perfil3,20);
+rotacion.parametros(perfil3_contrario,20);
 //2 puntos de perfil y 10 lados.
 
 cilindro.parametros(perfil2,20);
@@ -434,6 +442,10 @@ initialize();
 
 // creación del objeto ply
 ply.parametros(argv[1]);
+
+revolucionPly.parametros(argv[2]);
+
+
 
 //ply1 = new _objeto_ply(argv[1]);
 
