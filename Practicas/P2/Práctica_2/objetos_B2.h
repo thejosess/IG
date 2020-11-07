@@ -106,7 +106,7 @@ class _rotacion: public _triangulos3D
 {
 public:
        _rotacion();
-void  parametros(vector<_vertex3f> perfil1, int num1);
+void  parametros(vector<_vertex3f> perfil1, int num1, char eje);
 
 void  revolucionPly(char *file);
 

@@ -696,7 +696,7 @@ _rotacion::_rotacion()
 
 }
 
-void _rotacion::parametros(vector<_vertex3f> perfil, int num)
+void _rotacion::parametros(vector<_vertex3f> perfil, int num, char eje)
 {
 int i,j;
 _vertex3f vertice_aux;
@@ -723,33 +723,64 @@ if(perfil[num_aux].y < perfil[0].y) {
 		j--;
 	}
 }
+/* IMPORTANTE
+tal y como tengo el codigo no es necesario comprobar si en el eje y o z metes lo puntos de izquierda a derecha o de derecha a izquierda, funciona bien de igual FORMA.
+*/
+
 
 /* tratamiento de los vértice*/
 
 //vas a tener vertices segun: num_aux*num, numero de lados * numero de puntos perfil
 //+2 para las tapas, un punto para la tapa de arriba y otro para la tapa de abajo. Esos puntos centrales de las tapas.
 
-//aqui obtienes el resto de puntos al revolucionar con senos y cosenos
-for (j=0;j<num;j++)
-  {for (i=0;i<num_aux;i++)
-     {
-      vertice_aux.x=perfil[i].x*cos(2.0*M_PI*j/(1.0*num))+
-                    perfil[i].z*sin(2.0*M_PI*j/(1.0*num));
-      vertice_aux.z=-perfil[i].x*sin(2.0*M_PI*j/(1.0*num))+
-                    perfil[i].z*cos(2.0*M_PI*j/(1.0*num));
-      vertice_aux.y=perfil[i].y;
-      vertices[i+j*num_aux]=vertice_aux;
-     }
-  }
+//aqui comprobamos si es sobre x, y o z
+
+if(eje == 'y'){
+	for (j=0;j<num;j++)
+	{for (i=0;i<num_aux;i++)
+		{
+		vertice_aux.x=perfil[i].x;
+		vertice_aux.z=-perfil[i].y*sin(2.0*M_PI*j/(1.0*num))+
+						perfil[i].z*cos(2.0*M_PI*j/(1.0*num));
+		vertice_aux.y=perfil[i].y*cos(2.0*M_PI*j/(1.0*num))+
+						perfil[i].z*sin(2.0*M_PI*j/(1.0*num));
+		vertices[i+j*num_aux]=vertice_aux;
+		cout << "Vertice " << i+j*num_aux << " tiene valor " << vertice_aux.x << " " << vertice_aux.y << " " << vertice_aux.z << endl;
+		}
+	}
+}
+else if(eje == 'x'){
+	for (j=0;j<num;j++)
+	{for (i=0;i<num_aux;i++)
+		{
+		vertice_aux.x=perfil[i].x*cos(2.0*M_PI*j/(1.0*num))+
+						perfil[i].z*sin(2.0*M_PI*j/(1.0*num));
+		vertice_aux.z=-perfil[i].x*sin(2.0*M_PI*j/(1.0*num))+
+						perfil[i].z*cos(2.0*M_PI*j/(1.0*num));
+		vertice_aux.y=perfil[i].y;
+		vertices[i+j*num_aux]=vertice_aux;
+		}
+	}
+}
+else if(eje == 'z'){
+	for (j=0;j<num;j++)
+	{for (i=0;i<num_aux;i++)
+		{
+		vertice_aux.x=perfil[i].x*cos(2.0*M_PI*j/(1.0*num))+
+						perfil[i].z*sin(2.0*M_PI*j/(1.0*num));
+		vertice_aux.z=-perfil[i].z;
+		vertice_aux.y=perfil[i].y*cos(2.0*M_PI*j/(1.0*num))+
+						perfil[i].z*sin(2.0*M_PI*j/(1.0*num));
+		vertices[i+j*num_aux]=vertice_aux;
+		}
+	}
+}
+
+
 
 // tratamiento de las caras 
 
 caras.resize((num_aux-1)*2*num+2*num);
-
-
-
-
-
 
 
 //enganche de las caras
@@ -772,21 +803,19 @@ int c=0;
     }
 
 
-//TODO revisar eso de fabs si es para lo del eje generatriz
-//TODO tapas no están hechas para n creo
-
  // tapa inferior
 if (fabs(perfil[0].x)>0.0)
   {
-	vertices[num_aux*num].x=0.0; 
-	vertices[num_aux*num].y=perfil[0].y; 
-	//altura que coincida con la altura del primer punto del perfil
-
-	//arriba sería igual a -radio para la esfera
-	//esto no termino de entenderlo
-	//añadiendo el vertice nuevo creo?? 
-	//esos dos vertices adicionales?
-   	vertices[num_aux*num].z=0.0;
+	if(eje == 'y'){
+		vertices[num_aux*num].x=perfil[0].x;
+		vertices[num_aux*num].y=0.0; 
+		vertices[num_aux*num].z=0.0;
+  	}
+	else if(eje == 'x'){
+		vertices[num_aux*num].x=0.0; 
+		vertices[num_aux*num].y=perfil[0].y; 
+   		vertices[num_aux*num].z=0.0;
+	}
 
  for (j=0;j<num;j++)
     {
@@ -794,64 +823,31 @@ if (fabs(perfil[0].x)>0.0)
 		caras[c]._1=j*num_aux;
 		caras[c]._2=((j+1)%num)*num_aux;
 		c=c+1;
-			//sentido contrario agujas reloj?
-		//Revisar esto, unes punto central que es num_aux*num con los puntos inferiores
-		//revisar esos puntos inferiores.
-
-		/*		caras[c]._0=num_aux*num;
-		caras[c]._1=j*2;
-		caras[c]._2=(j+1)*2;
-			//sentido contrario agujas reloj?
-		c=c+1;
-		//Revisar esto, unes punto central que es num_aux*num con los puntos inferiores
-		//revisar esos puntos inferiores.*/
-
-
-		/*cara_aux._0 = i+1+j*num_aux;
-		cara_aux._1 = i+j*num_aux;   meter el otro bucle*/
-		
      }
-
-	/*caras[c]._0=num_aux*num;
-	caras[c]._1= 0;
-	caras[c]._2=num_aux*num-2;
-	c=c+1;*/
-
-	/*		caras[c]._0=num_aux*num;
-		caras[c]._1=j*num_aux;
-		caras[c]._2=((j+1)%num)*num_aux;*/
-
 
   }
 
  // tapa superior
 if (fabs(perfil[num_aux-1].x)>0.0)
   {
+	if(eje == 'y'){
+		vertices[num_aux*num+1].x=perfil[num_aux-1].x; 
+		vertices[num_aux*num+1].y=0.0;
+		vertices[num_aux*num+1].z=0.0;
+	}else if( eje == 'x'){
+		vertices[num_aux*num+1].x=0.0; 
+		vertices[num_aux*num+1].y=perfil[num_aux-1].y;
+		vertices[num_aux*num+1].z=0.0;
+	}
 
-   vertices[num_aux*num+1].x=0.0; 
-   vertices[num_aux*num+1].y=perfil[num_aux-1].y;
-   //altura que concida con el ultimo punto del perfil
-   vertices[num_aux*num+1].z=0.0;
 
     for (j=0;j<num;j++)
-     {	/*caras[c]._0=num_aux*num+1; //el punto siguiente
-		caras[c]._1=j*num_aux+1;
-		caras[c]._2=((j+1)%num)*num_aux+1;*/
-	  //sentido contrario agujas reloj?
+     {	
 		caras[c]._0=num_aux*num+1;
 		caras[c]._1=j*num_aux+num_aux-1;
 		caras[c]._2=((j+1)%num)*num_aux+num_aux-1;
-		//fallo aqui con el +1 no lo hacía bien
-
-      c=c+1;
+     	c=c+1;
      }
-	 //unes con puntos superiores en eso de las caras, con el punto centrar para la tapa como pivote
-
-	/*caras[c]._0=num_aux*num+1;
-	caras[c]._1=1; 
-	caras[c]._2=num_aux*num-1; 
-	//COmo sería para n inspirarme en la de arriba?*/
-
  }
 
 }

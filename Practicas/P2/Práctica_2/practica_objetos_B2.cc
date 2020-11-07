@@ -12,7 +12,7 @@
 using namespace std;
 
 // tipos
-typedef enum{CUBO, PIRAMIDE, OBJETO_PLY, ROTACION,CILINDRO, CONO,ESFERA, REVOLUCION_PLY} _tipo_objeto;
+typedef enum{CUBO, PIRAMIDE, OBJETO_PLY, ROTACION,ROTACIONY,ROTACIONZ,CILINDRO, CONO,ESFERA, REVOLUCION_PLY} _tipo_objeto;
 _tipo_objeto t_objeto=CUBO;
 _modo   modo=POINTS;
 bool change_color = false;
@@ -40,6 +40,8 @@ _revolucionPly revolucionPly;
 _cilindro cilindro;
 _cono cono ;
 _esfera esfera;
+_rotacion rotaciony;
+_rotacion rotacionz;
 // _objeto_ply *ply1;
 
 
@@ -159,6 +161,26 @@ switch (t_objeto){
 		rotacion.draw(modo,0.0,1.0,0.0,4);
 	break;
 
+	case ROTACIONY:
+	if(change_color){
+		rotaciony.change_color(color,color.size());
+		color.clear();
+		change_color = false;
+	}
+
+	rotaciony.draw(modo,0.0,1.0,0.0,4);
+	break;
+
+	case ROTACIONZ:
+	if(change_color){
+		rotacionz.change_color(color,color.size());
+		color.clear();
+		change_color = false;
+	}
+
+	rotaciony.draw(modo,0.0,1.0,0.0,4);
+	break;
+
 	case CILINDRO: 
 		if(change_color){
 			cilindro.change_color(color,color.size());
@@ -264,6 +286,8 @@ switch (toupper(Tecla1)){
 	case 'L':t_objeto=CONO;break;
 	case 'E':t_objeto=ESFERA;break;
 	case 'F':t_objeto=REVOLUCION_PLY;break;
+	case 'Y':t_objeto=ROTACIONY;break;
+	case 'Z':t_objeto=ROTACIONZ;break;
 
 
 
@@ -350,7 +374,7 @@ int main(int argc, char *argv[] )
 
 // perfil 
 
-vector<_vertex3f> perfil2,  perfil3, perfil1, perfil3_contrario,perfil2_contrario;
+vector<_vertex3f> perfil2,  perfil3, perfil1, perfil3_contrario,perfil2_contrario, perfil2y, perfil2z;
 _vertex3f aux;
 
 //si ves las cosas de un nunico color es que he putno un punto sobre el eeje de giro
@@ -391,14 +415,27 @@ aux.x=1.0; aux.y=-1.0; aux.z=0.0;
 perfil2_contrario.push_back(aux);
 
 
-rotacion.parametros(perfil3_contrario,20);
-//2 puntos de perfil y 10 lados.
+aux.x=1.0; aux.y=1.0; aux.z=0.0;
+perfil2y.push_back(aux);
+aux.x=-1.0; aux.y=1.0; aux.z=0.0;
+perfil2y.push_back(aux);
+
+aux.x=0.0; aux.y=1.0; aux.z=1.0;
+perfil2z.push_back(aux);
+aux.x=-0.0; aux.y=1.0; aux.z=-1.0;
+perfil2z.push_back(aux);
+
+char ejex = 'x';
+char ejey = 'y';
+char ejez = 'z';
+
+rotacion.parametros(perfil2,20, ejex);
+rotaciony.parametros(perfil2y,20,ejey);
+rotacionz.parametros(perfil2z,20,ejez);
+
 
 cilindro.parametros(perfil2,20);
-
-
 cono.parametros(perfil1,6,3);
-
 esfera.parametros(5,6,2);
 //esfera.parametros(5,2,2);
 
