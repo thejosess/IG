@@ -215,36 +215,36 @@ _objeto_ply::_objeto_ply()
 
 int _objeto_ply::parametros(char *archivo)
 {
-int n_ver,n_car;
+	int n_ver,n_car;
 
-vector<float> ver_ply ;
-vector<int>   car_ply ;
- 
-_file_ply::read(archivo, ver_ply, car_ply );
+	vector<float> ver_ply ;
+	vector<int>   car_ply ;
+	
+	_file_ply::read(archivo, ver_ply, car_ply );
 
-n_ver=ver_ply.size()/3;
-n_car=car_ply.size()/3;
+	n_ver=ver_ply.size()/3;
+	n_car=car_ply.size()/3;
 
-printf("Number of vertices=%d\nNumber of faces=%d\n", n_ver, n_car);
+	printf("Number of vertices=%d\nNumber of faces=%d\n", n_ver, n_car);
 
-vertices.resize(n_ver);
-caras.resize(n_car);
+	vertices.resize(n_ver);
+	caras.resize(n_car);
 
-for (int i=0; i<n_ver; i++){
-  vertices[i].x=ver_ply[3*i];
-  vertices[i].y=ver_ply[3*i+1];
-  vertices[i].z=ver_ply[3*i+2];
-  //ver_ply es tres veces mas graned que vertices matrices.
-}
+	for (int i=0; i<n_ver; i++){
+	vertices[i].x=ver_ply[3*i];
+	vertices[i].y=ver_ply[3*i+1];
+	vertices[i].z=ver_ply[3*i+2];
+	//ver_ply es tres veces mas graned que vertices matrices.
+	}
 
-for (int i=-0; i<n_car; i++){
-  caras[i]._0=car_ply[3*i];
-  caras[i]._1=car_ply[3*i+1];
-  caras[i]._2=car_ply[3*i+2];
-  //ver_ply es tres veces mas graned que vertices matrices.
-}
+	for (int i=-0; i<n_car; i++){
+	caras[i]._0=car_ply[3*i];
+	caras[i]._1=car_ply[3*i+1];
+	caras[i]._2=car_ply[3*i+2];
+	//ver_ply es tres veces mas graned que vertices matrices.
+	}
 
-return(0);
+	return(0);
 }
 
 
@@ -263,103 +263,96 @@ _esfera::_esfera()
 void _esfera::parametros(int n,int m, double radio)
 {
 
-//n numero de puntos del perfil
-//m numeros caras de la esfera
-r = radio;
-//radio = sqrt(perfil[0].x*perfil[0].x+perfil[0].y*perfil[0].y);
+	//n numero de puntos del perfil
+	//m numeros caras de la esfera
+	r = radio;
+	//radio = sqrt(perfil[0].x*perfil[0].x+perfil[0].y*perfil[0].y);
 
-int i,j;
-_vertex3f vertice_aux;
-_vertex3i cara_aux;
-int num_aux; 
-num = m;
-
-
-for(i=1; i<n; i++){
-	vertice_aux.x = radio*cos(M_PI*i/n-M_PI/2.0);
-	vertice_aux.y= radio*sin(M_PI*i/n-M_PI/2.0);
-	vertice_aux.z=0;
-	perfil.push_back(vertice_aux);
-}
-//solo PI porque queremos generar la mitad
-
-//perfil lo generas tu con el radio
-num_aux=perfil.size();
-vertices.resize(num_aux*num+2);
+	int i,j;
+	_vertex3f vertice_aux;
+	_vertex3i cara_aux;
+	int num_aux; 
+	num = m;
 
 
-//realmente quieres generar num puntos
-for (j=0;j<num;j++)
-  {for (i=0;i<num_aux;i++)
-     {
-      vertice_aux.x=perfil[i].x*cos(2.0*M_PI*j/(1.0*num))+
-                    perfil[i].z*sin(2.0*M_PI*j/(1.0*num));
-      vertice_aux.z=-perfil[i].x*sin(2.0*M_PI*j/(1.0*num))+
-                    perfil[i].z*cos(2.0*M_PI*j/(1.0*num));
-      vertice_aux.y=perfil[i].y;
-      vertices[i+j*num_aux]=vertice_aux;
-     }
-  }
+	for(i=1; i<n; i++){
+		vertice_aux.x = radio*cos(M_PI*i/n-M_PI/2.0);
+		vertice_aux.y= radio*sin(M_PI*i/n-M_PI/2.0);
+		vertice_aux.z=0;
+		perfil.push_back(vertice_aux);
+	}
+	//solo PI porque queremos generar la mitad
+
+	//perfil lo generas tu con el radio
+	num_aux=perfil.size();
+	vertices.resize(num_aux*num+2);
 
 
-caras.resize((num_aux-1)*2*num+2*num);
+	//realmente quieres generar num puntos
+	for (j=0;j<num;j++){
+		for (i=0;i<num_aux;i++){
+			vertice_aux.x=perfil[i].x*cos(2.0*M_PI*j/(1.0*num))+
+							perfil[i].z*sin(2.0*M_PI*j/(1.0*num));
+			vertice_aux.z=-perfil[i].x*sin(2.0*M_PI*j/(1.0*num))+
+							perfil[i].z*cos(2.0*M_PI*j/(1.0*num));
+			vertice_aux.y=perfil[i].y;
+			vertices[i+j*num_aux]=vertice_aux;
+		}
+	}
 
-int c=0;
-   for (j=0;j<num;j++)
-    {
+
+	caras.resize((num_aux-1)*2*num+2*num);
+
+	int c=0;
+
+	for (j=0;j<num;j++){
 		for(i=0; i<num_aux-1;i++){
-			cara_aux._0 = i+((j+1)%num)*num_aux;
+			cara_aux._0 = i+1+j*num_aux;
 			cara_aux._1 = i+1+((j+1)%num)*num_aux;
-			cara_aux._2 = i+1+j*num_aux;
+			cara_aux._2 = i+((j+1)%num)*num_aux;
 			caras.push_back(cara_aux);
 
 			cara_aux._0 = i+1+j*num_aux;
 			cara_aux._1 = i+j*num_aux;
 			cara_aux._2 = i+((j+1)%num)*num_aux;
 			caras.push_back(cara_aux);
-			//sentido contario agujas reloj?			
 		}
 	}
 
 
 
-// tapa inferior
-if (fabs(perfil[0].x)>0.0)
-  {
-	vertices[num_aux*num].x=0.0; 
-	vertices[num_aux*num].y=-radio; 
-   	vertices[num_aux*num].z=0.0;
+	// tapa inferior
+	if (fabs(perfil[0].x)>0.0){
 
- for (j=0;j<num;j++)
-    {
-		caras[c]._0=num_aux*num;
-		caras[c]._1=j*num_aux;
-		caras[c]._2=((j+1)%num)*num_aux;
-		c=c+1;
-     }
+		vertices[num_aux*num].x=0.0; 
+		vertices[num_aux*num].y=-radio; 
+		vertices[num_aux*num].z=0.0;
 
-  }
+	for (j=0;j<num;j++){
+			caras[c]._0=num_aux*num;
+			caras[c]._1=j*num_aux;
+			caras[c]._2=((j+1)%num)*num_aux;
+			c=c+1;
+		}
+	}
 
- // tapa superior
-if (fabs(perfil[num_aux-1].x)>0.0)
-  {
+	// tapa superior
+	if (fabs(perfil[num_aux-1].x)>0.0){
 
-   vertices[num_aux*num+1].x=0.0; 
-   vertices[num_aux*num+1].y=radio;
-   vertices[num_aux*num+1].z=0.0;
+	vertices[num_aux*num+1].x=0.0; 
+	vertices[num_aux*num+1].y=radio;
+	vertices[num_aux*num+1].z=0.0;
 
-    for (j=0;j<num;j++)
-     {	
-		caras[c]._0=num_aux*num+1;
-		caras[c]._1=j*num_aux+num_aux-1;
-		caras[c]._2=((j+1)%num)*num_aux+num_aux-1;
+		for (j=0;j<num;j++){
 
-      c=c+1;
-     }
+			caras[c]._0=num_aux*num+1;
+			caras[c]._1=j*num_aux+num_aux-1;
+			caras[c]._2=((j+1)%num)*num_aux+num_aux-1;
 
- }
+			c=c+1;
+		}
 
- 
+	}
 }
 
 
@@ -375,79 +368,75 @@ void _cono::parametros(vector<_vertex3f> perfil, int num, double altura)
 {
 
 
-h = altura;
+	h = altura;
 
-int i,j;
-_vertex3f vertice_aux;
-_vertex3i cara_aux;
-int num_aux;
+	int i,j;
+	_vertex3f vertice_aux;
+	_vertex3i cara_aux;
+	int num_aux;
 
-num_aux=perfil.size();
-vertices.resize(num_aux*num+2);
-
-
-for (j=0;j<num;j++)
-  {for (i=0;i<num_aux;i++)
-     {
-      vertice_aux.x=perfil[i].x*cos(2.0*M_PI*j/(1.0*num))+
-                    perfil[i].z*sin(2.0*M_PI*j/(1.0*num));
-      vertice_aux.z=-perfil[i].x*sin(2.0*M_PI*j/(1.0*num))+
-                    perfil[i].z*cos(2.0*M_PI*j/(1.0*num));
-      vertice_aux.y=perfil[i].y;
-      vertices[i+j*num_aux]=vertice_aux;
-     }
-  }
+	num_aux=perfil.size();
+	vertices.resize(num_aux*num+2);
 
 
+	for (j=0;j<num;j++){
+		for (i=0;i<num_aux;i++){
+			vertice_aux.x=perfil[i].x*cos(2.0*M_PI*j/(1.0*num))+
+							perfil[i].z*sin(2.0*M_PI*j/(1.0*num));
+			vertice_aux.z=-perfil[i].x*sin(2.0*M_PI*j/(1.0*num))+
+							perfil[i].z*cos(2.0*M_PI*j/(1.0*num));
+			vertice_aux.y=perfil[i].y;
+			vertices[i+j*num_aux]=vertice_aux;
+		}
+	}
 
-caras.resize(2*num);
 
-int c = 0;
 
-// tapa inferior
-if (fabs(perfil[0].x)>0.0)
-  {
-	vertices[num_aux*num].x=0.0; 
-	vertices[num_aux*num].y=perfil[0].y; 
-   	vertices[num_aux*num].z=0.0;
+	caras.resize(2*num);
 
- for (j=0;j<num-1;j++)
-     {
+	int c = 0;
+
+	// tapa inferior
+	if (fabs(perfil[0].x)>0.0){
+		vertices[num_aux*num].x=0.0; 
+		vertices[num_aux*num].y=perfil[0].y; 
+		vertices[num_aux*num].z=0.0;
+
+		for (j=0;j<num-1;j++){
+			caras[c]._0=num_aux*num;
+			caras[c]._1=j*num_aux;
+			caras[c]._2=(j+1)*num_aux;
+
+			c=c+1;
+		}
+
+
 		caras[c]._0=num_aux*num;
-		caras[c]._1=j*num_aux;
-		caras[c]._2=(j+1)*num_aux;
+		caras[c]._1= 0;
+		caras[c]._2=num_aux*num-2;
+		c=c+1; 
+	}
 
-		c=c+1;
-     }
+	// tapa superior
+	if (fabs(perfil[num_aux-1].x)>0.0){
 
+		vertices[num_aux*num+1].x=0.0; 
+		vertices[num_aux*num+1].y=h; 
+		vertices[num_aux*num+1].z=0.0;
 
- 	caras[c]._0=num_aux*num;
-	caras[c]._1= 0;
-	caras[c]._2=num_aux*num-2;
-	c=c+1; 
+		for (j=0;j<num-1;j++){
 
+			caras[c]._0=num_aux*num+1; 
+			caras[c]._1=j*num_aux+1;
+			caras[c]._2=(j+1)*num_aux+1;
 
-  }
-
- // tapa superior
- if (fabs(perfil[num_aux-1].x)>0.0)
-  {
-
-   vertices[num_aux*num+1].x=0.0; 
-   vertices[num_aux*num+1].y=h; 
-   vertices[num_aux*num+1].z=0.0;
-
-    for (j=0;j<num-1;j++)
-     {	caras[c]._0=num_aux*num+1; 
-		caras[c]._1=j*num_aux+1;
-      	caras[c]._2=(j+1)*num_aux+1;
-
-      c=c+1;
-     } 
- 	 caras[c]._0=num_aux*num+1;
-	caras[c]._1=1; 
-	caras[c]._2=num_aux*num-1; 
-  }
+			c=c+1;
+		} 
+		
+		caras[c]._0=num_aux*num+1;
+		caras[c]._1=1; 
+		caras[c]._2=num_aux*num-1; 
+	}
  
 }
 
@@ -463,50 +452,45 @@ _cilindro::_cilindro()
 
 void _cilindro::parametros(vector<_vertex3f> perfil, int num)
 {
-int i,j;
-_vertex3f vertice_aux;
-_vertex3i cara_aux;
-int num_aux;
+	int i,j;
+	_vertex3f vertice_aux;
+	_vertex3i cara_aux;
+	int num_aux;
 
-num_aux=perfil.size();
-vertices.resize(num_aux*num+2);
+	num_aux=perfil.size();
+	vertices.resize(num_aux*num+2);
 
-//Permitir que se pueda meter el vector de puntos de la generatriz en cualquier sentido
-//si se introduce de arriba a abajo, lo cambiamos de orden para que sea de abajo a arriba.
-j=num_aux-1;
-for(i=0; i<num_aux/2; i++){
-	vertice_aux = perfil[i];
-	perfil[i]=perfil[j];
-	perfil[j]=vertice_aux;
-	j--;
-}
-
-
-for (j=0;j<num;j++)
-  {for (i=0;i<num_aux;i++)
-     {
-      vertice_aux.x=perfil[i].x*cos(2.0*M_PI*j/(1.0*num))+
-                    perfil[i].z*sin(2.0*M_PI*j/(1.0*num));
-      vertice_aux.z=-perfil[i].x*sin(2.0*M_PI*j/(1.0*num))+
-                    perfil[i].z*cos(2.0*M_PI*j/(1.0*num));
-      vertice_aux.y=perfil[i].y;
-      vertices[i+j*num_aux]=vertice_aux;
-     }
-  }
+	//Permitir que se pueda meter el vector de puntos de la generatriz en cualquier sentido
+	//si se introduce de arriba a abajo, lo cambiamos de orden para que sea de abajo a arriba.
+	j=num_aux-1;
+	for(i=0; i<num_aux/2; i++){
+		vertice_aux = perfil[i];
+		perfil[i]=perfil[j];
+		perfil[j]=vertice_aux;
+		j--;
+	}
 
 
+	for (j=0;j<num;j++){
+		for (i=0;i<num_aux;i++){
+		vertice_aux.x=perfil[i].x*cos(2.0*M_PI*j/(1.0*num))+
+						perfil[i].z*sin(2.0*M_PI*j/(1.0*num));
+		vertice_aux.z=-perfil[i].x*sin(2.0*M_PI*j/(1.0*num))+
+						perfil[i].z*cos(2.0*M_PI*j/(1.0*num));
+		vertice_aux.y=perfil[i].y;
+		vertices[i+j*num_aux]=vertice_aux;
+		}
+	}
 
+	caras.resize((num_aux-1)*2*num+2*num);
 
-caras.resize((num_aux-1)*2*num+2*num);
-
-int c=0;
-   for (j=0;j<num-1;j++)
-    {
+	int c=0;
+	for (j=0;j<num-1;j++){
 		caras[c]._0=j*num_aux;
 		caras[c]._1=j*num_aux+1;
 		caras[c]._2=(j+1)*num_aux+1;
-
 		c=c+1; 
+
 		caras[c]._0=(j+1)*num_aux+1;	
 		caras[c]._1=(j+1)*num_aux;	
 		caras[c]._2=j*num_aux;		
@@ -526,54 +510,47 @@ int c=0;
 	
 		c=c+1;
 
-// tapa inferior
-if (fabs(perfil[0].x)>0.0)
-  {
-	vertices[num_aux*num].x=0.0; 
-	vertices[num_aux*num].y=perfil[0].y; 
-   	vertices[num_aux*num].z=0.0;
+	// tapa inferior
+	if (fabs(perfil[0].x)>0.0){
+		vertices[num_aux*num].x=0.0; 
+		vertices[num_aux*num].y=perfil[0].y; 
+		vertices[num_aux*num].z=0.0;
 
- for (j=0;j<num-1;j++)
-     {
+		for (j=0;j<num-1;j++){
+			caras[c]._0=num_aux*num;
+			caras[c]._1=j*num_aux;
+			caras[c]._2=(j+1)*num_aux;
+
+			c=c+1;
+		}
+
+		//enganchar la ultima cara del ultimo lado de la tapa inferior
 		caras[c]._0=num_aux*num;
-		caras[c]._1=j*num_aux;
-		caras[c]._2=(j+1)*num_aux;
-
+		caras[c]._1= 0;
+		caras[c]._2=num_aux*num-2;
 		c=c+1;
-     }
+	}
 
-	//enganchar la ultima cara del ultimo lado de la tapa inferior
-	caras[c]._0=num_aux*num;
-	caras[c]._1= 0;
-	caras[c]._2=num_aux*num-2;
-	c=c+1;
+	// tapa superior
+	if (fabs(perfil[num_aux-1].x)>0.0){
 
+		vertices[num_aux*num+1].x=0.0; 
+		vertices[num_aux*num+1].y=perfil[num_aux-1].y; 
+		vertices[num_aux*num+1].z=0.0;
 
-  }
+		for (j=0;j<num-1;j++){
+			caras[c]._0=num_aux*num+1; 
+			caras[c]._1=j*2+1;
+			caras[c]._2=(j+1)*2+1;
 
- // tapa superior
-if (fabs(perfil[num_aux-1].x)>0.0)
-  {
+			c=c+1;
+		}
 
-   vertices[num_aux*num+1].x=0.0; 
-   vertices[num_aux*num+1].y=perfil[num_aux-1].y; 
-   vertices[num_aux*num+1].z=0.0;
-
-    for (j=0;j<num-1;j++)
-     {	caras[c]._0=num_aux*num+1; 
-		caras[c]._1=j*2+1;
-      	caras[c]._2=(j+1)*2+1;
-
-      c=c+1;
-     }
-
-	caras[c]._0=num_aux*num+1;
-	caras[c]._1=1; 
-	caras[c]._2=num_aux*num-1; 
- }
-	
-
-
+		caras[c]._0=num_aux*num+1;
+		caras[c]._1=1; 
+		caras[c]._2=num_aux*num-1; 
+	}
+		
 }
 
 // objeto revolución dado fichero ply
@@ -618,28 +595,26 @@ void _revolucionPly::parametros(char *file){
 
      
   
-for (j=0;j<num;j++)
-  {for (i=0;i<num_aux;i++)
-     {
-      vertice_aux.x=perfil[i].x*cos(2.0*M_PI*j/(1.0*num))+
-                    perfil[i].z*sin(2.0*M_PI*j/(1.0*num));
-      vertice_aux.z=-perfil[i].x*sin(2.0*M_PI*j/(1.0*num))+
-                    perfil[i].z*cos(2.0*M_PI*j/(1.0*num));
-      vertice_aux.y=perfil[i].y;
-      vertices[i+j*num_aux]=vertice_aux;
-     }
-  }
+	for (j=0;j<num;j++){
+		for (i=0;i<num_aux;i++){
+		vertice_aux.x=perfil[i].x*cos(2.0*M_PI*j/(1.0*num))+
+						perfil[i].z*sin(2.0*M_PI*j/(1.0*num));
+		vertice_aux.z=-perfil[i].x*sin(2.0*M_PI*j/(1.0*num))+
+						perfil[i].z*cos(2.0*M_PI*j/(1.0*num));
+		vertice_aux.y=perfil[i].y;
+		vertices[i+j*num_aux]=vertice_aux;
+		}
+	}
 
-caras.resize((num_aux-1)*2*num+2*num);
+	caras.resize((num_aux-1)*2*num+2*num);
 
 
-int c=0;
-   for (j=0;j<num;j++)
-    {
+	int c=0;
+	for (j=0;j<num;j++){
 		for(i=0; i<num_aux-1;i++){
-			cara_aux._0 = i+((j+1)%num)*num_aux;
+			cara_aux._0 = i+1+j*num_aux;
 			cara_aux._1 = i+1+((j+1)%num)*num_aux;
-			cara_aux._2 = i+1+j*num_aux;
+			cara_aux._2 = i+((j+1)%num)*num_aux;
 			caras.push_back(cara_aux);
 
 			cara_aux._0 = i+1+j*num_aux;
@@ -647,45 +622,37 @@ int c=0;
 			cara_aux._2 = i+((j+1)%num)*num_aux;
 			caras.push_back(cara_aux);
 		}
+	}
 
-    }
 
-	if (fabs(perfil[0].x)>0.0)
-  {
-	vertices[num_aux*num].x=0.0; 
-	vertices[num_aux*num].y=perfil[0].y; 
-vertices[num_aux*num].z=0.0;
+	if (fabs(perfil[0].x)>0.0){
+		vertices[num_aux*num].x=0.0; 
+		vertices[num_aux*num].y=perfil[0].y; 
+		vertices[num_aux*num].z=0.0;
 
- for (j=0;j<num;j++)
-    {
-		caras[c]._0=num_aux*num;
-		caras[c]._1=j*num_aux;
-		caras[c]._2=((j+1)%num)*num_aux;
-		c=c+1;
-		
-     }
-  }
+		for (j=0;j<num;j++){
+			caras[c]._0=num_aux*num;
+			caras[c]._1=j*num_aux;
+			caras[c]._2=((j+1)%num)*num_aux;
+			c=c+1;
+		}
+	}
 
- // tapa superior
-if (fabs(perfil[num_aux-1].x)>0.0)
-  {
+	// tapa superior
+	if (fabs(perfil[num_aux-1].x)>0.0){
 
-   vertices[num_aux*num+1].x=0.0; 
-   vertices[num_aux*num+1].y=perfil[num_aux-1].y;
-   vertices[num_aux*num+1].z=0.0;
+		vertices[num_aux*num+1].x=0.0; 
+		vertices[num_aux*num+1].y=perfil[num_aux-1].y;
+		vertices[num_aux*num+1].z=0.0;
 
-    for (j=0;j<num;j++)
-     {	
+		for (j=0;j<num;j++){	
+			caras[c]._0=num_aux*num+1;
+			caras[c]._1=j*num_aux+num_aux-1;
+			caras[c]._2=((j+1)%num)*num_aux+num_aux-1;
 
-		caras[c]._0=num_aux*num+1;
-		caras[c]._1=j*num_aux+num_aux-1;
-		caras[c]._2=((j+1)%num)*num_aux+num_aux-1;
-
-      c=c+1;
-     }
-
- }
-
+			c=c+1;
+		}
+	}
 }
 
 
@@ -698,156 +665,144 @@ _rotacion::_rotacion()
 
 void _rotacion::parametros(vector<_vertex3f> perfil, int num, char eje)
 {
-int i,j;
-_vertex3f vertice_aux;
-_vertex3i cara_aux;
-int num_aux;
+	int i,j;
+	_vertex3f vertice_aux;
+	_vertex3i cara_aux;
+	int num_aux;
 
-//num numero de lados
-//num_aux es el numero de puntos del perfil
-num_aux=perfil.size();
-vertices.resize(num_aux*num+2);
-
-
-//Permitir que se pueda meter el vector de puntos de la generatriz en cualquier sentido
-//si se introduce de arriba a abajo, lo cambiamos de orden para que sea de abajo a arriba.
-if(perfil[num_aux].y < perfil[0].y) {
-	//lo que hacemos es cambiar de orden el perfil, para que sea de abajo a arriba
-	cout<<"Cambiando perfil de orden"<<endl;
-	
-	j=num_aux-1;
-	for(i=0; i<num_aux/2; i++){
-		vertice_aux = perfil[i];
-		perfil[i]=perfil[j];
-		perfil[j]=vertice_aux;
-		j--;
-	}
-}
-/* IMPORTANTE
-tal y como tengo el codigo no es necesario comprobar si en el eje y o z metes lo puntos de izquierda a derecha o de derecha a izquierda, funciona bien de igual FORMA.
-*/
+	//num numero de lados
+	//num_aux es el numero de puntos del perfil
+	num_aux=perfil.size();
+	vertices.resize(num_aux*num+2);
 
 
-/* tratamiento de los vértice*/
-
-//vas a tener vertices segun: num_aux*num, numero de lados * numero de puntos perfil
-//+2 para las tapas, un punto para la tapa de arriba y otro para la tapa de abajo. Esos puntos centrales de las tapas.
-
-//aqui comprobamos si es sobre x, y o z
-
-if(eje == 'y'){
-	for (j=0;j<num;j++)
-	{for (i=0;i<num_aux;i++)
-		{
-		vertice_aux.x=perfil[i].x;
-		vertice_aux.z=-perfil[i].y*sin(2.0*M_PI*j/(1.0*num))+
-						perfil[i].z*cos(2.0*M_PI*j/(1.0*num));
-		vertice_aux.y=perfil[i].y*cos(2.0*M_PI*j/(1.0*num))+
-						perfil[i].z*sin(2.0*M_PI*j/(1.0*num));
-		vertices[i+j*num_aux]=vertice_aux;
-		cout << "Vertice " << i+j*num_aux << " tiene valor " << vertice_aux.x << " " << vertice_aux.y << " " << vertice_aux.z << endl;
+	//Permitir que se pueda meter el vector de puntos de la generatriz en cualquier sentido
+	//si se introduce de arriba a abajo, lo cambiamos de orden para que sea de abajo a arriba.
+	if(perfil[num_aux].y < perfil[0].y) {
+		//lo que hacemos es cambiar de orden el perfil, para que sea de abajo a arriba
+		cout<<"Cambiando perfil de orden"<<endl;
+		
+		j=num_aux-1;
+		for(i=0; i<num_aux/2; i++){
+			vertice_aux = perfil[i];
+			perfil[i]=perfil[j];
+			perfil[j]=vertice_aux;
+			j--;
 		}
 	}
-}
-else if(eje == 'x'){
-	for (j=0;j<num;j++)
-	{for (i=0;i<num_aux;i++)
-		{
-		vertice_aux.x=perfil[i].x*cos(2.0*M_PI*j/(1.0*num))+
-						perfil[i].z*sin(2.0*M_PI*j/(1.0*num));
-		vertice_aux.z=-perfil[i].x*sin(2.0*M_PI*j/(1.0*num))+
-						perfil[i].z*cos(2.0*M_PI*j/(1.0*num));
-		vertice_aux.y=perfil[i].y;
-		vertices[i+j*num_aux]=vertice_aux;
-		}
-	}
-}
-else if(eje == 'z'){
-	for (j=0;j<num;j++)
-	{for (i=0;i<num_aux;i++)
-		{
-		vertice_aux.x=perfil[i].x*cos(2.0*M_PI*j/(1.0*num))+
-						perfil[i].z*sin(2.0*M_PI*j/(1.0*num));
-		vertice_aux.z=-perfil[i].z;
-		vertice_aux.y=perfil[i].y*cos(2.0*M_PI*j/(1.0*num))+
-						perfil[i].z*sin(2.0*M_PI*j/(1.0*num));
-		vertices[i+j*num_aux]=vertice_aux;
-		}
-	}
-}
+	/* IMPORTANTE
+	tal y como tengo el codigo no es necesario comprobar si en el eje y o z metes lo puntos de izquierda a derecha o de derecha a izquierda, funciona bien de igual FORMA.
+	*/
 
 
+	/* tratamiento de los vértice*/
 
-// tratamiento de las caras 
+	//vas a tener vertices segun: num_aux*num, numero de lados * numero de puntos perfil
+	//+2 para las tapas, un punto para la tapa de arriba y otro para la tapa de abajo. Esos puntos centrales de las tapas.
 
-caras.resize((num_aux-1)*2*num+2*num);
+	//aqui comprobamos si es sobre x, y o z
 
-
-//enganche de las caras
-int c=0;
-   for (j=0;j<num;j++)
-    {
-		for(i=0; i<num_aux-1;i++){
-			cara_aux._0 = i+((j+1)%num)*num_aux;
-			cara_aux._1 = i+1+((j+1)%num)*num_aux;
-			cara_aux._2 = i+1+j*num_aux;
-			caras.push_back(cara_aux);
-
-			cara_aux._0 = i+1+j*num_aux;
-			cara_aux._1 = i+j*num_aux;
-			cara_aux._2 = i+((j+1)%num)*num_aux;
-			caras.push_back(cara_aux);
-			//sentido contario agujas reloj?			
-		}
-
-    }
-
-
- // tapa inferior
-if (fabs(perfil[0].x)>0.0)
-  {
 	if(eje == 'y'){
-		vertices[num_aux*num].x=perfil[0].x;
-		vertices[num_aux*num].y=0.0; 
-		vertices[num_aux*num].z=0.0;
-  	}
+		for (j=0;j<num;j++){
+			for (i=0;i<num_aux;i++){
+				vertice_aux.x=perfil[i].x;
+				vertice_aux.z=-perfil[i].y*sin(2.0*M_PI*j/(1.0*num))+
+								perfil[i].z*cos(2.0*M_PI*j/(1.0*num));
+				vertice_aux.y=perfil[i].y*cos(2.0*M_PI*j/(1.0*num))+
+								perfil[i].z*sin(2.0*M_PI*j/(1.0*num));
+				vertices[i+j*num_aux]=vertice_aux;
+			}
+		}
+	}
 	else if(eje == 'x'){
-		vertices[num_aux*num].x=0.0; 
-		vertices[num_aux*num].y=perfil[0].y; 
-   		vertices[num_aux*num].z=0.0;
+		for (j=0;j<num;j++)
+		{
+			for (i=0;i<num_aux;i++){
+				vertice_aux.x=perfil[i].x*cos(2.0*M_PI*j/(1.0*num))+
+								perfil[i].z*sin(2.0*M_PI*j/(1.0*num));
+				vertice_aux.z=-perfil[i].x*sin(2.0*M_PI*j/(1.0*num))+
+								perfil[i].z*cos(2.0*M_PI*j/(1.0*num));
+				vertice_aux.y=perfil[i].y;
+				vertices[i+j*num_aux]=vertice_aux;
+			}
+		}
+	}
+	else if(eje == 'z'){
+		for (j=0;j<num;j++)
+		{
+			for (i=0;i<num_aux;i++){
+				vertice_aux.x=perfil[i].x*cos(2.0*M_PI*j/(1.0*num))+
+								perfil[i].z*sin(2.0*M_PI*j/(1.0*num));
+				vertice_aux.z=-perfil[i].z;
+				vertice_aux.y=perfil[i].y*cos(2.0*M_PI*j/(1.0*num))+
+								perfil[i].z*sin(2.0*M_PI*j/(1.0*num));
+				vertices[i+j*num_aux]=vertice_aux;
+			}
+		}
 	}
 
- for (j=0;j<num;j++)
-    {
-		caras[c]._0=num_aux*num;
-		caras[c]._1=j*num_aux;
-		caras[c]._2=((j+1)%num)*num_aux;
-		c=c+1;
-     }
+	// tratamiento de las caras 
 
-  }
+	caras.resize((num_aux-1)*2*num+2*num);
 
- // tapa superior
-if (fabs(perfil[num_aux-1].x)>0.0)
-  {
-	if(eje == 'y'){
-		vertices[num_aux*num+1].x=perfil[num_aux-1].x; 
-		vertices[num_aux*num+1].y=0.0;
-		vertices[num_aux*num+1].z=0.0;
-	}else if( eje == 'x'){
-		vertices[num_aux*num+1].x=0.0; 
-		vertices[num_aux*num+1].y=perfil[num_aux-1].y;
-		vertices[num_aux*num+1].z=0.0;
+
+	int c=0;
+	for (j=0;j<num;j++)
+		{
+			for(i=0; i<num_aux-1;i++){
+				cara_aux._0 = i+1+j*num_aux;
+				cara_aux._1 = i+1+((j+1)%num)*num_aux;
+				cara_aux._2 = i+((j+1)%num)*num_aux;
+				caras.push_back(cara_aux);
+
+				cara_aux._0 = i+1+j*num_aux;
+				cara_aux._1 = i+j*num_aux;
+				cara_aux._2 = i+((j+1)%num)*num_aux;
+				caras.push_back(cara_aux);
+			}
+		}
+
+
+
+	// tapa inferior
+	if (fabs(perfil[0].x)>0.0){
+		if(eje == 'y'){
+			vertices[num_aux*num].x=perfil[0].x;
+			vertices[num_aux*num].y=0.0; 
+			vertices[num_aux*num].z=0.0;
+		}
+		else if(eje == 'x'){
+			vertices[num_aux*num].x=0.0; 
+			vertices[num_aux*num].y=perfil[0].y; 
+			vertices[num_aux*num].z=0.0;
+		}
+
+		for (j=0;j<num;j++){
+			caras[c]._0=num_aux*num;
+			caras[c]._1=j*num_aux;
+			caras[c]._2=((j+1)%num)*num_aux;
+			c=c+1;
+		}
 	}
 
+	// tapa superior
+	if (fabs(perfil[num_aux-1].x)>0.0)
+	{
+		if(eje == 'y'){
+			vertices[num_aux*num+1].x=perfil[num_aux-1].x; 
+			vertices[num_aux*num+1].y=0.0;
+			vertices[num_aux*num+1].z=0.0;
+		}else if( eje == 'x'){
+			vertices[num_aux*num+1].x=0.0; 
+			vertices[num_aux*num+1].y=perfil[num_aux-1].y;
+			vertices[num_aux*num+1].z=0.0;
+		}
 
-    for (j=0;j<num;j++)
-     {	
-		caras[c]._0=num_aux*num+1;
-		caras[c]._1=j*num_aux+num_aux-1;
-		caras[c]._2=((j+1)%num)*num_aux+num_aux-1;
-     	c=c+1;
-     }
- }
-
+		for (j=0;j<num;j++){	
+			caras[c]._0=num_aux*num+1;
+			caras[c]._1=j*num_aux+num_aux-1;
+			caras[c]._2=((j+1)%num)*num_aux+num_aux-1;
+			c=c+1;
+		}
+	}
 }

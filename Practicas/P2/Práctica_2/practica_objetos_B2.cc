@@ -211,7 +211,7 @@ switch (t_objeto){
 
 	case REVOLUCION_PLY: 
 		if(change_color){
-			esfera.change_color(color,color.size());
+			revolucionPly.change_color(color,color.size());
 			color.clear();
 			change_color = false;
 		}	
