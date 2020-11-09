@@ -367,18 +367,16 @@ _cono::_cono()
 void _cono::parametros(vector<_vertex3f> perfil, int num, double altura)
 {
 
-
-	h = altura;
-
-
 	int i,j;
 	_vertex3f vertice_aux;
 	_vertex3i cara_aux;
 	int num_aux;
+	
+	h = altura;
 
 	//num numero de lados
 	//num_aux es el numero de puntos del perfil
-	num_aux=perfil.size();
+	num_aux=1;
 	vertices.resize(num_aux*num+2);
 
 
@@ -399,7 +397,6 @@ void _cono::parametros(vector<_vertex3f> perfil, int num, double altura)
 	// tratamiento de las caras 
 
 	caras.resize((num_aux-1)*2*num+2*num);
-
 
 
 	int c=0;

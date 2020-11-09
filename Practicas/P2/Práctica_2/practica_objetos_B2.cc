@@ -380,7 +380,7 @@ _vertex3f aux;
 //si ves las cosas de un nunico color es que he putno un punto sobre el eeje de giro
 
 
-aux.x=1.0; aux.y=1.0; aux.z=0.0;
+aux.x=1.0; aux.y=0.0; aux.z=0.0;
 perfil1.push_back(aux);
 
 //aqui es donde cambias los puntos del perfil, de lugar.
@@ -435,7 +435,7 @@ rotacionz.parametros(perfil2z,20,ejez);
 
 
 cilindro.parametros(perfil2,20);
-cono.parametros(perfil1,6,2);
+cono.parametros(perfil1,16,2);
 esfera.parametros(5,6,2);
 //esfera.parametros(5,2,2);
 
