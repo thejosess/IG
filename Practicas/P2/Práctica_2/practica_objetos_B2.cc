@@ -435,7 +435,7 @@ rotacionz.parametros(perfil2z,20,ejez);
 
 
 cilindro.parametros(perfil2,20);
-cono.parametros(perfil1,6,3);
+cono.parametros(perfil1,6,2);
 esfera.parametros(5,6,2);
 //esfera.parametros(5,2,2);
 

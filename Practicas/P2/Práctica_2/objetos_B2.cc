@@ -370,16 +370,20 @@ void _cono::parametros(vector<_vertex3f> perfil, int num, double altura)
 
 	h = altura;
 
+
 	int i,j;
 	_vertex3f vertice_aux;
 	_vertex3i cara_aux;
 	int num_aux;
 
+	//num numero de lados
+	//num_aux es el numero de puntos del perfil
 	num_aux=perfil.size();
 	vertices.resize(num_aux*num+2);
 
 
-	for (j=0;j<num;j++){
+	for (j=0;j<num;j++)
+	{
 		for (i=0;i<num_aux;i++){
 			vertice_aux.x=perfil[i].x*cos(2.0*M_PI*j/(1.0*num))+
 							perfil[i].z*sin(2.0*M_PI*j/(1.0*num));
@@ -390,52 +394,44 @@ void _cono::parametros(vector<_vertex3f> perfil, int num, double altura)
 		}
 	}
 
+	
+
+	// tratamiento de las caras 
+
+	caras.resize((num_aux-1)*2*num+2*num);
 
 
-	caras.resize(2*num);
 
-	int c = 0;
-
+	int c=0;
 	// tapa inferior
 	if (fabs(perfil[0].x)>0.0){
-		vertices[num_aux*num].x=0.0; 
-		vertices[num_aux*num].y=perfil[0].y; 
-		vertices[num_aux*num].z=0.0;
 
-		for (j=0;j<num-1;j++){
+			vertices[num_aux*num].x=0.0; 
+			vertices[num_aux*num].y=perfil[0].y; 
+			vertices[num_aux*num].z=0.0;
+
+
+		for (j=0;j<num;j++){
 			caras[c]._0=num_aux*num;
 			caras[c]._1=j*num_aux;
-			caras[c]._2=(j+1)*num_aux;
-
+			caras[c]._2=((j+1)%num)*num_aux;
 			c=c+1;
 		}
-
-
-		caras[c]._0=num_aux*num;
-		caras[c]._1= 0;
-		caras[c]._2=num_aux*num-2;
-		c=c+1; 
 	}
 
 	// tapa superior
-	if (fabs(perfil[num_aux-1].x)>0.0){
+	if (fabs(perfil[num_aux-1].x)>0.0)
+	{
+			vertices[num_aux*num+1].x=0.0; 
+			vertices[num_aux*num+1].y=h;
+			vertices[num_aux*num+1].z=0.0;
 
-		vertices[num_aux*num+1].x=0.0; 
-		vertices[num_aux*num+1].y=h; 
-		vertices[num_aux*num+1].z=0.0;
-
-		for (j=0;j<num-1;j++){
-
-			caras[c]._0=num_aux*num+1; 
-			caras[c]._1=j*num_aux+1;
-			caras[c]._2=(j+1)*num_aux+1;
-
+		for (j=0;j<num;j++){	
+			caras[c]._0=num_aux*num+1;
+			caras[c]._1=j*num_aux+num_aux-1;
+			caras[c]._2=((j+1)%num)*num_aux+num_aux-1;
 			c=c+1;
-		} 
-		
-		caras[c]._0=num_aux*num+1;
-		caras[c]._1=1; 
-		caras[c]._2=num_aux*num-1; 
+		}
 	}
  
 }
@@ -775,7 +771,7 @@ void _rotacion::parametros(vector<_vertex3f> perfil, int num, char eje)
 		}
 		else if(eje == 'x'){
 			vertices[num_aux*num].x=0.0; 
-			vertices[num_aux*num].y=perfil[0].z; 
+			vertices[num_aux*num].y=perfil[0].y; 
 			vertices[num_aux*num].z=0.0;
 		}
 		else if (eje == 'z'){
