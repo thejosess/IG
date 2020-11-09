@@ -277,6 +277,10 @@ switch (toupper(Tecla1)){
 	case '3':modo=SOLID;break;
 	case '4':modo=SOLID_CHESS;break;
 	case '5':modo=ALL;break;
+	//cambiar colores
+	case '7': color.push_back(1); color.push_back(1); color.push_back(0); change_color = true; break;
+	case '8': color.push_back(1); color.push_back(0); color.push_back(1); change_color = true; break;
+	case '9': color.push_back(0); color.push_back(0.5); color.push_back(0.5); change_color = true; break;
 
 	case 'P':t_objeto=PIRAMIDE;break;
 	case 'C':t_objeto=CUBO;break;
@@ -288,14 +292,6 @@ switch (toupper(Tecla1)){
 	case 'F':t_objeto=REVOLUCION_PLY;break;
 	case 'Y':t_objeto=ROTACIONY;break;
 	case 'Z':t_objeto=ROTACIONZ;break;
-
-
-
-	//cambiar colores
-	case '7': color.push_back(1); color.push_back(1); color.push_back(0); change_color = true; break;
-	case '8': color.push_back(1); color.push_back(0); color.push_back(1); change_color = true; break;
-	case '9': color.push_back(0); color.push_back(0.5); color.push_back(0.5); change_color = true; break;
-
 	}
 glutPostRedisplay();
 }
@@ -481,8 +477,6 @@ initialize();
 ply.parametros(argv[1]);
 
 revolucionPly.parametros(argv[2]);
-
-
 
 //ply1 = new _objeto_ply(argv[1]);
 

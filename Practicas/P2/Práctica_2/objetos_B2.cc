@@ -375,7 +375,7 @@ void _cono::parametros(vector<_vertex3f> perfil, int num, double altura)
 	h = altura;
 
 	//num numero de lados
-	//num_aux es el numero de puntos del perfil
+	//num_aux es el numero de puntos del perfil y en el cono es 1
 	num_aux=1;
 	vertices.resize(num_aux*num+2);
 
@@ -683,7 +683,8 @@ void _rotacion::parametros(vector<_vertex3f> perfil, int num, char eje)
 			j--;
 		}
 	}
-	/* IMPORTANTE
+	
+	/* 
 	tal y como tengo el codigo no es necesario comprobar si en el eje y o z metes lo puntos de izquierda a derecha o de derecha a izquierda, funciona bien de igual FORMA.
 	*/
 
