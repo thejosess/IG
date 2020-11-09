@@ -178,7 +178,7 @@ switch (t_objeto){
 		change_color = false;
 	}
 
-	rotaciony.draw(modo,0.0,1.0,0.0,4);
+	rotacionz.draw(modo,0.0,1.0,0.0,4);
 	break;
 
 	case CILINDRO: 
@@ -429,7 +429,7 @@ char ejex = 'x';
 char ejey = 'y';
 char ejez = 'z';
 
-rotacion.parametros(perfil2,20, ejex);
+rotacion.parametros(perfil3,20, ejex);
 rotaciony.parametros(perfil2y,20,ejey);
 rotacionz.parametros(perfil2z,20,ejez);
 

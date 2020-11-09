@@ -608,13 +608,12 @@ void _revolucionPly::parametros(char *file){
 
 	caras.resize((num_aux-1)*2*num+2*num);
 
-
-	int c=0;
+	int c = 0;
 	for (j=0;j<num;j++){
 		for(i=0; i<num_aux-1;i++){
-			cara_aux._0 = i+1+j*num_aux;
-			cara_aux._1 = i+1+((j+1)%num)*num_aux;
-			cara_aux._2 = i+((j+1)%num)*num_aux;
+			cara_aux._0=i+((j+1)%num)*num_aux;
+			cara_aux._1=i+1+((j+1)%num)*num_aux;
+			cara_aux._2=i+1+j*num_aux;
 			caras.push_back(cara_aux);
 
 			cara_aux._0 = i+1+j*num_aux;
@@ -669,6 +668,7 @@ void _rotacion::parametros(vector<_vertex3f> perfil, int num, char eje)
 	_vertex3f vertice_aux;
 	_vertex3i cara_aux;
 	int num_aux;
+	bool ejez = false;
 
 	//num numero de lados
 	//num_aux es el numero de puntos del perfil
@@ -731,14 +731,16 @@ void _rotacion::parametros(vector<_vertex3f> perfil, int num, char eje)
 		for (j=0;j<num;j++)
 		{
 			for (i=0;i<num_aux;i++){
-				vertice_aux.x=perfil[i].x*cos(2.0*M_PI*j/(1.0*num))+
-								perfil[i].z*sin(2.0*M_PI*j/(1.0*num));
+				vertice_aux.x=perfil[i].x*cos(2.0*M_PI*j/(1.0*num))-
+								perfil[i].y*sin(2.0*M_PI*j/(1.0*num));
 				vertice_aux.z=-perfil[i].z;
 				vertice_aux.y=perfil[i].y*cos(2.0*M_PI*j/(1.0*num))+
-								perfil[i].z*sin(2.0*M_PI*j/(1.0*num));
+								perfil[i].x*sin(2.0*M_PI*j/(1.0*num));
 				vertices[i+j*num_aux]=vertice_aux;
 			}
 		}
+		
+		ejez = true;
 	}
 
 	// tratamiento de las caras 
@@ -750,9 +752,9 @@ void _rotacion::parametros(vector<_vertex3f> perfil, int num, char eje)
 	for (j=0;j<num;j++)
 		{
 			for(i=0; i<num_aux-1;i++){
-				cara_aux._0 = i+1+j*num_aux;
-				cara_aux._1 = i+1+((j+1)%num)*num_aux;
-				cara_aux._2 = i+((j+1)%num)*num_aux;
+				cara_aux._0=i+((j+1)%num)*num_aux;
+				cara_aux._1=i+1+((j+1)%num)*num_aux;
+				cara_aux._2=i+1+j*num_aux;
 				caras.push_back(cara_aux);
 
 				cara_aux._0 = i+1+j*num_aux;
@@ -765,7 +767,7 @@ void _rotacion::parametros(vector<_vertex3f> perfil, int num, char eje)
 
 
 	// tapa inferior
-	if (fabs(perfil[0].x)>0.0){
+	if (fabs(perfil[0].x)>0.0 || ejez){
 		if(eje == 'y'){
 			vertices[num_aux*num].x=perfil[0].x;
 			vertices[num_aux*num].y=0.0; 
@@ -773,8 +775,14 @@ void _rotacion::parametros(vector<_vertex3f> perfil, int num, char eje)
 		}
 		else if(eje == 'x'){
 			vertices[num_aux*num].x=0.0; 
-			vertices[num_aux*num].y=perfil[0].y; 
+			vertices[num_aux*num].y=perfil[0].z; 
 			vertices[num_aux*num].z=0.0;
+		}
+		else if (eje == 'z'){
+			vertices[num_aux*num].x=0.0; 
+			vertices[num_aux*num].y=0.0; 
+			vertices[num_aux*num].z=perfil[num_aux-1].z;
+			//esto es debido a que es en el eje z
 		}
 
 		for (j=0;j<num;j++){
@@ -786,7 +794,7 @@ void _rotacion::parametros(vector<_vertex3f> perfil, int num, char eje)
 	}
 
 	// tapa superior
-	if (fabs(perfil[num_aux-1].x)>0.0)
+	if (fabs(perfil[num_aux-1].x)>0.0 || ejez)
 	{
 		if(eje == 'y'){
 			vertices[num_aux*num+1].x=perfil[num_aux-1].x; 
@@ -796,6 +804,11 @@ void _rotacion::parametros(vector<_vertex3f> perfil, int num, char eje)
 			vertices[num_aux*num+1].x=0.0; 
 			vertices[num_aux*num+1].y=perfil[num_aux-1].y;
 			vertices[num_aux*num+1].z=0.0;
+		}
+		else if( eje == 'z'){
+			vertices[num_aux*num+1].x=0.0; 
+			vertices[num_aux*num+1].y=0.0;
+			vertices[num_aux*num+1].z=perfil[0].z;
 		}
 
 		for (j=0;j<num;j++){	
