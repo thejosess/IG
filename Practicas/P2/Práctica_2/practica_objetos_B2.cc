@@ -128,7 +128,7 @@ switch (t_objeto){
 			change_color = false;
 		}
 
-		cubo.draw(modo,0.0,1.0,0.0,4);
+		cubo.draw(modo,0.0,1.0,0.0,5);
 	break;
 
 	case PIRAMIDE: 
@@ -138,7 +138,7 @@ switch (t_objeto){
 			change_color = false;
 		}
 
-		piramide.draw(modo,0.0,1.0,0.0,4);
+		piramide.draw(modo,0.0,1.0,0.0,5);
 	break;
 
 	case OBJETO_PLY: 
@@ -148,7 +148,7 @@ switch (t_objeto){
 			change_color = false;
 		}
 
-		ply.draw(modo,0.0,1.0,0.3,4);
+		ply.draw(modo,0.0,1.0,0.3,5);
 	break;
 
 	case ROTACION:
@@ -158,7 +158,7 @@ switch (t_objeto){
 			change_color = false;
 		}
 
-		rotacion.draw(modo,0.0,1.0,0.0,4);
+		rotacion.draw(modo,0.0,1.0,0.0,5);
 	break;
 
 	case ROTACIONY:
@@ -168,7 +168,7 @@ switch (t_objeto){
 		change_color = false;
 	}
 
-	rotaciony.draw(modo,0.0,1.0,0.0,4);
+	rotaciony.draw(modo,0.0,1.0,0.0,5);
 	break;
 
 	case ROTACIONZ:
@@ -178,7 +178,7 @@ switch (t_objeto){
 		change_color = false;
 	}
 
-	rotacionz.draw(modo,0.0,1.0,0.0,4);
+	rotacionz.draw(modo,0.0,1.0,0.0,5);
 	break;
 
 	case CILINDRO: 
@@ -188,7 +188,7 @@ switch (t_objeto){
 			change_color = false;
 		}
 
-		cilindro.draw(modo,0.0,1.0,0.0,4);
+		cilindro.draw(modo,0.0,1.0,0.0,5);
 	break;
 
 	case CONO: 
@@ -197,7 +197,7 @@ switch (t_objeto){
 			color.clear();
 			change_color = false;
 		}	
-	cono.draw(modo,0.0,1.0,0.0,4);
+	cono.draw(modo,0.0,1.0,0.0,5);
 	break;
 
 	case ESFERA: 
@@ -215,7 +215,7 @@ switch (t_objeto){
 			color.clear();
 			change_color = false;
 		}	
-	revolucionPly.draw(modo,0.0,1.0,0.0,4);
+	revolucionPly.draw(modo,0.0,1.0,0.0,5);
 	break;
 
 

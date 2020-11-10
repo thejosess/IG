@@ -22,7 +22,7 @@
 * Creación del código que permite visualizar en modo relleno. (2pt) **REALIZADO (modo 2)**
 * Creación del código que permite visualizar en modo ajedrez. (2pt) **REALIZADO (objeto 3)**
 
-* Adicionalmente se ha añadido el cambio de color de los objetos y un nuevo modo (modo 4) que permite visualizar todos los modos de visualización a la vez (aristas, punto y ajedrez)
+* Adicionalmente se ha añadido el cambio de color de los objetos **(color1,2,3)** y un nuevo modo **(modo 4)** que permite visualizar todos los modos de visualización a la vez (aristas, punto y ajedrez)
 
 # Práctica 2 IG ~ José Santos Salvador
 
