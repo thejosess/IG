@@ -31,7 +31,7 @@ _piramide piramide(0.85,1.3);
 _cubo cubo(0.8);
 
 int objeto=0, modo=0, color=0;
-//1 piramide, 2 cubo
+//0 piramide, 1 cubo
 //punto, linea, ajedrex
 
 
