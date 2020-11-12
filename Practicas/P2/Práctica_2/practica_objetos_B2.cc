@@ -425,7 +425,7 @@ char ejex = 'x';
 char ejey = 'y';
 char ejez = 'z';
 
-rotacion.parametros(perfil3,20, ejex);
+rotacion.parametros(perfil3_contrario,20, ejex);
 rotaciony.parametros(perfil2y,20,ejey);
 rotacionz.parametros(perfil2z,20,ejez);
 

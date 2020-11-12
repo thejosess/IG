@@ -673,7 +673,6 @@ void _rotacion::parametros(vector<_vertex3f> perfil, int num, char eje)
 	//si se introduce de arriba a abajo, lo cambiamos de orden para que sea de abajo a arriba.
 	if(perfil[num_aux].y < perfil[0].y) {
 		//lo que hacemos es cambiar de orden el perfil, para que sea de abajo a arriba
-		cout<<"Cambiando perfil de orden"<<endl;
 		
 		j=num_aux-1;
 		for(i=0; i<num_aux/2; i++){
