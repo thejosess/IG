@@ -1,0 +1,35 @@
+4 articulaciones, puntos donde se enganchan objetos y que se puedan mover. que los grados de libertdad sean distitos que nos sean el mismo hacía donde gira.
+
+opciones de giro en cada articulacion eso es grados de libertad. 4 puntos articulados y 4 grados de libertad distintos.
+
+puedes tener una pierna y en cada articulacion de la pierna con gratos de libertdad.
+
+animación automática -> mirar en el pdf
+
+velocidad es los angulos que le ponenmos.
+
+subir nota es de los extra es : 
+
+para tanque y habrá que añadirlo a nuestro objeto articulado y podemosprobar en el tanque para añadirlo.
+
+void movimiento()
+{
+if (valor!=0) 
+  {
+   if (flag==0) tanque.giro_tubo-=valor;
+   if (tanque.giro_tubo<tanque.giro_tubo_min && flag==0)
+       {tanque.giro_tubo=tanque.giro_tubo_min;
+        flag=1;
+       }
+   if (flag==1) tanque.giro_tubo+=valor;
+   if (tanque.giro_tubo>tanque.giro_tubo_max && flag==1)   	
+       {tanque.giro_tubo=tanque.giro_tubo_max;
+        flag=0;
+       }
+   glutPostRedisplay();
+  }
+}
+
+
+
+TAMBIEN EXTRA HACIENDO GRAFO PUEDE PUNTAR

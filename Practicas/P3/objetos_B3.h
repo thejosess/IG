@@ -149,6 +149,73 @@ double r;
 
 
 //************************************************************************
+// objeto articulado: araña
+//************************************************************************
+
+class _abdomen: public _triangulos3D
+{
+public:
+       _abdomen();
+void 	draw(_modo modo, float r2, float g2, float b2, float grosor);
+
+float altura, radio;
+int n,m;
+
+protected:
+_esfera  esfera;
+//meter las patas aqui también?
+};
+
+class _cabeza: public _triangulos3D
+{
+public:
+       _cabeza();
+void 	draw(_modo modo, float r2, float g2, float b2, float grosor);
+
+float altura, radio;
+int n,m;
+
+protected:
+_esfera  esfera;
+};
+
+class _pata: public _triangulos3D
+{
+public:
+       _pata();
+void 	draw(_modo modo, float r2, float g2, float b2, float grosor);
+
+float altura, radio;
+int n,m;
+
+protected:
+_cilindro  cilindro1;
+_cilindro  cilindro2;
+_cilindro  cilindro3;
+_cono punta;
+_esfera articulacion1;
+_esfera articulacion2;
+_esfera articulacion3;
+
+
+};
+
+
+
+class _spider: public _triangulos3D{
+public:
+       _spider();
+void 	draw(_modo modo, float r2, float g2, float b2, float grosor);
+
+protected:
+_abdomen abdomen;
+_cabeza cabeza;
+_pata pata;
+};
+
+
+
+//************************************************************************
 // objeto articulado: tanque
 //************************************************************************
 

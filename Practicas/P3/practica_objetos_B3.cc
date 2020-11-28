@@ -12,7 +12,7 @@
 using namespace std;
 
 // tipos
-typedef enum{CUBO, PIRAMIDE, OBJETO_PLY, ROTACION, ARTICULADO,ROTACIONY,ROTACIONZ,CILINDRO, CONO,ESFERA, REVOLUCION_PLY} _tipo_objeto;
+typedef enum{CUBO, PIRAMIDE, OBJETO_PLY, ROTACION, ARTICULADO,ROTACIONY,ROTACIONZ,CILINDRO, CONO,ESFERA,SPIDER, REVOLUCION_PLY} _tipo_objeto;
 _tipo_objeto t_objeto=CUBO;
 _modo   modo=POINTS;
 bool change_color = false;
@@ -42,6 +42,9 @@ _esfera esfera;
 _rotacion rotaciony;
 _rotacion rotacionz;
 _tanque tanque;
+_spider spider;
+
+
 
 // _objeto_ply *ply1;
 
@@ -217,9 +220,9 @@ switch (t_objeto){
 	revolucionPly.draw(modo,0.0,1.0,0.0,5);
 	break;
 
-        case ARTICULADO: tanque.draw(modo,0.3,0.6,0.3,2);break;
+    case ARTICULADO: tanque.draw(modo,0.3,0.6,0.3,2);break;
 
-        //0.5,0.7,0.2
+    case SPIDER: spider.draw(modo,0.3,0.6,0.3,2);break;
 
 	}
 }
@@ -299,6 +302,7 @@ switch (toupper(Tecla1)){
 	case 'Y':t_objeto=ROTACIONY;break;
 	case 'Z':t_objeto=ROTACIONZ;break;
     case 'A':t_objeto=ARTICULADO;break;
+	case 'S':t_objeto=SPIDER;break;
 
 	}
 glutPostRedisplay();

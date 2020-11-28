@@ -265,6 +265,7 @@ return(0);
 _esfera::_esfera()
 {
 
+
 }
 
 void _esfera::parametros(int n,int m, double radio)
@@ -819,6 +820,150 @@ void _rotacion::parametros(vector<_vertex3f> perfil, int num, char eje)
 	}
 }
 
+
+
+//************************************************************************
+// objeto articulado: araña
+//************************************************************************
+
+_abdomen::_abdomen(){
+	n = 15;
+	m = 15;
+	radio = 2;
+	
+	esfera.parametros(n,m,radio);
+
+}
+
+void _abdomen::draw(_modo modo, float r2, float g2, float b2, float grosor){
+ 	glPushMatrix();
+	glRotatef(90.0,0,0,1);
+	glScalef(0.3,0.35,0.3);
+	esfera.draw(modo, r2, g2, b2, grosor);
+	glPopMatrix();
+}
+
+_cabeza::_cabeza(){
+	n = 12;
+	/* para hacerlo menos esferico n=5 */
+	m = 12;
+	radio = 1;
+	
+	esfera.parametros(n,m,radio);
+
+}
+
+void _cabeza::draw(_modo modo, float r2, float g2, float b2, float grosor){
+	glPushMatrix();
+	glRotatef(90.0,0,0,1);
+	glScalef(0.35,0.45,0.35);
+	esfera.draw(modo, r2, g2, b2, grosor);
+	glPopMatrix();
+}
+
+_pata::_pata(){
+
+	vector<_vertex3f> perfil2,perfil1;
+	_vertex3f aux;
+
+	aux.x=1.0; aux.y=-1.0; aux.z=0.0;
+	perfil2.push_back(aux);
+	aux.x=1.0; aux.y=1.0; aux.z=0.0;
+	perfil2.push_back(aux);
+
+	cilindro1.parametros(perfil2,20);
+	cilindro2.parametros(perfil2,20);
+	cilindro3.parametros(perfil2,20);
+	
+	aux.x=1.0; aux.y=0.0; aux.z=0.0;
+	perfil1.push_back(aux);
+
+	punta.parametros(perfil1,16,8);
+
+	int n = 12;
+	int m = 12;
+	int radio = 2;
+	
+	articulacion1.parametros(n,m,radio);
+	articulacion2.parametros(n,m,radio);
+	articulacion3.parametros(n,m,radio);
+
+
+}
+
+void _pata::draw(_modo modo, float r2, float g2, float b2, float grosor){
+
+	glPushMatrix();
+	glTranslatef(-2.4,0,0);
+	glRotatef(90.0,0,0,1);
+	glScalef(0.3,2,0.3);
+	cilindro1.draw(modo, r2, g2, b2, grosor);
+	glPopMatrix();
+	
+	glPushMatrix();	
+	glTranslatef(-4.4,0,0);
+	glRotatef(90.0,0,0,1);
+	glScalef(0.3,0.3,0.3);		
+	punta.draw(modo, r2, g2, b2, grosor);
+	glPopMatrix();
+
+	glPushMatrix();	
+	glScalef(0.25,0.25,0.25);		
+	articulacion1.draw(modo, r2, g2, b2, grosor);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(2.4,0,0);
+	glRotatef(90.0,0,0,1);
+	glScalef(0.3,2,0.3);
+	cilindro2.draw(modo, r2, g2, b2, grosor);
+	glPopMatrix();
+
+	glPushMatrix();	
+	glTranslatef(4.4,0,0);
+	glScalef(0.25,0.25,0.25);		
+	articulacion2.draw(modo, r2, g2, b2, grosor);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(6.4,0,0);
+	glRotatef(90.0,0,0,1);
+	glScalef(0.3,4,0.3);
+	cilindro2.draw(modo, r2, g2, b2, grosor);
+	glPopMatrix();
+
+}
+
+
+/* EL GIRO EN LA PATA DE LA CABEZA ES 160 P GRADOS, ROTACION. */
+/* ABRE Y CIERRA A 40 GRADOS */
+/* mirar video para los giros */
+/* Tengo que hacerle los ojos */
+/* y las asntenas esas que dice david */
+
+//************************************************************************
+_spider::_spider(){
+
+}
+
+void _spider::draw(_modo modo, float r2, float g2, float b2, float grosor){
+
+/* 	glPushMatrix();
+	glTranslatef(0.65,0,0);
+	abdomen.draw(modo, r2, g2, b2, grosor);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-0.4,-0.15,0);
+	cabeza.draw(modo, r2, g2, b2, grosor);
+	glPopMatrix(); */
+
+	glPushMatrix();
+	//glScalef(2,1.2,1.2);		
+	pata.draw(modo, r2, g2, b2, grosor);
+	glPopMatrix();
+}
+
 //************************************************************************
 // objeto articulado: tanque
 //************************************************************************
@@ -871,6 +1016,11 @@ glTranslatef(0.5,0.0,0.0);
 glRotatef(90.0,1,0,0);
 rodamiento.draw(modo, r2, g2, b2, grosor);
 glPopMatrix();
+
+/* tengo que cambiar los grados de libertad según la pata */
+/* revisar lo que apunté que pide para la práctica. */
+/*  */
+
 }
 
 //************************************************************************
