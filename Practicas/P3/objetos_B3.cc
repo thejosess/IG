@@ -912,24 +912,26 @@ void _pata::draw(_modo modo, float r2, float g2, float b2, float grosor){
 	articulacion1.draw(modo, r2, g2, b2, grosor);
 	glPopMatrix();
 
+	/* un poco más larga que la primera */
 	glPushMatrix();
-	glTranslatef(2.4,0,0);
+	glTranslatef(2.9,0,0);
 	glRotatef(90.0,0,0,1);
-	glScalef(0.3,2,0.3);
+	glScalef(0.3,2.5,0.3);
 	cilindro2.draw(modo, r2, g2, b2, grosor);
 	glPopMatrix();
 
 	glPushMatrix();	
-	glTranslatef(4.4,0,0);
+	glTranslatef(5.7,0,0);
 	glScalef(0.25,0.25,0.25);		
 	articulacion2.draw(modo, r2, g2, b2, grosor);
 	glPopMatrix();
 
+	/* Parte más larga */
 	glPushMatrix();
-	glTranslatef(6.4,0,0);
+	glTranslatef(10,0,0);
 	glRotatef(90.0,0,0,1);
 	glScalef(0.3,4,0.3);
-	cilindro2.draw(modo, r2, g2, b2, grosor);
+	cilindro3.draw(modo, r2, g2, b2, grosor);
 	glPopMatrix();
 
 }
@@ -1016,6 +1018,9 @@ glTranslatef(0.5,0.0,0.0);
 glRotatef(90.0,1,0,0);
 rodamiento.draw(modo, r2, g2, b2, grosor);
 glPopMatrix();
+
+/* quizas tengo que dividir la pata en parte1, parte2 y parte3 y luego juntarla en pata¿ */
+
 
 /* tengo que cambiar los grados de libertad según la pata */
 /* revisar lo que apunté que pide para la práctica. */
