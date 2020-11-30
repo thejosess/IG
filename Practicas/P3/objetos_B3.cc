@@ -861,6 +861,43 @@ void _cabeza::draw(_modo modo, float r2, float g2, float b2, float grosor){
 	glPopMatrix();
 }
 
+_pataPunta::_pataPunta(){
+
+	vector<_vertex3f> perfil2,perfil1;
+	_vertex3f aux;
+
+	aux.x=1.0; aux.y=-1.0; aux.z=0.0;
+	perfil2.push_back(aux);
+	aux.x=1.0; aux.y=1.0; aux.z=0.0;
+	perfil2.push_back(aux);
+
+	cilindro1.parametros(perfil2,20);
+	
+	aux.x=1.0; aux.y=0.0; aux.z=0.0;
+	perfil1.push_back(aux);
+
+	punta.parametros(perfil1,16,8);
+}
+
+void _pataPunta::draw(_modo modo, float r2, float g2, float b2, float grosor){
+
+	glPushMatrix();
+	glTranslatef(-2.4,0,0);
+	glRotatef(90.0,0,0,1);
+	glScalef(0.3,2,0.3);
+	cilindro1.draw(modo, r2, g2, b2, grosor);
+	glPopMatrix();
+	
+	glPushMatrix();	
+	glTranslatef(-4.4,0,0);
+	glRotatef(90.0,0,0,1);
+	glScalef(0.3,0.3,0.3);		
+	punta.draw(modo, r2, g2, b2, grosor);
+	glPopMatrix();
+
+}
+
+
 _pata::_pata(){
 
 	vector<_vertex3f> perfil2,perfil1;
@@ -887,25 +924,28 @@ _pata::_pata(){
 	articulacion1.parametros(n,m,radio);
 	articulacion2.parametros(n,m,radio);
 	articulacion3.parametros(n,m,radio);
-
-
 }
 
 void _pata::draw(_modo modo, float r2, float g2, float b2, float grosor){
 
 	glPushMatrix();
-	glTranslatef(-2.4,0,0);
-	glRotatef(90.0,0,0,1);
+	glRotatef(300.0,0,0,1);
+	pataPunta.draw(modo, r2, g2, b2, grosor);
+	glPopMatrix();
+
+/* 	glPushMatrix();
+	glTranslatef(-2.2,0.8,0);
+	glRotatef(70.0,0,0,1);
 	glScalef(0.3,2,0.3);
 	cilindro1.draw(modo, r2, g2, b2, grosor);
-	glPopMatrix();
+	glPopMatrix(); */
 	
-	glPushMatrix();	
-	glTranslatef(-4.4,0,0);
-	glRotatef(90.0,0,0,1);
+/* 	glPushMatrix();	
+	glTranslatef(-4.0,1.43,0);
+	glRotatef(70.0,0,0,1);
 	glScalef(0.3,0.3,0.3);		
 	punta.draw(modo, r2, g2, b2, grosor);
-	glPopMatrix();
+	glPopMatrix() */;
 
 	glPushMatrix();	
 	glScalef(0.25,0.25,0.25);		
@@ -928,13 +968,17 @@ void _pata::draw(_modo modo, float r2, float g2, float b2, float grosor){
 
 	/* Parte más larga */
 	glPushMatrix();
-	glTranslatef(10,0,0);
-	glRotatef(90.0,0,0,1);
+	glTranslatef(9.5,2.2,0);
+	glRotatef(120,0,0,1);
 	glScalef(0.3,4,0.3);
 	cilindro3.draw(modo, r2, g2, b2, grosor);
 	glPopMatrix();
 
 }
+
+/* hacer patas delantes y traseras de una manera */
+/* hacer patas de en medio de otra manera colocadas x defecto, +cortas */
+
 
 
 /* EL GIRO EN LA PATA DE LA CABEZA ES 160 P GRADOS, ROTACION. */
@@ -959,7 +1003,7 @@ void _spider::draw(_modo modo, float r2, float g2, float b2, float grosor){
 	glTranslatef(-0.4,-0.15,0);
 	cabeza.draw(modo, r2, g2, b2, grosor);
 	glPopMatrix(); */
-
+	
 	glPushMatrix();
 	//glScalef(2,1.2,1.2);		
 	pata.draw(modo, r2, g2, b2, grosor);

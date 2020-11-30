@@ -179,6 +179,17 @@ protected:
 _esfera  esfera;
 };
 
+class _pataPunta: public _triangulos3D
+{
+public:
+       _pataPunta();
+void 	draw(_modo modo, float r2, float g2, float b2, float grosor);
+
+protected:
+_cilindro  cilindro1;
+_cono punta;
+};
+
 class _pata: public _triangulos3D
 {
 public:
@@ -196,7 +207,7 @@ _cono punta;
 _esfera articulacion1;
 _esfera articulacion2;
 _esfera articulacion3;
-
+_pataPunta pataPunta;
 
 };
 
@@ -211,6 +222,7 @@ protected:
 _abdomen abdomen;
 _cabeza cabeza;
 _pata pata;
+_pataPunta pataPunta;
 };
 
 
