@@ -338,9 +338,10 @@ switch (Tecla1){
 	case GLUT_KEY_F3:tanque.giro_torreta+=5;break;
 	case GLUT_KEY_F4:tanque.giro_torreta-=5;break;
 
-	case GLUT_KEY_F5:spider.setGiroQueliceros(-1.0);
-	break;
+	case GLUT_KEY_F5:spider.setGiroQueliceros(-1.0);break;
 	case GLUT_KEY_F6:spider.setGiroQueliceros(1.0);break;
+	case GLUT_KEY_F7:spider.setGiroPataCentralSup(-2.0);break;
+	case GLUT_KEY_F8:spider.setGiroPataCentralSup(2.0);break;
 
 	
 	}

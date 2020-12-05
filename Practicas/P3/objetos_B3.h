@@ -192,9 +192,7 @@ void setGiroQueliceros(float valor);
 float altura, radio;
 int n,m;
 
-float giro_queliceros;
-float giro_queliceros_max;
-float giro_queliceros_min;
+float giro_queliceros,giro_queliceros_max,giro_queliceros_min;
 
 protected:
 _esfera  esfera;
@@ -231,6 +229,9 @@ class _pataCentral: public _triangulos3D
 public:
        _pataCentral();
 void 	draw(_modo modo, float r2, float g2, float b2, float grosor);
+void setGiroSup(float valor);
+
+float giro_sup, giro_sup_max, giro_sup_min;
 
 float altura, radio;
 int n,m;
@@ -273,15 +274,19 @@ public:
        _spider();
 void 	draw(_modo modo, float r2, float g2, float b2, float grosor);
 void setGiroQueliceros(float valor);
-
+void setGiroPataCentralInf(float valor);
+void setGiroPataCentralSup(float valor);
 _cabeza getCabeza();
+
+float giroPataDelanteraSup1,giroPataDelanteraSup2;
+float giroPataDelanteraSupMax,giroPataDelanteraSupMin;
 
 
 protected:
 _abdomen abdomen;
 _cabeza cabeza;
-_pataCentral pataCentral;
-_pataExterior pataExterior;
+_pataCentral pataCentral1, pataCentral2, pataCentral3,pataCentral4;
+_pataExterior pataExterior1,pataExterior2,pataExterior3,pataExterior4;
 
 };
 
