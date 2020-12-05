@@ -897,8 +897,7 @@ void _pataPunta::draw(_modo modo, float r2, float g2, float b2, float grosor){
 
 }
 
-
-_pata::_pata(){
+_pataCentral::_pataCentral(){
 
 	vector<_vertex3f> perfil2,perfil1;
 	_vertex3f aux;
@@ -908,7 +907,6 @@ _pata::_pata(){
 	aux.x=1.0; aux.y=1.0; aux.z=0.0;
 	perfil2.push_back(aux);
 
-	cilindro1.parametros(perfil2,20);
 	cilindro2.parametros(perfil2,20);
 	cilindro3.parametros(perfil2,20);
 	
@@ -926,26 +924,12 @@ _pata::_pata(){
 	articulacion3.parametros(n,m,radio);
 }
 
-void _pata::draw(_modo modo, float r2, float g2, float b2, float grosor){
+void _pataCentral::draw(_modo modo, float r2, float g2, float b2, float grosor){
 
 	glPushMatrix();
 	glRotatef(300.0,0,0,1);
 	pataPunta.draw(modo, r2, g2, b2, grosor);
 	glPopMatrix();
-
-/* 	glPushMatrix();
-	glTranslatef(-2.2,0.8,0);
-	glRotatef(70.0,0,0,1);
-	glScalef(0.3,2,0.3);
-	cilindro1.draw(modo, r2, g2, b2, grosor);
-	glPopMatrix(); */
-	
-/* 	glPushMatrix();	
-	glTranslatef(-4.0,1.43,0);
-	glRotatef(70.0,0,0,1);
-	glScalef(0.3,0.3,0.3);		
-	punta.draw(modo, r2, g2, b2, grosor);
-	glPopMatrix() */;
 
 	glPushMatrix();	
 	glScalef(0.25,0.25,0.25);		
@@ -968,9 +952,75 @@ void _pata::draw(_modo modo, float r2, float g2, float b2, float grosor){
 
 	/* Parte más larga */
 	glPushMatrix();
-	glTranslatef(9.5,2.2,0);
-	glRotatef(120,0,0,1);
-	glScalef(0.3,4,0.3);
+	glTranslatef(7.9,2.5,0);
+	glRotatef(140,0,0,1);
+	glScalef(0.3,3.0,0.3);
+	cilindro3.draw(modo, r2, g2, b2, grosor);
+	glPopMatrix();
+
+}
+
+
+_pataExterior::_pataExterior(){
+
+	vector<_vertex3f> perfil2,perfil1;
+	_vertex3f aux;
+
+	aux.x=1.0; aux.y=-1.0; aux.z=0.0;
+	perfil2.push_back(aux);
+	aux.x=1.0; aux.y=1.0; aux.z=0.0;
+	perfil2.push_back(aux);
+
+	cilindro2.parametros(perfil2,20);
+	cilindro3.parametros(perfil2,20);
+	
+	aux.x=1.0; aux.y=0.0; aux.z=0.0;
+	perfil1.push_back(aux);
+
+	punta.parametros(perfil1,16,8);
+
+	int n = 12;
+	int m = 12;
+	int radio = 2;
+	
+	articulacion1.parametros(n,m,radio);
+	articulacion2.parametros(n,m,radio);
+	articulacion3.parametros(n,m,radio);
+}
+
+void _pataExterior::draw(_modo modo, float r2, float g2, float b2, float grosor){
+
+	glPushMatrix();
+	glRotatef(300.0,0,0,1);
+	glTranslatef(0.2,0,0);
+	glScalef(1.5,1,1);
+	pataPunta.draw(modo, r2, g2, b2, grosor);
+	glPopMatrix();
+
+	glPushMatrix();	
+	glScalef(0.25,0.25,0.25);		
+	articulacion1.draw(modo, r2, g2, b2, grosor);
+	glPopMatrix();
+
+	/* un poco más larga que la primera */
+	glPushMatrix();
+	glTranslatef(2.9,0,0);
+	glRotatef(90.0,0,0,1);
+	glScalef(0.3,2.5,0.3);
+	cilindro2.draw(modo, r2, g2, b2, grosor);
+	glPopMatrix();
+
+	glPushMatrix();	
+	glTranslatef(5.7,0,0);
+	glScalef(0.25,0.25,0.25);		
+	articulacion2.draw(modo, r2, g2, b2, grosor);
+	glPopMatrix();
+
+	/* Parte más larga */
+	glPushMatrix();
+	glTranslatef(8.9,3.7,0);
+	glRotatef(140,0,0,1);
+	glScalef(0.3,4.5,0.3);
 	cilindro3.draw(modo, r2, g2, b2, grosor);
 	glPopMatrix();
 
@@ -994,7 +1044,7 @@ _spider::_spider(){
 
 void _spider::draw(_modo modo, float r2, float g2, float b2, float grosor){
 
-/* 	glPushMatrix();
+ 	glPushMatrix();
 	glTranslatef(0.65,0,0);
 	abdomen.draw(modo, r2, g2, b2, grosor);
 	glPopMatrix();
@@ -1002,12 +1052,85 @@ void _spider::draw(_modo modo, float r2, float g2, float b2, float grosor){
 	glPushMatrix();
 	glTranslatef(-0.4,-0.15,0);
 	cabeza.draw(modo, r2, g2, b2, grosor);
-	glPopMatrix(); */
+	glPopMatrix(); 
 	
+	/* patas centrales */
+	/*****************************************/
+ 	glPushMatrix();
+	glTranslatef(-0.5,0.4,-1.2);
+ 	glRotatef(180,90,0,90);
+ 	/* glRotatef(180,90,0,90); 
+	90 del final es para moverlo hacia los lados*/
+ 	glScalef(0.1,0.1,0.1);		
+ 	pataCentral.draw(modo, r2, g2, b2, grosor);
+	glPopMatrix(); 
+
 	glPushMatrix();
-	//glScalef(2,1.2,1.2);		
-	pata.draw(modo, r2, g2, b2, grosor);
+	glTranslatef(-0.5,0.4,1.2);
+ 	glRotatef(180,-90,0,90);
+	glScalef(0.1,0.1,0.1);		
+ 	pataCentral.draw(modo, r2, g2, b2, grosor);
+	glPopMatrix();  
+ 
+	glPushMatrix();
+	glTranslatef(-0.3,0.4,-1.2);
+ 	glRotatef(180,90,0,90);
+	glScalef(0.1,0.1,0.1);		
+ 	pataCentral.draw(modo, r2, g2, b2, grosor);
 	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-0.3,0.4,1.2);
+ 	glRotatef(180,-90,0,90);
+	glScalef(0.1,0.1,0.1);		
+ 	pataCentral.draw(modo, r2, g2, b2, grosor);
+	glPopMatrix();  
+ 
+
+ 	/* patas exteriores delanteras  +cerradas entre si */
+	/*****************************************/
+
+	glPushMatrix();
+	glTranslatef(-1.6,0.6,-1.0);
+ 	glRotatef(180,170,0,60);
+	glScalef(0.1,0.1,0.1);		
+ 	pataExterior.draw(modo, r2, g2, b2, grosor);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-1.6,0.6,+1.0);
+ 	glRotatef(180,170,0,-60);
+	glScalef(0.1,0.1,0.1);		
+ 	pataExterior.draw(modo, r2, g2, b2, grosor);
+	glPopMatrix();
+
+
+	/* patas exteriores delanteras -cerradas entre si*/
+	/*****************************************/
+
+	glPushMatrix();
+	glTranslatef(0.4,0.6,+1.2);
+ 	glRotatef(-180,170,0,-300);
+	glScalef(0.1,0.1,0.1);		
+ 	pataExterior.draw(modo, r2, g2, b2, grosor);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.4,0.6,-1.2);
+ 	glRotatef(-180,170,0,300);
+	glScalef(0.1,0.1,0.1);		
+ 	pataExterior.draw(modo, r2, g2, b2, grosor);
+	glPopMatrix();
+
+
+	/* CAMBIAR POR DEFECTO SU POSTURA CUANDO HAGA EL MOVIMIENTO PARA QUE NO SE VEA TAN ESPATARRADA */
+
+
+/* 	glPushMatrix();
+	glRotatef(140,90,0,90);
+	/* glRotatef(180,90,0,90); 
+ 	pataExterior.draw(modo, r2, g2, b2, grosor);
+	glPopMatrix(); */
 }
 
 //************************************************************************

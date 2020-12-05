@@ -177,6 +177,7 @@ int n,m;
 
 protected:
 _esfera  esfera;
+
 };
 
 class _pataPunta: public _triangulos3D
@@ -190,17 +191,37 @@ _cilindro  cilindro1;
 _cono punta;
 };
 
-class _pata: public _triangulos3D
+
+class _pataCentral: public _triangulos3D
 {
 public:
-       _pata();
+       _pataCentral();
 void 	draw(_modo modo, float r2, float g2, float b2, float grosor);
 
 float altura, radio;
 int n,m;
 
 protected:
-_cilindro  cilindro1;
+_cilindro  cilindro2;
+_cilindro  cilindro3;
+_cono punta;
+_esfera articulacion1;
+_esfera articulacion2;
+_esfera articulacion3;
+_pataPunta pataPunta;
+
+};
+
+class _pataExterior: public _triangulos3D
+{
+public:
+       _pataExterior();
+void 	draw(_modo modo, float r2, float g2, float b2, float grosor);
+
+float altura, radio;
+int n,m;
+
+protected:
 _cilindro  cilindro2;
 _cilindro  cilindro3;
 _cono punta;
@@ -221,8 +242,8 @@ void 	draw(_modo modo, float r2, float g2, float b2, float grosor);
 protected:
 _abdomen abdomen;
 _cabeza cabeza;
-_pata pata;
-_pataPunta pataPunta;
+_pataCentral pataCentral;
+_pataExterior pataExterior;
 };
 
 
