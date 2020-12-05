@@ -908,6 +908,27 @@ _cabeza::_cabeza(){
 	ojo3.parametros(n,m,radio);
 	ojo4.parametros(n,m,radio);
 	ojo5.parametros(n,m,radio);
+
+	giro_queliceros = -90;
+	giro_queliceros_max = -100;
+	giro_queliceros_min = -80;
+}
+
+void _cabeza::setGiroQueliceros(float valor){
+
+	if(valor < 0){
+		if(abs(giro_queliceros + valor) > abs(giro_queliceros_max))
+			giro_queliceros = giro_queliceros_max;
+		else
+			giro_queliceros += valor;
+	}
+
+ 	if(valor > 0){
+		if(abs(giro_queliceros + valor) < abs(giro_queliceros_min))
+			giro_queliceros = giro_queliceros_min;
+		else
+			giro_queliceros += valor;
+	}
 }
 
 void _cabeza::draw(_modo modo, float r2, float g2, float b2, float grosor){
@@ -959,14 +980,14 @@ void _cabeza::draw(_modo modo, float r2, float g2, float b2, float grosor){
 	//dibujando queliceros
 	glPushMatrix();
 	glTranslatef(-0.35,-0.06,0.1);
-	glRotatef(-90.0,0,0,1);
+	glRotatef(giro_queliceros,0,0,1);
 	glScalef(0.1,0.1,0.15);
 	quelicero1.draw(modo, r2, g2, b2, grosor);
 	glPopMatrix(); 
 
 	glPushMatrix();
 	glTranslatef(-0.35,-0.06,-0.1);
-	glRotatef(-90.0,0,0,1);
+	glRotatef(giro_queliceros,0,0,1);
 	glScalef(0.1,0.1,0.15);
 	quelicero2.draw(modo, r2, g2, b2, grosor);
 	glPopMatrix(); 
@@ -1153,6 +1174,15 @@ void _pataExterior::draw(_modo modo, float r2, float g2, float b2, float grosor)
 //************************************************************************
 _spider::_spider(){
 
+}
+
+_cabeza _spider::getCabeza(){
+	return cabeza;
+}
+
+void _spider::setGiroQueliceros(float valor){
+	cabeza.setGiroQueliceros(valor);
+	cout << "valor el giro " << cabeza.giro_queliceros;
 }
 
 void _spider::draw(_modo modo, float r2, float g2, float b2, float grosor){

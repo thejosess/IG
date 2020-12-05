@@ -328,14 +328,21 @@ switch (Tecla1){
 	case GLUT_KEY_DOWN:Observer_angle_x++;break;
 	case GLUT_KEY_PAGE_UP:Observer_distance*=1.2;break;
 	case GLUT_KEY_PAGE_DOWN:Observer_distance/=1.2;break;
-        case GLUT_KEY_F1:tanque.giro_tubo+=1;
-                         if (tanque.giro_tubo>tanque.giro_tubo_max) tanque.giro_tubo=tanque.giro_tubo_max;
-                         break;
-        case GLUT_KEY_F2:tanque.giro_tubo-=1;
-                         if (tanque.giro_tubo<tanque.giro_tubo_min) tanque.giro_tubo=tanque.giro_tubo_min;
-                         break;break;
-        case GLUT_KEY_F3:tanque.giro_torreta+=5;break;
-        case GLUT_KEY_F4:tanque.giro_torreta-=5;break;
+
+	case GLUT_KEY_F1:tanque.giro_tubo+=1;
+						if (tanque.giro_tubo>tanque.giro_tubo_max) tanque.giro_tubo=tanque.giro_tubo_max;
+						break;
+	case GLUT_KEY_F2:tanque.giro_tubo-=1;
+						if (tanque.giro_tubo<tanque.giro_tubo_min) tanque.giro_tubo=tanque.giro_tubo_min;
+						break;break;
+	case GLUT_KEY_F3:tanque.giro_torreta+=5;break;
+	case GLUT_KEY_F4:tanque.giro_torreta-=5;break;
+
+	case GLUT_KEY_F5:spider.setGiroQueliceros(-1.0);
+	break;
+	case GLUT_KEY_F6:spider.setGiroQueliceros(1.0);break;
+
+	
 	}
 glutPostRedisplay();
 }

@@ -187,8 +187,14 @@ public:
        _cabeza();
 void 	draw(_modo modo, float r2, float g2, float b2, float grosor);
 
+void setGiroQueliceros(float valor);
+
 float altura, radio;
 int n,m;
+
+float giro_queliceros;
+float giro_queliceros_max;
+float giro_queliceros_min;
 
 protected:
 _esfera  esfera;
@@ -205,7 +211,6 @@ _esfera ojo5;
 /*los queliceros de la araña*/
 _quelicero quelicero1;
 _quelicero quelicero2;
-
 
 };
 
@@ -267,6 +272,10 @@ class _spider: public _triangulos3D{
 public:
        _spider();
 void 	draw(_modo modo, float r2, float g2, float b2, float grosor);
+void setGiroQueliceros(float valor);
+
+_cabeza getCabeza();
+
 
 protected:
 _abdomen abdomen;
