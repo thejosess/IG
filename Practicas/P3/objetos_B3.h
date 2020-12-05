@@ -163,7 +163,22 @@ int n,m;
 
 protected:
 _esfera  esfera;
-//meter las patas aqui también?
+_cono pincho;
+};
+
+class _quelicero: public _triangulos3D
+{
+public:
+       _quelicero();
+void 	draw(_modo modo, float r2, float g2, float b2, float grosor);
+
+float altura, radio;
+int n,m;
+
+protected:
+_cilindro  tronco;
+_esfera final;
+
 };
 
 class _cabeza: public _triangulos3D
@@ -177,6 +192,20 @@ int n,m;
 
 protected:
 _esfera  esfera;
+
+/* Ojos de abajo + grandes */
+_esfera ojo1;
+_esfera ojo2;
+_esfera ojo3;
+
+/* Ojos de arriba + pequeños */
+_esfera ojo4;
+_esfera ojo5;
+
+/*los queliceros de la araña*/
+_quelicero quelicero1;
+_quelicero quelicero2;
+
 
 };
 
@@ -244,6 +273,7 @@ _abdomen abdomen;
 _cabeza cabeza;
 _pataCentral pataCentral;
 _pataExterior pataExterior;
+
 };
 
 

@@ -833,6 +833,14 @@ _abdomen::_abdomen(){
 	
 	esfera.parametros(n,m,radio);
 
+	vector<_vertex3f> perfil1;
+	_vertex3f aux;
+
+	aux.x=1.0; aux.y=0.0; aux.z=0.0;
+	perfil1.push_back(aux);
+
+	pincho.parametros(perfil1,15,3);
+
 }
 
 void _abdomen::draw(_modo modo, float r2, float g2, float b2, float grosor){
@@ -840,6 +848,50 @@ void _abdomen::draw(_modo modo, float r2, float g2, float b2, float grosor){
 	glRotatef(90.0,0,0,1);
 	glScalef(0.3,0.35,0.3);
 	esfera.draw(modo, r2, g2, b2, grosor);
+	glPopMatrix();
+
+	
+ 	glPushMatrix();
+	glTranslatef(0.65,0,0);
+	glScalef(0.1,0.1,0.1);
+	glRotatef(-90.0,0,0,1);
+	pincho.draw(modo, r2, g2, b2, grosor);
+	glPopMatrix();
+
+}
+
+_quelicero::_quelicero(){
+	vector<_vertex3f> perfil2,perfil1;
+	_vertex3f aux;
+
+	aux.x=1.0; aux.y=-1.0; aux.z=0.0;
+	perfil2.push_back(aux);
+	aux.x=1.0; aux.y=1.0; aux.z=0.0;
+	perfil2.push_back(aux);
+
+	tronco.parametros(perfil2,20);
+	
+	int n = 12;
+	int m = 12;
+	int radio = 2;
+	
+	final.parametros(n,m,radio);
+}
+
+void _quelicero::draw(_modo modo, float r2, float g2, float b2, float grosor){
+
+		/* un poco más larga que la primera */
+	glPushMatrix();
+	glTranslatef(1.8,0,0);
+	glRotatef(90.0,0,0,1);
+	glScalef(0.3,1.8,0.3);
+	tronco.draw(modo, r2, g2, b2, grosor);
+	glPopMatrix();
+
+	glPushMatrix();	
+	glTranslatef(3.5,0,0);
+	glScalef(0.16,0.16,0.16);		
+	final.draw(modo, r2, g2, b2, grosor);
 	glPopMatrix();
 }
 
@@ -851,6 +903,11 @@ _cabeza::_cabeza(){
 	
 	esfera.parametros(n,m,radio);
 
+	ojo1.parametros(n,m,radio);
+	ojo2.parametros(n,m,radio);
+	ojo3.parametros(n,m,radio);
+	ojo4.parametros(n,m,radio);
+	ojo5.parametros(n,m,radio);
 }
 
 void _cabeza::draw(_modo modo, float r2, float g2, float b2, float grosor){
@@ -859,6 +916,62 @@ void _cabeza::draw(_modo modo, float r2, float g2, float b2, float grosor){
 	glScalef(0.35,0.45,0.35);
 	esfera.draw(modo, r2, g2, b2, grosor);
 	glPopMatrix();
+
+	// Ojos delanteros + grandes//
+	glPushMatrix();
+	glTranslatef(-0.25,0.25,0);
+	glRotatef(90.0,0,0,1);
+	glScalef(0.06,0.06,0.06);
+	ojo1.draw(modo, r2, g2, b2, grosor);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-0.25,0.22,0.12);
+	glRotatef(90.0,0,0,1);
+	glScalef(0.07,0.07,0.07);
+	ojo2.draw(modo, r2, g2, b2, grosor);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-0.25,0.22,-0.12);
+	glRotatef(90.0,0,0,1);
+	glScalef(0.07,0.07,0.07);
+	ojo3.draw(modo, r2, g2, b2, grosor);
+	glPopMatrix();
+
+
+	//ojos traseros
+ 	glPushMatrix();
+	glTranslatef(-0.16,0.295,-0.08);
+	glRotatef(90.0,0,0,1);
+	glScalef(0.05,0.05,0.05);
+	ojo4.draw(modo, r2, g2, b2, grosor);
+	glPopMatrix(); 
+
+	glPushMatrix();
+	glTranslatef(-0.16,0.295,+0.08);
+	glRotatef(90.0,0,0,1);
+	glScalef(0.05,0.05,0.05);
+	ojo5.draw(modo, r2, g2, b2, grosor);
+	glPopMatrix(); 
+
+
+	//dibujando queliceros
+	glPushMatrix();
+	glTranslatef(-0.35,-0.06,0.1);
+	glRotatef(-90.0,0,0,1);
+	glScalef(0.1,0.1,0.15);
+	quelicero1.draw(modo, r2, g2, b2, grosor);
+	glPopMatrix(); 
+
+	glPushMatrix();
+	glTranslatef(-0.35,-0.06,-0.1);
+	glRotatef(-90.0,0,0,1);
+	glScalef(0.1,0.1,0.15);
+	quelicero2.draw(modo, r2, g2, b2, grosor);
+	glPopMatrix(); 
+
+
 }
 
 _pataPunta::_pataPunta(){
@@ -1054,7 +1167,7 @@ void _spider::draw(_modo modo, float r2, float g2, float b2, float grosor){
 	cabeza.draw(modo, r2, g2, b2, grosor);
 	glPopMatrix(); 
 	
-	/* patas centrales */
+	// patas centrales //
 	/*****************************************/
  	glPushMatrix();
 	glTranslatef(-0.5,0.4,-1.2);
@@ -1087,7 +1200,7 @@ void _spider::draw(_modo modo, float r2, float g2, float b2, float grosor){
 	glPopMatrix();  
  
 
- 	/* patas exteriores delanteras  +cerradas entre si */
+ 	// patas exteriores delanteras  +cerradas entre si //
 	/*****************************************/
 
 	glPushMatrix();
@@ -1105,7 +1218,7 @@ void _spider::draw(_modo modo, float r2, float g2, float b2, float grosor){
 	glPopMatrix();
 
 
-	/* patas exteriores delanteras -cerradas entre si*/
+	// patas exteriores delanteras -cerradas entre si//
 	/*****************************************/
 
 	glPushMatrix();
@@ -1131,6 +1244,10 @@ void _spider::draw(_modo modo, float r2, float g2, float b2, float grosor){
 	/* glRotatef(180,90,0,90); 
  	pataExterior.draw(modo, r2, g2, b2, grosor);
 	glPopMatrix(); */
+
+	/* tengo que cambiar los grados de libertad según la pata */
+/* revisar lo que apunté que pide para la práctica. */
+/*  */
 }
 
 //************************************************************************
@@ -1186,12 +1303,7 @@ glRotatef(90.0,1,0,0);
 rodamiento.draw(modo, r2, g2, b2, grosor);
 glPopMatrix();
 
-/* quizas tengo que dividir la pata en parte1, parte2 y parte3 y luego juntarla en pata¿ */
 
-
-/* tengo que cambiar los grados de libertad según la pata */
-/* revisar lo que apunté que pide para la práctica. */
-/*  */
 
 }
 
