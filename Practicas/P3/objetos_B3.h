@@ -237,6 +237,7 @@ float altura, radio;
 int n,m;
 
 protected:
+_rotacion cilindro4;
 _cilindro  cilindro2;
 _cilindro  cilindro3;
 _cono punta;

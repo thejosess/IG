@@ -1185,11 +1185,11 @@ void _pataExterior::draw(_modo modo, float r2, float g2, float b2, float grosor)
 
 //************************************************************************
 _spider::_spider(){
-	giroPataDelanteraSup1 = 0;
+	giroPataDelanteraSup1 = 0.0;
 	giroPataDelanteraSup2 = 0;
 	giroPataDelanteraSupMax =6;
 	giroPataDelanteraSupMin = -6;
-	//98, 76
+	//6, -6
 	cubo = _cubo(8);
 
 }
@@ -1247,10 +1247,12 @@ void _spider::draw(_modo modo, float r2, float g2, float b2, float grosor){
 	// patas centrales //
 	/*****************************************/
  	glPushMatrix();
-	glTranslatef(-0.5,0.4,-1.2);
 	//glRotatef(giroPataDelanteraSup,0,1,0);
 	//glRotatef(180,giroPataDelanteraSup1,0,90);
+	glTranslatef(-0.5,0.4,-1.2);
 	glRotatef(giroPataDelanteraSup1,0,1,0);
+	//glTranslatef(0.3,0,0);
+
  	//glRotatef(180,90,0,90);
  	/* glRotatef(180,90,0,90); 
 	90 del final es para moverlo hacia los lados*/
