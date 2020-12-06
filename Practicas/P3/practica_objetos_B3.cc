@@ -342,6 +342,10 @@ switch (Tecla1){
 	case GLUT_KEY_F6:spider.setGiroQueliceros(1.0);break;
 	case GLUT_KEY_F7:spider.setGiroPataCentralSup(-2.0);break;
 	case GLUT_KEY_F8:spider.setGiroPataCentralSup(2.0);break;
+	case GLUT_KEY_F9:spider.setGiroPataCentralMedio(-3.0);break;
+	case GLUT_KEY_F10:spider.setGiroPataCentralMedio(3.0);break;
+
+	/* probar patas de 1 en 1 */
 
 	
 	}

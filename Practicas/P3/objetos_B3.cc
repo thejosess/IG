@@ -1057,17 +1057,17 @@ _pataCentral::_pataCentral(){
 	articulacion2.parametros(n,m,radio);
 	articulacion3.parametros(n,m,radio);
 
-	giro_sup = 1;
+	giro_medio = 90;
 }
 
-void _pataCentral::setGiroSup(float valor){
-	giro_sup += valor;
+void _pataCentral::setGiroMedio(float valor){
+	giro_medio += valor;
 }
 
 void _pataCentral::draw(_modo modo, float r2, float g2, float b2, float grosor){
 
-	// glPushMatrix();
-	// glRotatef(180,90,0,90); 
+	 glPushMatrix();
+	 glRotatef(180,90,0,90); 
 
 		glPushMatrix();
 		glRotatef(300.0,0,0,1);
@@ -1082,7 +1082,7 @@ void _pataCentral::draw(_modo modo, float r2, float g2, float b2, float grosor){
 		/* un poco más larga que la primera */
 		glPushMatrix();
 		glTranslatef(2.9,0,0);
-		glRotatef(90.0,0,0,1);
+		glRotatef(giro_medio,0,0,1);
 		glScalef(0.3,2.5,0.3);
 		cilindro2.draw(modo, r2, g2, b2, grosor);
 		glPopMatrix();
@@ -1101,7 +1101,7 @@ void _pataCentral::draw(_modo modo, float r2, float g2, float b2, float grosor){
 		cilindro3.draw(modo, r2, g2, b2, grosor);
 		glPopMatrix();
 
-	//glPopMatrix();
+	glPopMatrix();
 
 }
 
@@ -1185,12 +1185,13 @@ void _pataExterior::draw(_modo modo, float r2, float g2, float b2, float grosor)
 
 //************************************************************************
 _spider::_spider(){
-	giroPataDelanteraSup1 = 90;
-	giroPataDelanteraSup2 = 90;
-	giroPataDelanteraSupMax = 98;
-	giroPataDelanteraSupMin = 82;
-
+	giroPataDelanteraSup1 = 0;
+	giroPataDelanteraSup2 = 0;
+	giroPataDelanteraSupMax =6;
+	giroPataDelanteraSupMin = -6;
 	//98, 76
+	cubo = _cubo(8);
+
 }
 
 _cabeza _spider::getCabeza(){
@@ -1201,8 +1202,9 @@ void _spider::setGiroQueliceros(float valor){
 	cabeza.setGiroQueliceros(valor);
 }
 
-void _spider::setGiroPataCentralInf(float valor){
-	pataCentral1.setGiroSup(valor);
+void _spider::setGiroPataCentralMedio(float valor){
+	pataCentral1.setGiroMedio(valor);
+	cout << "valor pata1: " ;
 }
 
 void _spider::setGiroPataCentralSup(float valor){
@@ -1219,7 +1221,6 @@ void _spider::setGiroPataCentralSup(float valor){
 			giroPataDelanteraSup2 = giroPataDelanteraSupMin;
 		else
 			giroPataDelanteraSup2 -= abs(valor);
-			cout << "valor pata2 >0: " << giroPataDelanteraSup2;			
 	}
 
 	if(valor < 0){
@@ -1227,19 +1228,7 @@ void _spider::setGiroPataCentralSup(float valor){
 			giroPataDelanteraSup2 = giroPataDelanteraSupMax;
 		else
 			giroPataDelanteraSup2 -= valor;			
-			cout << "valor pata2 >0: " << giroPataDelanteraSup2;			
 	}
-
-/*  	if(valor > 0){
-		if(abs(giro_queliceros + valor) < abs(giro_queliceros_min))
-			giro_queliceros = giro_queliceros_min;
-		else
-			giro_queliceros += valor;
-	} */
-
-	//pataCentral1.setGiroSup(valor);
-	//giroPataDelanteraSup1+=valor;
-	cout << "valor pata1: " << giroPataDelanteraSup1;
 }
 
 
@@ -1260,8 +1249,8 @@ void _spider::draw(_modo modo, float r2, float g2, float b2, float grosor){
  	glPushMatrix();
 	glTranslatef(-0.5,0.4,-1.2);
 	//glRotatef(giroPataDelanteraSup,0,1,0);
-	glRotatef(180,giroPataDelanteraSup1,0,90);
-	//glRotatef(giroPataDelanteraSup,0,1,0);
+	//glRotatef(180,giroPataDelanteraSup1,0,90);
+	glRotatef(giroPataDelanteraSup1,0,1,0);
  	//glRotatef(180,90,0,90);
  	/* glRotatef(180,90,0,90); 
 	90 del final es para moverlo hacia los lados*/
@@ -1271,21 +1260,21 @@ void _spider::draw(_modo modo, float r2, float g2, float b2, float grosor){
 
 	glPushMatrix();
 	glTranslatef(-0.5,0.4,1.2);
- 	glRotatef(180,-giroPataDelanteraSup1,0,90);
+	glRotatef(-giroPataDelanteraSup1+180,0,1,0);
 	glScalef(0.1,0.1,0.1);		
  	pataCentral2.draw(modo, r2, g2, b2, grosor);
 	glPopMatrix();  
  
 	glPushMatrix();
 	glTranslatef(-0.3,0.4,-1.2);
- 	glRotatef(180,giroPataDelanteraSup2,0,90);
+	glRotatef(giroPataDelanteraSup2,0,1,0);
 	glScalef(0.1,0.1,0.1);		
  	pataCentral3.draw(modo, r2, g2, b2, grosor);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(-0.3,0.4,1.2);
- 	glRotatef(180,-giroPataDelanteraSup2,0,90);
+	glRotatef(-giroPataDelanteraSup2+180,0,1,0);
 	glScalef(0.1,0.1,0.1);		
  	pataCentral4.draw(modo, r2, g2, b2, grosor);
 	glPopMatrix();  
@@ -1459,19 +1448,19 @@ giro_tubo_max=20;
 void _tanque::draw(_modo modo, float r2, float g2, float b2, float grosor)
 {
 glPushMatrix();
-chasis.draw(modo, r2, g2, b2, grosor);
+	chasis.draw(modo, r2, g2, b2, grosor);
 
-glRotatef(giro_torreta,0,1,0);
-glPushMatrix();
-glTranslatef(0.0,(chasis.altura+torreta.altura)/2.0,0.0);
-torreta.draw(modo, r2, g2, b2, grosor);
-glPopMatrix();
+	glRotatef(giro_torreta,0,5,0);
+	glPushMatrix();
+	glTranslatef(0.0,(chasis.altura+torreta.altura)/2.0,0.0);
+	torreta.draw(modo, r2, g2, b2, grosor);
+	glPopMatrix();
 
-glPushMatrix();
-glTranslatef(torreta.anchura/2.0,(chasis.altura+torreta.altura)/2.0,0.0);
-glRotatef(giro_tubo,0,0,1);
-tubo.draw(modo, r2, g2, b2, grosor);
-glPopMatrix();
+	glPushMatrix();
+	glTranslatef(torreta.anchura/2.0,(chasis.altura+torreta.altura)/2.0,0.0);
+	glRotatef(giro_tubo,0,0,1);
+	tubo.draw(modo, r2, g2, b2, grosor);
+	glPopMatrix();
 glPopMatrix();
 
 };
