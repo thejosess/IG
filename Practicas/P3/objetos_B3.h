@@ -233,7 +233,7 @@ void setGiroMedio(float valor);
 
 float giro_medio, giro_medio_max, giro_medio_min;
 
-float altura, radio;
+float altura, radio, longitud_pata;
 int n,m;
 
 protected:

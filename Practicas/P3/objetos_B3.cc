@@ -1058,6 +1058,7 @@ _pataCentral::_pataCentral(){
 	articulacion3.parametros(n,m,radio);
 
 	giro_medio = 90;
+	longitud_pata = 10;
 }
 
 void _pataCentral::setGiroMedio(float valor){
@@ -1232,6 +1233,7 @@ void _spider::setGiroPataCentralSup(float valor){
 }
 
 
+
 void _spider::draw(_modo modo, float r2, float g2, float b2, float grosor){
 
  	glPushMatrix();
@@ -1249,8 +1251,9 @@ void _spider::draw(_modo modo, float r2, float g2, float b2, float grosor){
  	glPushMatrix();
 	//glRotatef(giroPataDelanteraSup,0,1,0);
 	//glRotatef(180,giroPataDelanteraSup1,0,90);
-	glTranslatef(-0.5,0.4,-1.2);
+	glTranslatef(-0.5,0.4,-0.2);
 	glRotatef(giroPataDelanteraSup1,0,1,0);
+	glTranslatef(0,0,-1.0);
 	//glTranslatef(0.3,0,0);
 
  	//glRotatef(180,90,0,90);
@@ -1330,6 +1333,8 @@ void _spider::draw(_modo modo, float r2, float g2, float b2, float grosor){
 	/* tengo que cambiar los grados de libertad según la pata */
 /* revisar lo que apunté que pide para la práctica. */
 /*  */
+
+
 }
 
 //************************************************************************
