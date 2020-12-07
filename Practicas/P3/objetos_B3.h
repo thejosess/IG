@@ -253,6 +253,12 @@ class _pataExterior: public _triangulos3D
 public:
        _pataExterior();
 void 	draw(_modo modo, float r2, float g2, float b2, float grosor);
+void setGiroPata(float valor);
+void setGiroPunta(float valor);
+
+
+float giroPataDentro, giroPunta;
+float giroPataDentroMax,giroPataDentroMin;
 
 float altura, radio;
 int n,m;
@@ -275,13 +281,17 @@ public:
        _spider();
 void 	draw(_modo modo, float r2, float g2, float b2, float grosor);
 void setGiroQueliceros(float valor);
-void setGiroPataCentralMedio(float valor);
 void setGiroPataCentralSup(float valor);
-_cabeza getCabeza();
-_cubo cubo;
+void setGiroPataExteriorSup(float valor);
+void setGiroPataExteriorInf(float valor);
+void setGiroPataPuntaSup(float valor);
+void setGiroPataPuntaInf(float valor);
 
-float giroPataDelanteraSup1,giroPataDelanteraSup2;
-float giroPataDelanteraSupMax,giroPataDelanteraSupMin,giroPataDelanteraSupMax1;
+_cabeza getCabeza();
+
+float giroPataCentralSup1,giroPataCentralSup2;
+float giroPataCentralSupMax,giroPataCentralSupMin,giroPataCentralSupMin2;
+
 
 
 protected:
