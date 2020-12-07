@@ -43,7 +43,7 @@ _rotacion rotaciony;
 _rotacion rotacionz;
 _tanque tanque;
 _spider spider;
-float valor = 0;
+float valor = 1;
 float mode[5] = {0};
 
 
@@ -315,6 +315,8 @@ switch (toupper(Tecla1)){
 		//pulsando otra vez en A se para
 	break;
 	case 'S':t_objeto=SPIDER;animacion = false;break;
+ 	case 'B':valor+=0.5;if(valor>4) valor=4; cout<< "valor: " << valor;break;
+	case 'V':valor-=0.5;if(valor<0) valor=0.5;break; 
 
 	}
 glutPostRedisplay();
@@ -428,20 +430,20 @@ switch (Tecla1){
 /* 	case GLUT_KEY_F3:tanque.giro_torreta+=5;break;
 	case GLUT_KEY_F4:tanque.giro_torreta-=5;break; */
 
-	case GLUT_KEY_F1:spider.setGiroPataPuntaSup(-2);break;
-	case GLUT_KEY_F2:spider.setGiroPataPuntaSup(2);break;
+	case GLUT_KEY_F1:spider.setGiroPataPuntaSup(-valor);break;
+	case GLUT_KEY_F2:spider.setGiroPataPuntaSup(valor);break;
 
-	case GLUT_KEY_F3:spider.setGiroPataPuntaInf(-2);break;
-	case GLUT_KEY_F4:spider.setGiroPataPuntaInf(2);break;
+	case GLUT_KEY_F3:spider.setGiroPataPuntaInf(-valor);break;
+	case GLUT_KEY_F4:spider.setGiroPataPuntaInf(valor);break;
 
-	case GLUT_KEY_F5:spider.setGiroQueliceros(-1.0);break;
-	case GLUT_KEY_F6:spider.setGiroQueliceros(1.0);break;
-	case GLUT_KEY_F7:spider.setGiroPataCentralSup(-2.0);break;
-	case GLUT_KEY_F8:spider.setGiroPataCentralSup(2.0);break;
-	case GLUT_KEY_F9:spider.setGiroPataExteriorSup(-2.0);break;
-	case GLUT_KEY_F10:spider.setGiroPataExteriorSup(2.0);break;
-	case GLUT_KEY_F11:spider.setGiroPataExteriorInf(-2.0);break;
-	case GLUT_KEY_F12:spider.setGiroPataExteriorInf(2.0);break;
+	case GLUT_KEY_F5:spider.setGiroQueliceros(-valor);cout<<valor<< "EOOO";break;
+	case GLUT_KEY_F6:spider.setGiroQueliceros(valor);break;
+	case GLUT_KEY_F7:;spider.setGiroPataCentralSup(-valor);break;
+	case GLUT_KEY_F8:spider.setGiroPataCentralSup(valor);break;
+	case GLUT_KEY_F9:;spider.setGiroPataExteriorSup(-valor);break;
+	case GLUT_KEY_F10:spider.setGiroPataExteriorSup(valor);break;
+	case GLUT_KEY_F11:;spider.setGiroPataExteriorInf(-valor);break;
+	case GLUT_KEY_F12:spider.setGiroPataExteriorInf(valor);break;
 
 	/* probar patas de 1 en 1 */
 
