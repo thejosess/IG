@@ -1061,12 +1061,7 @@ _pataCentral::_pataCentral(){
 	articulacion2.parametros(n,m,radio);
 	articulacion3.parametros(n,m,radio);
 
-	giro_medio = 90;
 	longitud_pata = 10;
-}
-
-void _pataCentral::setGiroMedio(float valor){
-	giro_medio += valor;
 }
 
 void _pataCentral::draw(_modo modo, float r2, float g2, float b2, float grosor){
@@ -1087,7 +1082,7 @@ void _pataCentral::draw(_modo modo, float r2, float g2, float b2, float grosor){
 		/* un poco más larga que la primera */
 		glPushMatrix();
 		glTranslatef(2.9,0,0);
-		glRotatef(giro_medio,0,0,1);
+		glRotatef(90,0,0,1);
 		glScalef(0.3,2.5,0.3);
 		cilindro2.draw(modo, r2, g2, b2, grosor);
 		glPopMatrix();
@@ -1139,16 +1134,30 @@ _pataExterior::_pataExterior(){
 
 	giroPataDentro = 0;
 	altura = 2;
-	giroPataDentroMax = 50;
+	giroPataDentroMax = 30;
 	giroPataDentroMin = -50;
 
 	giroPunta = 0;
 
 }
 
+float _pataExterior::getGiroPataPunta(){
+	return giroPunta;
+}
+
+float _pataExterior::getGiroPataExterior(){
+	return giroPataDentro;
+}
+
+float _pataExterior::getGiroPataExteriorMax(){
+	return giroPataDentroMax;
+}
+
+float _pataExterior::getGiroPataExteriorMin(){
+	return giroPataDentroMin;
+}
+
 void _pataExterior::setGiroPata(float valor){
-
-
 	if(giroPataDentro + valor > giroPataDentroMax)
 		giroPataDentro = giroPataDentroMax;
 	else if(giroPataDentro + valor < giroPataDentroMin)
@@ -1238,11 +1247,38 @@ _spider::_spider(){
 	giroPataCentralSupMax =40;
 	giroPataCentralSupMin = -3;
 	giroPataCentralSupMin2 = -27;
+
+	movimiento = 0;
 	
 }
 
 _cabeza _spider::getCabeza(){
 	return cabeza;
+}
+
+float _spider::getGiroPataPuntaSup(){
+	return pataExterior1.getGiroPataPunta();
+}
+
+float _spider::getGiroPataPuntaInf(){
+	return pataExterior3.getGiroPataPunta();
+}
+
+float _spider::getGiroPataExteriorSup(){
+	return pataExterior1.getGiroPataExterior();
+}
+
+float _spider::getGiroPataExteriorInf(){
+	return pataExterior3.getGiroPataExterior();
+}
+
+
+float _spider::getGiroPataExteriorMax(){
+	return pataExterior1.getGiroPataExteriorMax();
+}
+
+float _spider::getGiroPataExteriorMin(){
+	return pataExterior1.getGiroPataExteriorMin();
 }
 
 void _spider::setGiroQueliceros(float valor){
@@ -1271,6 +1307,15 @@ void _spider::setGiroPataPuntaInf(float valor){
 	pataExterior4.setGiroPunta(valor);
 }
 
+/* void _spider::setMovimiento(float valor){
+	movimiento+=valor;
+}
+
+float _spider::getMovimiento(){
+	return movimiento;
+}
+ */
+
 
 void _spider::setGiroPataCentralSup(float valor){
 
@@ -1289,7 +1334,7 @@ void _spider::setGiroPataCentralSup(float valor){
   		if(giroPataCentralSup2 - abs(valor) < giroPataCentralSupMin2)
 			giroPataCentralSup2 = giroPataCentralSupMin2;
 		else  
-			giroPataCentralSup2 -= abs(valor);	cout << "valor pata 3: "<< giroPataCentralSup2;
+			giroPataCentralSup2 -= abs(valor);
 
 	}
 
@@ -1305,87 +1350,92 @@ void _spider::setGiroPataCentralSup(float valor){
 
 void _spider::draw(_modo modo, float r2, float g2, float b2, float grosor){
 
- 	glPushMatrix();
-	glTranslatef(0.65,0,0);
-	abdomen.draw(modo, r2, g2, b2, grosor);
-	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(-0.4,-0.15,0);
-	cabeza.draw(modo, r2, g2, b2, grosor);
-	glPopMatrix(); 
+	glTranslatef(movimiento,0,0);
+
+		glPushMatrix();
+		glTranslatef(0.65,0,0);
+		abdomen.draw(modo, r2, g2, b2, grosor);
+		glPopMatrix();
+
+		glPushMatrix();
+		glTranslatef(-0.4,-0.15,0);
+		cabeza.draw(modo, r2, g2, b2, grosor);
+		glPopMatrix(); 
+		
+		// patas centrales //
+		/*****************************************/
+		glPushMatrix();
+		glTranslatef(-0.5,0.4,-0.2);		//eje de giro
+		glRotatef(giroPataCentralSup1,0,1,0);
+		glTranslatef(0,0,-1.0);             //posición de la pata respecto a ese eje de giro
+		glScalef(0.1,0.1,0.1);		
+		pataCentral1.draw(modo, r2, g2, b2, grosor);
+		glPopMatrix(); 
+
+		glPushMatrix();
+		glTranslatef(-0.5,0.4,0.2);
+		glRotatef(-giroPataCentralSup1+180,0,1,0);
+		glTranslatef(0,0,-1);
+		glScalef(0.1,0.1,0.1);		
+		pataCentral2.draw(modo, r2, g2, b2, grosor);
+		glPopMatrix();  
 	
-	// patas centrales //
-	/*****************************************/
- 	glPushMatrix();
-	glTranslatef(-0.5,0.4,-0.2);		//eje de giro
-	glRotatef(giroPataCentralSup1,0,1,0);
-	glTranslatef(0,0,-1.0);             //posición de la pata respecto a ese eje de giro
- 	glScalef(0.1,0.1,0.1);		
- 	pataCentral1.draw(modo, r2, g2, b2, grosor);
-	glPopMatrix(); 
+		glPushMatrix();
+		glTranslatef(-0.3,0.4,-0.2);
+		glRotatef(giroPataCentralSup2,0,1,0);
+		glTranslatef(0,0,-1.0);
+		glScalef(0.1,0.1,0.1);		
+		pataCentral3.draw(modo, r2, g2, b2, grosor);
+		glPopMatrix();
 
-	glPushMatrix();
-	glTranslatef(-0.5,0.4,0.2);
-	glRotatef(-giroPataCentralSup1+180,0,1,0);
-	glTranslatef(0,0,-1);
-	glScalef(0.1,0.1,0.1);		
- 	pataCentral2.draw(modo, r2, g2, b2, grosor);
-	glPopMatrix();  
- 
-	glPushMatrix();
-	glTranslatef(-0.3,0.4,-0.2);
-	glRotatef(giroPataCentralSup2,0,1,0);
-	glTranslatef(0,0,-1.0);
-	glScalef(0.1,0.1,0.1);		
- 	pataCentral3.draw(modo, r2, g2, b2, grosor);
+		glPushMatrix();
+		glTranslatef(-0.3,0.4,0.2);
+		glRotatef(-giroPataCentralSup2+180,0,1,0);
+		glTranslatef(0,0,-1);
+		glScalef(0.1,0.1,0.1);		
+		pataCentral4.draw(modo, r2, g2, b2, grosor);
+		glPopMatrix();  
+	
+
+		// patas exteriores delanteras  +cerradas entre si //
+		/*****************************************/
+
+		glPushMatrix();
+		glTranslatef(-1.6,0.6,-1.0);
+		glRotatef(180,170,0,60);
+		glScalef(0.1,0.1,0.1);		
+		pataExterior1.draw(modo, r2, g2, b2, grosor);
+		glPopMatrix();
+
+
+		glPushMatrix();
+		glTranslatef(-1.6,0.6,+1.0);
+		glRotatef(180,170,0,-60);
+		glScalef(0.1,0.1,0.1);		
+		pataExterior2.draw(modo, r2, g2, b2, grosor);
+		glPopMatrix();
+
+
+		// patas exteriores delanteras -cerradas entre si//
+		/*****************************************/
+
+		glPushMatrix();
+		glTranslatef(0.4,0.6,+1.2);
+		glRotatef(-180,170,0,-300);
+		glScalef(0.1,0.1,0.1);		
+		pataExterior3.draw(modo, r2, g2, b2, grosor);
+		glPopMatrix();
+
+		glPushMatrix();
+		glTranslatef(0.4,0.6,-1.2);
+		glRotatef(-180,170,0,300);
+		glScalef(0.1,0.1,0.1);		
+		pataExterior4.draw(modo, r2, g2, b2, grosor);
+		glPopMatrix();
+
 	glPopMatrix();
-
-	glPushMatrix();
-	glTranslatef(-0.3,0.4,0.2);
-	glRotatef(-giroPataCentralSup2+180,0,1,0);
-	glTranslatef(0,0,-1);
-	glScalef(0.1,0.1,0.1);		
- 	pataCentral4.draw(modo, r2, g2, b2, grosor);
-	glPopMatrix();  
- 
-
- 	// patas exteriores delanteras  +cerradas entre si //
-	/*****************************************/
-
-	glPushMatrix();
-	glTranslatef(-1.6,0.6,-1.0);
- 	glRotatef(180,170,0,60);
-	glScalef(0.1,0.1,0.1);		
- 	pataExterior1.draw(modo, r2, g2, b2, grosor);
-	glPopMatrix();
-
-
-	glPushMatrix();
-	glTranslatef(-1.6,0.6,+1.0);
- 	glRotatef(180,170,0,-60);
-	glScalef(0.1,0.1,0.1);		
- 	pataExterior2.draw(modo, r2, g2, b2, grosor);
-	glPopMatrix();
-
-
-	// patas exteriores delanteras -cerradas entre si//
-	/*****************************************/
-
-	glPushMatrix();
-	glTranslatef(0.4,0.6,+1.2);
- 	glRotatef(-180,170,0,-300);
-	glScalef(0.1,0.1,0.1);		
- 	pataExterior3.draw(modo, r2, g2, b2, grosor);
-	glPopMatrix();
-
-	glPushMatrix();
-	glTranslatef(0.4,0.6,-1.2);
- 	glRotatef(-180,170,0,300);
-	glScalef(0.1,0.1,0.1);		
- 	pataExterior4.draw(modo, r2, g2, b2, grosor);
-	glPopMatrix();
-
 
 
 

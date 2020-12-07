@@ -229,9 +229,6 @@ class _pataCentral: public _triangulos3D
 public:
        _pataCentral();
 void 	draw(_modo modo, float r2, float g2, float b2, float grosor);
-void setGiroMedio(float valor);
-
-float giro_medio, giro_medio_max, giro_medio_min;
 
 float altura, radio, longitud_pata;
 int n,m;
@@ -255,6 +252,11 @@ public:
 void 	draw(_modo modo, float r2, float g2, float b2, float grosor);
 void setGiroPata(float valor);
 void setGiroPunta(float valor);
+
+float getGiroPataPunta();
+float getGiroPataExterior();
+float getGiroPataExteriorMax();
+float getGiroPataExteriorMin();
 
 
 float giroPataDentro, giroPunta;
@@ -286,8 +288,20 @@ void setGiroPataExteriorSup(float valor);
 void setGiroPataExteriorInf(float valor);
 void setGiroPataPuntaSup(float valor);
 void setGiroPataPuntaInf(float valor);
+float getGiroPataPuntaSup();
+float getGiroPataPuntaInf();
+float getGiroPataExteriorMax();
+float getGiroPataExteriorMin();
+float getGiroPataExteriorSup();
+float getGiroPataExteriorInf();
+void setMovimiento(float valor);
+float getMovimiento();
+
+
 
 _cabeza getCabeza();
+
+float movimiento;
 
 float giroPataCentralSup1,giroPataCentralSup2;
 float giroPataCentralSupMax,giroPataCentralSupMin,giroPataCentralSupMin2;

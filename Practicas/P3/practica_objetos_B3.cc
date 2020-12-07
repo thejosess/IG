@@ -43,6 +43,11 @@ _rotacion rotaciony;
 _rotacion rotacionz;
 _tanque tanque;
 _spider spider;
+float valor = 0;
+float mode[5] = {0};
+
+
+bool animacion = false;
 
 
 
@@ -281,31 +286,116 @@ void normal_key(unsigned char Tecla1,int x,int y)
 {
 switch (toupper(Tecla1)){
 	case 'Q':exit(0);
-	case '1':modo=POINTS;break;
-	case '2':modo=EDGES;break;
-	case '3':modo=SOLID;break;
-	case '4':modo=SOLID_CHESS;break;
-	case '5':modo=ALL;break;
+	case '1':modo=POINTS;animacion = false;break;
+	case '2':modo=EDGES;animacion = false;break;
+	case '3':modo=SOLID;animacion = false;break;
+	case '4':modo=SOLID_CHESS;animacion = false;break;
+	case '5':modo=ALL;animacion = false;break;
 	//cambiar colores
-	case '7': color.push_back(1); color.push_back(1); color.push_back(0); change_color = true; break;
-	case '8': color.push_back(1); color.push_back(0); color.push_back(1); change_color = true; break;
-	case '9': color.push_back(0); color.push_back(0.5); color.push_back(0.5); change_color = true; break;
+	case '7': color.push_back(1); color.push_back(1); color.push_back(0); change_color = true; animacion = false;break;
+	case '8': color.push_back(1); color.push_back(0); color.push_back(1); change_color = true; animacion = false;break;
+	case '9': color.push_back(0); color.push_back(0.5); color.push_back(0.5); change_color = true; animacion = false;break;
 
-	case 'P':t_objeto=PIRAMIDE;break;
-	case 'C':t_objeto=CUBO;break;
-	case 'O':t_objeto=OBJETO_PLY;break;	
-	case 'R':t_objeto=ROTACION;break;
-	case 'D':t_objeto=CILINDRO;break;
-	case 'L':t_objeto=CONO;break;
-	case 'E':t_objeto=ESFERA;break;
-	case 'F':t_objeto=REVOLUCION_PLY;break;
-	case 'Y':t_objeto=ROTACIONY;break;
-	case 'Z':t_objeto=ROTACIONZ;break;
-    case 'A':t_objeto=ARTICULADO;break;
-	case 'S':t_objeto=SPIDER;break;
+	case 'P':t_objeto=PIRAMIDE;animacion = false;break;
+	case 'C':t_objeto=CUBO;animacion = false;break;
+	case 'O':t_objeto=OBJETO_PLY;animacion = false;break;	
+	case 'R':t_objeto=ROTACION;animacion = false;break;
+	case 'D':t_objeto=CILINDRO;animacion = false;break;
+	case 'L':t_objeto=CONO;animacion = false;break;
+	case 'E':t_objeto=ESFERA;animacion = false;break;
+	case 'F':t_objeto=REVOLUCION_PLY;animacion = false;break;
+	case 'Y':t_objeto=ROTACIONY;animacion = false;break;
+	case 'Z':t_objeto=ROTACIONZ;animacion = false;break;
+    case 'T':t_objeto=ARTICULADO;animacion = false;break;
+	case 'A':
+		if(animacion)
+			animacion = false;
+		else
+			animacion = true;
+		//pulsando otra vez en A se para
+	break;
+	case 'S':t_objeto=SPIDER;animacion = false;break;
 
 	}
 glutPostRedisplay();
+}
+
+void funcion_idle(){
+
+	if(animacion){
+
+		//patas centrales 
+		if(mode[0] ==0)
+			spider.setGiroPataCentralSup(-2.0);
+		if(spider.giroPataCentralSup1 == spider.giroPataCentralSupMin && mode[0]==0)
+		{
+			mode[0]=1;
+		}
+		if(mode[0] ==1)
+			spider.setGiroPataCentralSup(2.0);
+		if(spider.giroPataCentralSup1 == spider.giroPataCentralSupMax && mode[0]==1)
+		{
+			mode[0]=0;
+		}
+
+		//pata punta delanteras
+		if(mode[1] ==0)
+			spider.setGiroPataPuntaSup(-2.0);
+		if(spider.getGiroPataPuntaSup() == spider.getGiroPataExteriorMin() && mode[1]==0)
+		{
+			mode[1]=1;
+		}
+		if(mode[1] ==1)
+			spider.setGiroPataPuntaSup(2.0);
+		if(spider.getGiroPataPuntaSup() == spider.getGiroPataExteriorMax() && mode[1]==1)
+		{
+			mode[1]=0;
+		}
+
+		//pata punta traseras
+		if(mode[2] ==0)
+			spider.setGiroPataPuntaInf(-2.0);
+		if(spider.getGiroPataPuntaInf() == spider.getGiroPataExteriorMin() && mode[2]==0)
+		{
+			mode[2]=1;
+		}
+		if(mode[2] ==1)
+			spider.setGiroPataPuntaInf(2.0);
+		if(spider.getGiroPataPuntaInf() == spider.getGiroPataExteriorMax() && mode[2]==1)
+		{
+			mode[2]=0;
+		}
+
+		//pata exterior superior
+		if(mode[3] ==0)
+			spider.setGiroPataExteriorSup(-2.0);
+		if(spider.getGiroPataExteriorSup() == spider.getGiroPataExteriorMin() && mode[3]==0)
+		{
+			mode[3]=1;
+		}
+		if(mode[3] ==1)
+			spider.setGiroPataExteriorSup(2.0);
+		if(spider.getGiroPataExteriorSup() == spider.getGiroPataExteriorMax() && mode[3]==1)
+		{
+			mode[3]=0;
+		}
+
+/* 		//pata exterior superior
+		if(mode[4] ==0)
+			spider.setGiroPataExteriorInf(-2.0);
+		if(spider.getGiroPataExteriorInf() == spider.getGiroPataExteriorMin() && mode[4]==0)
+		{
+			mode[4]=1;
+		}
+		if(mode[4] ==1)
+			spider.setGiroPataExteriorInf(2.0);
+		if(spider.getGiroPataExteriorInf() == spider.getGiroPataExteriorMax() && mode[4]==1)
+		{
+			mode[4]=0;
+		}
+ */
+		glutPostRedisplay();
+	}
 }
 
 //***************************************************************************
@@ -537,6 +627,8 @@ glutReshapeFunc(change_window_size);
 glutKeyboardFunc(normal_key);
 // asignación de la funcion llamada "tecla_Especial" al evento correspondiente
 glutSpecialFunc(special_key);
+
+glutIdleFunc(funcion_idle);
 
 // funcion de inicialización
 initialize();
