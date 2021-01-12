@@ -1,9 +1,8 @@
-# Práctica 3 ~ José Santos Salvador 
-
+# Práctica 4 ~ José Santos Salvador 
 
 make   
 
-./practica_objetos_B3 beethoven copa
+./practica_objetos_B4 beethoven copa
 
 ## Metodos disponibles
 
@@ -17,6 +16,10 @@ make
 	case '7': color.push_back(1); color.push_back(1); color.push_back(0); change_color = true; animacion = false;break;
 	case '8': color.push_back(1); color.push_back(0); color.push_back(1); change_color = true; animacion = false;break;
 	case '9': color.push_back(0); color.push_back(0.5); color.push_back(0.5); change_color = true; animacion = false;break;
+
+	//iluminacion
+	case 'M':modo=SOLID_ILLUMINATED_FLAT;animacion = false;break;
+    case 'N':modo=SOLID_ILLUMINATED_GOURAUD;animacion = false;break;
 
 	case 'P':t_objeto=PIRAMIDE;animacion = false;break;
 	case 'C':t_objeto=CUBO;animacion = false;break;
@@ -41,7 +44,7 @@ make
 	case 'V':valor-=0.5;if(valor<0) valor=0.5;break; 
 
 
-## Rotaciones disponibles
+## Transformaciones y rotaciones disponibles
 
 	case GLUT_KEY_LEFT:Observer_angle_y--;break;
 	case GLUT_KEY_RIGHT:Observer_angle_y++;break;
@@ -65,6 +68,15 @@ make
 	case GLUT_KEY_F11:;spider.setGiroPataExteriorInf(-valor);break;
 	case GLUT_KEY_F12:spider.setGiroPataExteriorInf(valor);break;
 
-## Extra
+	//mover iluminacion
+	case GLUT_KEY_INSERT:alfa+=5;break;
+	case GLUT_KEY_END:alfa-=5;break;
+	//son las teclas insert y end o fin en español
 
-Se ha realizado el apartado extra de cambiar la velocidad de rotacion (tecla B y V)
+## Ejercicio de texturas realizado en clase
+
+En la carpeta de ejercicio_textura se hace
+
+	make
+	./ejemplo
+

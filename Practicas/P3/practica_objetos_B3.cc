@@ -436,7 +436,7 @@ switch (Tecla1){
 	case GLUT_KEY_F3:spider.setGiroPataPuntaInf(-valor);break;
 	case GLUT_KEY_F4:spider.setGiroPataPuntaInf(valor);break;
 
-	case GLUT_KEY_F5:spider.setGiroQueliceros(-valor);cout<<valor<< "EOOO";break;
+	case GLUT_KEY_F5:spider.setGiroQueliceros(-valor);break;
 	case GLUT_KEY_F6:spider.setGiroQueliceros(valor);break;
 	case GLUT_KEY_F7:;spider.setGiroPataCentralSup(-valor);break;
 	case GLUT_KEY_F8:spider.setGiroPataCentralSup(valor);break;
