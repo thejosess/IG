@@ -3,4 +3,4 @@
 ## Objeto articulado: Viuda negra
 
 
-!()[./imagen.png]
+![](./imagen.png)
