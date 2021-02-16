@@ -1,5 +1,5 @@
 # Práctica 3 ~ José Santos Salvador 
-![](~/imagen.png)
+![](/IG/imagen.png)
 
 make   
 
